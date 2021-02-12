@@ -5,7 +5,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import {withAuthenticator} from 'aws-amplify-react-native';
 
 import Amplify from 'aws-amplify';
-import config from ;
+import config from './aws-exports';
 Amplify.configure(config);
 
 const App = () => {
@@ -26,4 +26,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default withAuthenticator(App, { includeGreetings: true });
