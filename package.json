@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@react-native-community/netinfo": "^5.9.10",
+    "@react-navigation/material-bottom-tabs": "^5.3.13",
     "aws-amplify": "^3.3.18",
     "aws-amplify-react-native": "^4.3.1",
     "expo": "~40.0.0",
@@ -18,6 +19,7 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-40.0.1.tar.gz",
+    "react-native-paper": "^4.7.1",
     "react-native-web": "~0.13.12"
   },
   "devDependencies": {
