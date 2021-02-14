@@ -17,12 +17,16 @@
       "**/*"
     ],
     "ios": {
+      "splash": {
+        "image": "./assets/img/ios/logo-black-text.png",
+        "resizeMode": "contain"
+      },
       "supportsTablet": true
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+      "splash": {
+        "image": "./assets/img/android/logo-black-text.png",
+        "resizeMode": "contain"
       }
     },
     "web": {
