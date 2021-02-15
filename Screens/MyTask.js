@@ -1,15 +1,17 @@
 import React from 'react';
 import { View, StyleSheet,Text } from 'react-native';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 
 
-function MyTask({navigation}) {
-    return (
-      <View style={styles.container}>
-          <Text>Create Group</Text>
-      </View>
-    );
-  }
 
+const MyTask =() => {
+  return (
+    <View >
+        <Text>Welcome</Text>
+
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
   container: {

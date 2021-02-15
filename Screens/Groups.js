@@ -1,13 +1,16 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, Button, TouchableOpacity } from 'react-native';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
-function Groups({navigation}) {
-    return (
-      <View style={styles.container}>
-          <Text>Welcome</Text>
-      </View>
-    );
-  }
+const Groups = () => {
+  return (
+    <View size={styles.container} >
+        <Text>Create Groups</Text>
+       
+         </View>
+  );
+}
+
 
 
 
