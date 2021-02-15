@@ -18,7 +18,7 @@ const Router = (props) => {
     barStyle={{ backgroundColor: '#ffff' }}
     activeBackgroundColor="green"
     tabBarOptions={{
-        activeTintColor:"#f15454",
+      activeTintColor:"#f15454",
               
     }}>
         <Tab.Screen

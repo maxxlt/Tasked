@@ -8,14 +8,14 @@ const Item = ({ title }) => (
   );
 
   
-const Task_list = (props) => {
+const Group_List = (props) => {
     const renderItem = ({ item }) => (
         <Item title={item.title} />
       );
   return (
         <FlatList
         data={props.Data}
-        renderItem={renderItem}
+         renderItem={renderItem}
         keyExtractor={item => item.id}
         />
   );
@@ -38,4 +38,4 @@ const styles = StyleSheet.create({
       },
     });
 
-export default Task_list;
+export default Group_List;
