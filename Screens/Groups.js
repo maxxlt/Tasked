@@ -5,9 +5,8 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 const Groups = () => {
   return (
     <View size={styles.container} >
-        <Text>Create Groups</Text>
-       
-         </View>
+        <Text>Create Groups</Text>  
+    </View>
   );
 }
 

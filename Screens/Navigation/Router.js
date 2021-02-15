@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View , Text} from 'react-native';
+
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MyTask from '../MyTask';
 import Groups from '../Groups';
@@ -15,12 +15,10 @@ const Router = (props) => {
   return (
     <Tab.Navigator 
     barStyle={{ backgroundColor: '#ffff' }}
-    
     activeBackgroundColor="green"
     tabBarOptions={{
         activeTintColor:"#f15454",
-       
-        
+              
     }}>
         <Tab.Screen
           name={"HomeScreen"}

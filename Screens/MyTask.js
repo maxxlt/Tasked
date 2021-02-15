@@ -8,7 +8,6 @@ const MyTask =() => {
   return (
     <View >
         <Text>Welcome</Text>
-
     </View>
   );
 }
