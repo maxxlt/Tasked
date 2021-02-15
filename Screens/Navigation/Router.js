@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MyTask from '../MyTask';
 import Groups from '../Groups';
+import Profile from '../Profile';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 
@@ -38,7 +39,15 @@ const Router = (props) => {
             <AntDesign name="appstore-o" color={'#FCCF3E'} size={23} />
             ),
           }}/>   
-     
+          <Tab.Screen
+          name={"Profile"}
+          component ={Profile}
+          options={{
+            tabBarLabel: 'Profile',
+            tabBarIcon: ({ color }) => (
+            <AntDesign name="user" color={'#FCCF3E'} size={23} />
+            ),
+          }}/>   
     </Tab.Navigator>
   );
 }
