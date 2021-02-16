@@ -9,7 +9,7 @@ const AppButton = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-      color: ""
+      color: "FCCF3E"
   }
 });
 
