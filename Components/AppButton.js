@@ -1,15 +1,33 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 
 const AppButton = (props) => {
   return (
-    <View style={styles.container}></View>
+   
+    <View style={styles.container}>
+        <Text style = {styles.word}>{props.text}</Text>
+    </View>
+   
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-      color: "FCCF3E"
+      backgroundColor : "#FCCF3E",
+      padding:15,
+      alignItems:"center",
+      borderRadius:10,
+      marginLeft:100,
+      marginRight:100
+
+  },
+  word:{
+    color: "#ffffff",
+    alignContent:"center",
+    shadowColor:"black",
+    shadowOpacity:100,
+    fontSize:22,
+    fontWeight:"bold"
   }
 });
 
