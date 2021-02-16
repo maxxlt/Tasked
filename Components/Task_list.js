@@ -1,16 +1,17 @@
 import React from 'react';
 import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar } from 'react-native';
 
-const Item = ({ title }) => (
+const Item = (props) => (
     <View style={styles.item}>
-      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.title}>{props.title}</Text>
+      <Text>{props.date}</Text>
     </View>
   );
 
   
 const Task_list = (props) => {
     const renderItem = ({ item }) => (
-        <Item title={item.title} />
+        <Item title={item.title} date ={item.date}/>
       );
   return (
         <FlatList
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
         borderRadius:20
       },
       title: {
-        fontSize: 32,
+        fontSize: 20,
       },
     });
 
