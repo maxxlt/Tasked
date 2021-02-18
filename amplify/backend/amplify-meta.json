@@ -22,7 +22,7 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-tasked-dev-203348-deployment/amplify-cfn-templates/auth/taskedd6b0f236-cloudformation-template.yml",
         "logicalId": "authtaskedd6b0f236"
       },
-      "lastPushTimeStamp": "2021-02-18T02:49:56.104Z",
+      "lastPushTimeStamp": "2021-02-18T03:40:26.619Z",
       "output": {
         "UserPoolId": "us-west-2_99ZveVbRA",
         "AppClientIDWeb": "7jae222vlp0ruttq2b0itphqb3",
@@ -55,7 +55,7 @@
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-tasked-dev-203348-deployment/amplify-cfn-templates/api/cloudformation-template.json",
         "logicalId": "apitasked"
       },
-      "lastPushTimeStamp": "2021-02-18T02:49:58.236Z",
+      "lastPushTimeStamp": "2021-02-18T03:40:26.626Z",
       "lastPushDirHash": "tnswXgeOAKIxg5ZE72VDC8x4gsA="
     }
   }
