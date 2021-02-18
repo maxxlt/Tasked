@@ -34,29 +34,5 @@
       "lastPushDirHash": "kLkBVNhw3jyRY6SXEpFNdqwyhu4="
     }
   },
-  "api": {
-    "tasked": {
-      "service": "AppSync",
-      "providerPlugin": "awscloudformation",
-      "output": {
-        "authConfig": {
-          "defaultAuthentication": {
-            "authenticationType": "AMAZON_COGNITO_USER_POOLS",
-            "userPoolConfig": {
-              "userPoolId": "authtaskedd6b0f236"
-            }
-          },
-          "additionalAuthenticationProviders": []
-        },
-        "GraphQLAPIIdOutput": "ih4qlhhmarfmfaxttz56zqjini",
-        "GraphQLAPIEndpointOutput": "https://h3264t27nrhg3gstcp2gra6cby.appsync-api.us-west-2.amazonaws.com/graphql"
-      },
-      "providerMetadata": {
-        "s3TemplateURL": "https://s3.amazonaws.com/amplify-tasked-dev-203348-deployment/amplify-cfn-templates/api/cloudformation-template.json",
-        "logicalId": "apitasked"
-      },
-      "lastPushTimeStamp": "2021-02-18T03:40:26.626Z",
-      "lastPushDirHash": "tnswXgeOAKIxg5ZE72VDC8x4gsA="
-    }
-  }
+  "api": {}
 }
