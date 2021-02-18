@@ -11,7 +11,6 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 const Tab = createMaterialBottomTabNavigator()
 
 const Router = (props) => {
- 
 
   return (
     <Tab.Navigator 
@@ -25,8 +24,8 @@ const Router = (props) => {
           name={"HomeScreen"}
           component ={MyTask}
           options={{
-            tabBarLabel: 'MyTask',
-            tabBarIcon: ({ color }) => (
+          tabBarLabel: 'MyTask',
+          tabBarIcon: ({ color }) => (
          <AntDesign name="checkcircleo" color={'#FCCF3E'} size={23} />
             ),
           }}/>
@@ -34,9 +33,9 @@ const Router = (props) => {
           name={"Groups"}
           component ={Groups}
           options={{
-            tabBarLabel: 'Groups',
-            tabBarIcon: ({ color }) => (
-            <AntDesign name="appstore-o" color={'#FCCF3E'} size={23} />
+          tabBarLabel: 'Groups',
+          tabBarIcon: ({ color }) => (
+          <AntDesign name="appstore-o" color={'#FCCF3E'} size={23} />
             ),
           }}/>   
           <Tab.Screen

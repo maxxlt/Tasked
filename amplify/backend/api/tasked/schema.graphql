@@ -10,5 +10,5 @@ type Task @model @auth(rules: [{ allow: owner }, { allow: private, operations: [
   title: String!
   description: String
   completeBy: String!
- 
 }
+
