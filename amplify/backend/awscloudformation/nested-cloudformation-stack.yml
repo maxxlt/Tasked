@@ -68,15 +68,15 @@
         }
       }
     },
-    "authtasked40e23e48": {
+    "authtaskedd6b0f236": {
       "Type": "AWS::CloudFormation::Stack",
       "Properties": {
-        "TemplateURL": "https://s3.amazonaws.com/amplify-tasked-dev-175648-deployment/amplify-cfn-templates/auth/tasked40e23e48-cloudformation-template.yml",
+        "TemplateURL": "https://s3.amazonaws.com/amplify-tasked-dev-203348-deployment/amplify-cfn-templates/auth/taskedd6b0f236-cloudformation-template.yml",
         "Parameters": {
-          "identityPoolName": "tasked40e23e48_identitypool_40e23e48",
+          "identityPoolName": "taskedd6b0f236_identitypool_d6b0f236",
           "allowUnauthenticatedIdentities": false,
-          "resourceNameTruncated": "tasked40e23e48",
-          "userPoolName": "tasked40e23e48_userpool_40e23e48",
+          "resourceNameTruncated": "taskedd6b0f236",
+          "userPoolName": "taskedd6b0f236_userpool_d6b0f236",
           "autoVerifiedAttributes": "email",
           "mfaConfiguration": "OFF",
           "mfaTypes": "SMS Text Message",
@@ -92,10 +92,10 @@
           "userpoolClientRefreshTokenValidity": 30,
           "userpoolClientWriteAttributes": "email",
           "userpoolClientReadAttributes": "email",
-          "userpoolClientLambdaRole": "tasked40e23e48_userpoolclient_lambda_role",
+          "userpoolClientLambdaRole": "taskedd6b0f236_userpoolclient_lambda_role",
           "userpoolClientSetAttributes": false,
-          "sharedId": "40e23e48",
-          "resourceName": "tasked40e23e48",
+          "sharedId": "d6b0f236",
+          "resourceName": "taskedd6b0f236",
           "authSelections": "identityPoolAndUserPool",
           "authRoleArn": {
             "Fn::GetAtt": [
@@ -118,11 +118,32 @@
         }
       }
     },
+    "apitasked": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": "https://s3.amazonaws.com/amplify-tasked-dev-203348-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+        "Parameters": {
+          "CreateAPIKey": 0,
+          "AppSyncApiName": "tasked",
+          "DynamoDBBillingMode": "PAY_PER_REQUEST",
+          "DynamoDBEnableServerSideEncryption": false,
+          "AuthCognitoUserPoolId": {
+            "Fn::GetAtt": [
+              "authtaskedd6b0f236",
+              "Outputs.UserPoolId"
+            ]
+          },
+          "S3DeploymentBucket": "amplify-tasked-dev-203348-deployment",
+          "S3DeploymentRootKey": "amplify-appsync-files/5e43f703b72568b38a432810d15374176a070ab2",
+          "env": "dev"
+        }
+      }
+    },
     "UpdateRolesWithIDPFunction": {
       "DependsOn": [
         "AuthRole",
         "UnauthRole",
-        "authtasked40e23e48"
+        "authtaskedd6b0f236"
       ],
       "Type": "AWS::Lambda::Function",
       "Properties": {
@@ -205,7 +226,7 @@
         },
         "idpId": {
           "Fn::GetAtt": [
-            "authtasked40e23e48",
+            "authtaskedd6b0f236",
             "Outputs.IdentityPoolId"
           ]
         },

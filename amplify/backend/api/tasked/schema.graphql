@@ -1,0 +1,14 @@
+type User @model @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }]) {
+  id: ID!
+  name: String!
+  picture: String
+  tasks: [Task] @connection
+}
+
+type Task @model @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }]) {
+  id: ID!
+  title: String!
+  description: String
+  completeBy: String!
+ 
+}
