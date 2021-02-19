@@ -27,7 +27,7 @@ class Group extends React.Component {
           style={styles.button}
           onPress={() => {
             Firebase.auth().signOut();
-            this.props.navigation.navigate("Login");
+            this.props.navigation.navigate("Landing");
           }}
         >
           <Text style={styles.buttonText}>Log Out</Text>

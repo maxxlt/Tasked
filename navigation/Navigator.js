@@ -3,9 +3,13 @@ import { createSwitchNavigator, createAppContainer } from "react-navigation";
 import Login from "../components/Login";
 import SignUp from "../components/SignUp";
 import Group from "../components/Group";
+import Landing from "../components/Landing";
 
 const Navigator = createSwitchNavigator(
   {
+    Landing: {
+      screen: Landing,
+    },
     Login: {
       screen: Login,
     },
@@ -17,7 +21,7 @@ const Navigator = createSwitchNavigator(
     },
   },
   {
-    initialRouteName: "Login",
+    initialRouteName: "Landing",
   }
 );
 

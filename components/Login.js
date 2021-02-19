@@ -7,10 +7,12 @@ import {
   Text,
   Button,
 } from "react-native";
+import "@fontsource/roboto/400.css";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { updateEmail, updatePassword, login, getUser } from "../actions/User";
 import Firebase from "../config/firebase";
+import { MaterialButton } from "@material-ui/core";
 
 class Login extends React.Component {
   componentDidMount = () => {
@@ -23,10 +25,9 @@ class Login extends React.Component {
       }
     });
   };
-
   render() {
     return (
-      <View style={styles.container}>
+      <View>
         <TextInput
           style={styles.inputBox}
           value={this.props.user.email}
@@ -47,10 +48,6 @@ class Login extends React.Component {
         >
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
-        <Button
-          title="Don't have an account yet? Sign up"
-          onPress={() => this.props.navigation.navigate("SignUp")}
-        />
       </View>
     );
   }
@@ -64,7 +61,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   inputBox: {
-    width: "85%",
     margin: 10,
     padding: 15,
     fontSize: 16,
@@ -73,6 +69,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   button: {
+    width: "100%",
     marginTop: 30,
     marginBottom: 20,
     paddingVertical: 5,
@@ -81,7 +78,6 @@ const styles = StyleSheet.create({
     borderColor: "#F6820D",
     borderWidth: 1,
     borderRadius: 5,
-    width: 200,
   },
   buttonText: {
     fontSize: 20,
@@ -90,6 +86,15 @@ const styles = StyleSheet.create({
   },
   buttonSignup: {
     fontSize: 12,
+  },
+  logo: {
+    width: 150,
+    height: 150,
+  },
+  welcomeText: {
+    fontWeight: 100,
+    fontSize: 38,
+    paddingBottom: 15,
   },
 });
 
