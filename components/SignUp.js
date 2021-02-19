@@ -13,7 +13,7 @@ import { updateEmail, updatePassword, signup } from "../actions/User";
 class Signup extends React.Component {
   handleSignUp = () => {
     this.props.signup();
-    this.props.navigation.navigate("Login");
+    this.props.navigation.navigate("Group");
   };
 
   render() {
