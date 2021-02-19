@@ -7,9 +7,19 @@ import {
   Text,
   Button,
 } from "react-native";
-import Firebase from "../config/firebase";
+import Firebase, { db } from "../config/firebase";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { getUser } from "../actions/User";
 
 class Group extends React.Component {
+  componentDidMount = () => {
+    Firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.props.getUser(user.uid);
+      }
+    });
+  };
   render() {
     return (
       <View style={styles.container}>
@@ -22,6 +32,26 @@ class Group extends React.Component {
         >
           <Text style={styles.buttonText}>Log Out</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            db.collection("groups")
+              .add({
+                group_name: "Random",
+                participants: [this.props.user.uid],
+                tasks: [],
+                group_id: "",
+              })
+              .then((docRef) => {
+                db.collection("groups").doc(docRef.id).update({
+                  group_id: docRef.id,
+                });
+              });
+          }}
+        >
+          <Text style={styles.buttonText}>Add Group</Text>
+        </TouchableOpacity>
+        <Text></Text>
       </View>
     );
   }
@@ -47,4 +77,14 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Group;
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators({ getUser }, dispatch);
+};
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Group);
