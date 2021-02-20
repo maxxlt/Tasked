@@ -53,8 +53,6 @@ class Landing extends React.Component {
   }
 }
 
-// const Tabs = AnimatedTabBarNavigator();
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
