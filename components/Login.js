@@ -7,7 +7,6 @@ import {
   Text,
   Button,
 } from "react-native";
-import "@fontsource/roboto/400.css";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { updateEmail, updatePassword, login, getUser } from "../actions/User";
@@ -92,7 +91,6 @@ const styles = StyleSheet.create({
     height: 150,
   },
   welcomeText: {
-    fontWeight: 100,
     fontSize: 38,
     paddingBottom: 15,
   },

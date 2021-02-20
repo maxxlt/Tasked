@@ -1,15 +1,13 @@
 import React from "react";
 import {
-  View,
   TextInput,
   StyleSheet,
   TouchableOpacity,
   Text,
   Image,
 } from "react-native";
-import { Paper, Tabs, Tab } from "@material-ui/core";
+// import { Paper, Tabs, Tab } from "@material-ui/core";
 import styled from "styled-components";
-import "@fontsource/roboto/400.css";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { updateEmail, updatePassword, login, getUser } from "../actions/User";
@@ -17,29 +15,34 @@ import Firebase from "../config/firebase";
 import colors from "../assets/color";
 import SignUp from "./SignUp";
 import Login from "./Login";
+import Dummy from "./Dummy";
+import {
+  Colors,
+  View,
+  Button,
+  TabBar,
+  TabController,
+} from "react-native-ui-lib";
 
-const StyledTabs = styled((props) => {
-  return <Tabs {...props} classes={{ indicator: "indicator" }}></Tabs>;
-})`
-  && {
-    border-bottom: 1px solid white;
-  }
-  && .indicator {
-    background-color: #fccf3e;
-  }
-`;
+// const StyledTabs = styled((props) => {
+//   return <Tabs {...props} classes={{ indicator: "indicator" }}></Tabs>;
+// })`
+//   && {
+//     border-bottom: 1px solid white;
+//   }
+//   && .indicator {
+//     background-color: #fccf3e;
+//   }
+// `;
 
-const StyledTab = styled(Tab)`
-  && {
-    color: black;
-    text-transform: none;
-  }
-`;
+// const StyledTab = styled(Tab)`
+//   && {
+//     color: black;
+//     text-transform: none;
+//   }
+// `;
 class Landing extends React.Component {
   state = { tab: 0 };
-  handleChangeTab = (e, tab) => {
-    this.setState({ tab });
-  };
 
   render() {
     const { tab } = this.state;
@@ -50,18 +53,46 @@ class Landing extends React.Component {
           source={require("../assets/img/android/logo-black-text.png")}
         />
         <Text style={styles.welcomeText}>WELCOME</Text>
-
-        <Paper elevation={0}>
-          <StyledTabs centered value={tab} onChange={this.handleChangeTab}>
-            <StyledTab label="Login"></StyledTab>
-            <StyledTab label="Sign Up"></StyledTab>
-          </StyledTabs>
-          {this.state.tab === 0 ? (
-            <Login navigation={this.props.navigation} />
-          ) : (
-            <SignUp navigation={this.props.navigation} />
-          )}
-        </Paper>
+        {/* <Paper elevation={0}>
+      //     <StyledTabs centered value={tab} onChange={this.handleChangeTab}>
+      //       <StyledTab label="Login"></StyledTab>
+      //       <StyledTab label="Sign Up"></StyledTab>
+      //     </StyledTabs>
+      //     {this.state.tab === 0 ? (
+      //       <Login navigation={this.props.navigation} />
+      //     ) : (
+      //       <SignUp navigation={this.props.navigation} />
+      //     )}
+      //   </Paper> */}
+        {/* <TabBarScreen /> */}
+        <TabBar
+          style={styles.tabbar}
+          enableShadow={false}
+          indicatorStyle={{ backgroundColor: colors.orange }}
+          labelColor={colors.orange}
+        >
+          <TabBar.Item
+            label="Login"
+            onPress={() => {
+              this.setState({
+                tab: 0,
+              });
+            }}
+          />
+          <TabBar.Item
+            label="Sign Up"
+            onPress={() => {
+              this.setState({
+                tab: 1,
+              });
+            }}
+          />
+        </TabBar>
+        {this.state.tab === 0 ? (
+          <Login navigation={this.props.navigation} />
+        ) : (
+          <SignUp navigation={this.props.navigation} />
+        )}
       </View>
     );
   }
@@ -109,9 +140,11 @@ const styles = StyleSheet.create({
     height: 150,
   },
   welcomeText: {
-    fontWeight: 100,
     fontSize: 38,
     paddingBottom: 15,
+  },
+  tabbar: {
+    marginVertical: 10,
   },
 });
 

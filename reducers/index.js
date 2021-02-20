@@ -1,5 +1,10 @@
 import { combineReducers } from "redux";
-import { LOGIN, SIGNUP, UPDATE_EMAIL, UPDATE_PASSWORD } from "../actions/user";
+import {
+  LOGIN,
+  SIGNUP,
+  UPDATE_EMAIL,
+  UPDATE_PASSWORD,
+} from "../actions/User.js";
 
 const user = (state = {}, action) => {
   switch (action.type) {
