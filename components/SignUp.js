@@ -1,14 +1,17 @@
 import React from "react";
-import {
-  View,
-  TextInput,
-  StyleSheet,
-  TouchableOpacity,
-  Text,
-} from "react-native";
+import { TextInput, StyleSheet } from "react-native";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { updateEmail, updatePassword, signup } from "../actions/User";
+import {
+  View,
+  TextField,
+  TouchableOpacity,
+  Button,
+  Text,
+  Shadows,
+} from "react-native-ui-lib";
+import colors from "../assets/color";
 
 class Signup extends React.Component {
   handleSignUp = () => {
@@ -18,24 +21,31 @@ class Signup extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <TextInput
+      <View>
+        <TextField
           style={styles.inputBox}
           value={this.props.user.email}
           onChangeText={(email) => this.props.updateEmail(email)}
           placeholder="Email"
           autoCapitalize="none"
+          hideUnderline
         />
-        <TextInput
+        <TextField
           style={styles.inputBox}
           value={this.props.user.password}
           onChangeText={(password) => this.props.updatePassword(password)}
           placeholder="Password"
           secureTextEntry={true}
+          hideUnderline
         />
-        <TouchableOpacity style={styles.button} onPress={this.handleSignUp}>
-          <Text style={styles.buttonText}>Signup</Text>
-        </TouchableOpacity>
+        <Button
+          label={"Sign Up"}
+          style={styles.button}
+          onPress={this.handleSignUp}
+          backgroundColor={colors.logoorange}
+          enableShadow
+          center
+        />
       </View>
     );
   }
@@ -49,25 +59,20 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   inputBox: {
-    width: "85%",
-    margin: 10,
-    padding: 15,
+    width: "90%",
+    paddingVertical: 15,
     fontSize: 16,
-    borderColor: "#d3d3d3",
-    borderBottomWidth: 1,
+    borderWidth: 1,
+    borderColor: "#ddd",
+    borderRadius: 5,
     textAlign: "center",
   },
   button: {
-    width: "100%",
-    marginTop: 30,
-    marginBottom: 20,
-    paddingVertical: 5,
+    paddingVertical: 15,
+    paddingHorizontal: 120,
     alignItems: "center",
-    backgroundColor: "#FFA611",
-    borderColor: "#FFA611",
-    borderWidth: 1,
+    borderColor: "#F6820D",
     borderRadius: 5,
-    width: 200,
   },
   buttonText: {
     fontSize: 20,

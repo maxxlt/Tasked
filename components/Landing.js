@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, Image } from "react-native";
+import { StyleSheet, Image } from "react-native";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { updateEmail, updatePassword, login, getUser } from "../actions/User";
@@ -7,24 +7,34 @@ import Firebase from "../config/firebase";
 import colors from "../assets/color";
 import SignUp from "./SignUp";
 import Login from "./Login";
-import { View, TabBar } from "react-native-ui-lib";
+import {
+  View,
+  TabBar,
+  Text,
+  Typography,
+  ThemeManager,
+} from "react-native-ui-lib";
 class Landing extends React.Component {
   state = { tab: 0 };
 
   render() {
     const { tab } = this.state;
+    Typography.loadTypographies({
+      welcomeText: { fontSize: 32, paddingBottom: 10, fontWeight: "100" },
+    });
     return (
       <View style={styles.container}>
         <Image
           style={styles.logo}
           source={require("../assets/img/android/logo-black-text.png")}
         />
-        <Text style={styles.welcomeText}>WELCOME</Text>
+        <Text welcomeText style={styles.welcomeText}>
+          WELCOME
+        </Text>
         <TabBar
           style={styles.tabbar}
           enableShadow={false}
           indicatorStyle={{ backgroundColor: colors.orange }}
-          labelColor={colors.orange}
         >
           <TabBar.Item
             label="Login"
@@ -91,10 +101,6 @@ const styles = StyleSheet.create({
   logo: {
     width: 150,
     height: 150,
-  },
-  welcomeText: {
-    fontSize: 38,
-    paddingBottom: 15,
   },
   tabbar: {
     marginVertical: 10,

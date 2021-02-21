@@ -1,17 +1,19 @@
 import React from "react";
-import {
-  View,
-  TextInput,
-  StyleSheet,
-  TouchableOpacity,
-  Text,
-  Button,
-} from "react-native";
+import { TextInput, StyleSheet } from "react-native";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { updateEmail, updatePassword, login, getUser } from "../actions/User";
 import Firebase from "../config/firebase";
-import { MaterialButton } from "@material-ui/core";
+import {
+  View,
+  TextField,
+  TouchableOpacity,
+  Button,
+  Text,
+  Shadows,
+  Typography,
+} from "react-native-ui-lib";
+import colors from "../assets/color";
 
 class Login extends React.Component {
   componentDidMount = () => {
@@ -27,26 +29,30 @@ class Login extends React.Component {
   render() {
     return (
       <View>
-        <TextInput
+        <TextField
           style={styles.inputBox}
           value={this.props.user.email}
           onChangeText={(email) => this.props.updateEmail(email)}
           placeholder="Email"
           autoCapitalize="none"
+          hideUnderline
         />
-        <TextInput
+        <TextField
           style={styles.inputBox}
           value={this.props.user.password}
           onChangeText={(password) => this.props.updatePassword(password)}
           placeholder="Password"
           secureTextEntry={true}
+          hideUnderline
         />
-        <TouchableOpacity
+        <Button
+          label={"Login"}
           style={styles.button}
           onPress={() => this.props.login()}
-        >
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
+          backgroundColor={colors.logoorange}
+          enableShadow
+          center
+        />
       </View>
     );
   }
@@ -60,39 +66,20 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   inputBox: {
-    margin: 10,
-    padding: 15,
+    width: "90%",
+    paddingVertical: 15,
     fontSize: 16,
-    borderColor: "#d3d3d3",
-    borderBottomWidth: 1,
+    borderWidth: 1,
+    borderColor: "#ddd",
+    borderRadius: 5,
     textAlign: "center",
   },
   button: {
-    width: "100%",
-    marginTop: 30,
-    marginBottom: 20,
-    paddingVertical: 5,
+    paddingVertical: 15,
+    paddingHorizontal: 120,
     alignItems: "center",
-    backgroundColor: "#F6820D",
     borderColor: "#F6820D",
-    borderWidth: 1,
     borderRadius: 5,
-  },
-  buttonText: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#fff",
-  },
-  buttonSignup: {
-    fontSize: 12,
-  },
-  logo: {
-    width: 150,
-    height: 150,
-  },
-  welcomeText: {
-    fontSize: 38,
-    paddingBottom: 15,
   },
 });
 
