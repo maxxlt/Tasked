@@ -6,8 +6,24 @@ export const UPDATE_EMAIL = "UPDATE_EMAIL";
 export const UPDATE_PASSWORD = "UPDATE_PASSWORD";
 export const LOGIN = "LOGIN";
 export const SIGNUP = "SIGNUP";
+export const UPDATE_FULL_NAME = "UPDATE_FULL_NAME";
+export const UPDATE_USERNAME = "UPDATE_USERNAME";
 
 // actions
+
+export const updateFullname = (fullname) => {
+  return {
+    type: UPDATE_FULL_NAME,
+    payload: fullname,
+  };
+};
+
+export const updateUsername = (username) => {
+  return {
+    type: UPDATE_USERNAME,
+    payload: username,
+  };
+};
 
 export const updateEmail = (email) => {
   return {
@@ -54,7 +70,7 @@ export const getUser = (uid) => {
 export const signup = () => {
   return async (dispatch, getState) => {
     try {
-      const { email, password } = getState().user;
+      const { email, password, username, fullname } = getState().user;
       const response = await Firebase.auth().createUserWithEmailAndPassword(
         email,
         password
@@ -63,6 +79,8 @@ export const signup = () => {
         const user = {
           uid: response.user.uid,
           email: email,
+          username: username,
+          fullname: fullname,
         };
 
         db.collection("users").doc(response.user.uid).set(user);

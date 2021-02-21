@@ -4,6 +4,8 @@ import {
   SIGNUP,
   UPDATE_EMAIL,
   UPDATE_PASSWORD,
+  UPDATE_USERNAME,
+  UPDATE_FULL_NAME,
 } from "../actions/User.js";
 
 const user = (state = {}, action) => {
@@ -16,6 +18,10 @@ const user = (state = {}, action) => {
       return { ...state, email: action.payload };
     case UPDATE_PASSWORD:
       return { ...state, password: action.payload };
+    case UPDATE_USERNAME:
+      return { ...state, username: action.payload };
+    case UPDATE_FULL_NAME:
+      return { ...state, fullname: action.payload };
     default:
       return state;
   }

@@ -1,8 +1,14 @@
 import React from "react";
-import { TextInput, StyleSheet } from "react-native";
+import { TextInput, StyleSheet, FlatList } from "react-native";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { updateEmail, updatePassword, signup } from "../actions/User";
+import {
+  updateEmail,
+  updatePassword,
+  updateFullname,
+  updateUsername,
+  signup,
+} from "../actions/User";
 import {
   View,
   TextField,
@@ -29,6 +35,7 @@ class Signup extends React.Component {
           placeholder="Email"
           autoCapitalize="none"
           hideUnderline
+          enableErrors
         />
         <TextField
           style={styles.inputBox}
@@ -36,6 +43,21 @@ class Signup extends React.Component {
           onChangeText={(password) => this.props.updatePassword(password)}
           placeholder="Password"
           secureTextEntry={true}
+          hideUnderline
+        />
+        <TextField
+          style={styles.inputBox}
+          value={this.props.user.username}
+          onChangeText={(username) => this.props.updateUsername(username)}
+          placeholder="Username"
+          autoCapitalize="none"
+          hideUnderline
+        />
+        <TextField
+          style={styles.inputBox}
+          value={this.props.user.fullname}
+          onChangeText={(fullname) => this.props.updateFullname(fullname)}
+          placeholder="Full Name"
           hideUnderline
         />
         <Button
@@ -85,7 +107,10 @@ const styles = StyleSheet.create({
 });
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({ updateEmail, updatePassword, signup }, dispatch);
+  return bindActionCreators(
+    { updateEmail, updatePassword, updateUsername, updateFullname, signup },
+    dispatch
+  );
 };
 
 const mapStateToProps = (state) => {
