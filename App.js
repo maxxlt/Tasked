@@ -1,29 +1,20 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { createStore, applyMiddleware } from "redux";
+import { Provider } from "react-redux";
+import thunkMiddleware from "redux-thunk";
 
-import {withAuthenticator} from 'aws-amplify-react-native';
+import Navigator from "./navigation/Navigator";
+import reducer from "./reducers";
 
-import Amplify from 'aws-amplify';
-import config from './aws-exports';
-Amplify.configure(config);
+const middleware = applyMiddleware(thunkMiddleware);
+const store = createStore(reducer, middleware);
 
-const App = () => {
-  return (
-    <View style={styles.container}>
-      <Text>Tasked</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+export default class App extends React.Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <Navigator />
+      </Provider>
+    );
+  }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
-
-export default withAuthenticator(App, { includeGreetings: true });
