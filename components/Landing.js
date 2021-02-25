@@ -16,7 +16,14 @@ import {
 } from "react-native-ui-lib";
 class Landing extends React.Component {
   state = { tab: 0 };
-
+  componentDidMount = () => {
+    Firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.props.getUser(user.uid);
+        this.props.navigation.navigate("Router");
+      }
+    });
+  };
   render() {
     const { tab } = this.state;
     Typography.loadTypographies({
