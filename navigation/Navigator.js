@@ -1,28 +1,33 @@
 import React from "react";
-import { createSwitchNavigator, createAppContainer } from "react-navigation";
+
 import Login from "../components/Login";
 import SignUp from "../components/SignUp";
-import Group from "../components/Group";
 import Landing from "../components/Landing";
+import Router from "./Router";
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
-const Navigator = createSwitchNavigator(
-  {
-    Landing: {
-      screen: Landing,
-    },
-    Login: {
-      screen: Login,
-    },
-    SignUp: {
-      screen: SignUp,
-    },
-    Group: {
-      screen: Group,
-    },
-  },
-  {
-    initialRouteName: "Landing",
-  }
-);
+const Stack = createStackNavigator();
 
-export default createAppContainer(Navigator);
+const Navigator = (props) => {
+  return (
+    <NavigationContainer
+  
+    >
+    <Stack.Navigator
+    >
+      <Stack.Screen name="LoginSignUp"  component={Landing} />
+      <Stack.Screen name="Tasked" component={Router} 
+      options={{
+        headerLeft: null, 
+      }
+
+      }/>
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="SignUp" component={SignUp} />
+    </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
+export default Navigator;

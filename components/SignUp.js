@@ -22,7 +22,7 @@ import colors from "../assets/color";
 class Signup extends React.Component {
   handleSignUp = () => {
     this.props.signup();
-    this.props.navigation.navigate("Group");
+    this.props.navigation.navigate("Router");
   };
 
   render() {
