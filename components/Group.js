@@ -34,25 +34,27 @@ class Group extends React.Component {
         >
           <Text style={styles.buttonText}>Log Out</Text>
         </TouchableOpacity>
-        {/* <TouchableOpacity
+        <TouchableOpacity
           style={styles.button}
           onPress={() => {
             db.collection("groups")
               .add({
                 group_name: "Random",
-                participants: [this.props.user.uid],
-                tasks: [],
                 group_id: "",
               })
               .then((docRef) => {
                 db.collection("groups").doc(docRef.id).update({
                   group_id: docRef.id,
                 });
+                db.collection("participated_groups").add({
+                  group_id: docRef.id,
+                  user_id: this.props.user.uid,
+                });
               });
           }}
         >
           <Text style={styles.buttonText}>Add Group</Text>
-        </TouchableOpacity> */}
+        </TouchableOpacity>
         <Text>Hello World!</Text>
         <FlatList
           data={DATA}
