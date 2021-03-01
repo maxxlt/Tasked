@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Text,
   Button,
+  FlatList,
 } from "react-native";
 import Firebase, { db } from "../config/firebase";
 import { bindActionCreators } from "redux";
@@ -21,6 +22,7 @@ class Group extends React.Component {
     });
   };
   render() {
+    const renderItem = ({ item }) => <Item title={item.title} />;
     return (
       <View style={styles.container}>
         <TouchableOpacity
@@ -32,7 +34,7 @@ class Group extends React.Component {
         >
           <Text style={styles.buttonText}>Log Out</Text>
         </TouchableOpacity>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={styles.button}
           onPress={() => {
             db.collection("groups")
@@ -50,12 +52,38 @@ class Group extends React.Component {
           }}
         >
           <Text style={styles.buttonText}>Add Group</Text>
-        </TouchableOpacity>
-        <Text></Text>
+        </TouchableOpacity> */}
+        <Text>Hello World!</Text>
+        <FlatList
+          data={DATA}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+        />
       </View>
     );
   }
 }
+
+const DATA = [
+  {
+    id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
+    title: "First Item",
+  },
+  {
+    id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
+    title: "Second Item",
+  },
+  {
+    id: "58694a0f-3da1-471f-bd96-145571e29d72",
+    title: "Third Item",
+  },
+];
+
+const Item = ({ title }) => (
+  <View style={styles.item}>
+    <Button style={styles.title} title={title}></Button>
+  </View>
+);
 
 const styles = StyleSheet.create({
   container: {
@@ -74,6 +102,15 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     width: 200,
+  },
+  item: {
+    backgroundColor: "#f9c2ff",
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+  },
+  title: {
+    fontSize: 32,
   },
 });
 
