@@ -15,6 +15,8 @@ import ActionButton from "react-native-action-button";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Colors from "../assets/color";
+import AntDesign from 'react-native-vector-icons/AntDesign';
+
 
 class Group extends React.Component {
   componentDidMount = () => {
