@@ -15,45 +15,29 @@ import ActionButton from "react-native-action-button";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Colors from "../assets/color";
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import Appbar from "./Appbar";
 
 
-class Group extends React.Component {
-  componentDidMount = () => {
-    Firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.props.getUser(user.uid);
-      }
-    });
-  };
-  render() {
+const Group = (props) => {
+  const {navigation} = props;
+ 
     return (
       <View style={{ flex: 1, backgroundColor: "#f3f3f3" }}>
+        <Appbar title ="Groups"/>
         <View style={styles.container}>
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
               Firebase.auth().signOut();
-              this.props.navigation.navigate("Landing");
+              navigation.navigate("Home");
             }}
           >
-            <Text style={styles.buttonText}>Log Out</Text>
+          <Text style={styles.buttonText}>Log Out</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
-              db.collection("groups")
-                .add({
-                  group_name: "Random",
-                  participants: [this.props.user.uid],
-                  tasks: [],
-                  group_id: "",
-                })
-                .then((docRef) => {
-                  db.collection("groups").doc(docRef.id).update({
-                    group_id: docRef.id,
-                  });
-                });
+              console.log('hi');
             }}
           >
             <Text style={styles.buttonText}>Add Group</Text>
@@ -78,7 +62,7 @@ class Group extends React.Component {
         </ActionButton>
       </View>
     );
-  }
+  
 }
 
 const styles = StyleSheet.create({

@@ -8,9 +8,9 @@ import Profile from "../components/Profile";
 
 const Tab = createBottomTabNavigator();
 
-const MyTabs = () => {
+const Group_Task_Navigator = (props) => {
   return (
-    <NavigationContainer>
+    
       <Tab.Navigator>
       <Tab.Screen
           name={"HomeScreen"}
@@ -37,7 +37,7 @@ const MyTabs = () => {
             ),
           }}/> 
       </Tab.Navigator>
-    </NavigationContainer>
+ 
   );
 };
-export default MyTabs;
+export default Group_Task_Navigator;

@@ -1,46 +1,38 @@
-import React from "react";
+import React ,{useState, useEffect} from "react";
 import { TextInput, StyleSheet } from "react-native";
 import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
+
 import { updateEmail, updatePassword, login, getUser } from "../actions/User";
 import Firebase from "../config/firebase";
 import {
   View,
   TextField,
-  TouchableOpacity,
+
   Button,
-  Text,
-  Shadows,
-  Typography,
+  
 } from "react-native-ui-lib";
 import colors from "../assets/color";
 
-class Login extends React.Component {
-  componentDidMount = () => {
-    Firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.props.getUser(user.uid);
-        if (this.props.user != null) {
-          this.props.navigation.navigate("Group_Task_Navigator");
-        }
-      }
-    });
-  };
-  render() {
+const Login = (props) => 
+{
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const {navigation} = props;
+    
     return (
       <View>
         <TextField
           style={styles.inputBox}
-          value={this.props.user.email}
-          onChangeText={(email) => this.props.updateEmail(email)}
+          value={email}
+          onChangeText={(text)=> setEmail(text)}
           placeholder="Email"
           autoCapitalize="none"
           hideUnderline
         />
         <TextField
           style={styles.inputBox}
-          value={this.props.user.password}
-          onChangeText={(password) => this.props.updatePassword(password)}
+          value={password}
+          onChangeText={(text) => setPassword(text)}
           placeholder="Password"
           secureTextEntry={true}
           hideUnderline
@@ -48,14 +40,14 @@ class Login extends React.Component {
         <Button
           label={"Login"}
           style={styles.button}
-          onPress={() => this.props.login()}
+          onPress={() => navigation.navigate('Tasked')}
           backgroundColor={colors.logoorange}
           enableShadow
           center
         />
       </View>
     );
-  }
+  
 }
 
 const styles = StyleSheet.create({
@@ -83,17 +75,5 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators(
-    { updateEmail, updatePassword, login, getUser },
-    dispatch
-  );
-};
 
-const mapStateToProps = (state) => {
-  return {
-    user: state.user,
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default Login;

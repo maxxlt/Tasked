@@ -1,4 +1,5 @@
 import React from "react";
+import Appbar from './Appbar';
 import {
   View,
   TextInput,
@@ -10,6 +11,7 @@ import {
 const Profile = () => {
   return (
     <View>
+       <Appbar title="Profile"/>
       <Text>HELLO FROM DUMMY</Text>
     </View>
   );
