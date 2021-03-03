@@ -11,7 +11,7 @@ const Tab = createBottomTabNavigator();
 const Group_Task_Navigator = (props) => {
   return (
     
-      <Tab.Navigator>
+      <Tab.Navigator >
       <Tab.Screen
           name={"HomeScreen"}
           component ={MyTask}

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { StyleSheet, Image } from "react-native";
+import { StyleSheet, Image, KeyboardAvoidingView } from "react-native";
 
 import Firebase from "../config/firebase";
 import colors from "../assets/color";
@@ -18,7 +18,7 @@ const Landing = (props) => {
       welcomeText: { fontSize: 32, paddingBottom: 10, fontWeight: "100" },
     });
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView style={styles.container}>
         <Image
           style={styles.logo}
           source={require("../assets/img/android/logo-black-text.png")}
@@ -49,7 +49,7 @@ const Landing = (props) => {
         ) : (
           <SignUp navigation={props.navigation} />
         )}
-      </View>
+      </KeyboardAvoidingView>
     );
 }
 

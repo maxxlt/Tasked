@@ -25,15 +25,7 @@ const Group = (props) => {
       <View style={{ flex: 1, backgroundColor: "#f3f3f3" }}>
         <Appbar title ="Groups"/>
         <View style={styles.container}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              Firebase.auth().signOut();
-              navigation.navigate("Home");
-            }}
-          >
-          <Text style={styles.buttonText}>Log Out</Text>
-          </TouchableOpacity>
+         
           <TouchableOpacity
             style={styles.button}
             onPress={() => {

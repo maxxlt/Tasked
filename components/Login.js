@@ -1,11 +1,12 @@
 import React ,{useState, useEffect} from "react";
-import { TextInput, StyleSheet } from "react-native";
+import { TextInput, StyleSheet, KeyboardAvoidingView } from "react-native";
 import { bindActionCreators } from "redux";
 
 import { updateEmail, updatePassword, login, getUser } from "../actions/User";
-import Firebase from "../config/firebase";
+import Firebase, { auth } from "../config/firebase";
+
 import {
-  View,
+ 
   TextField,
 
   Button,
@@ -18,9 +19,28 @@ const Login = (props) =>
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const {navigation} = props;
-    
+
+   useEffect(() => {
+      const unsubscribe = auth.onAuthStateChanged((authUser) =>{
+        if(authUser){
+          navigation.replace('Tasked');
+        }
+      });
+      return unsubscribe();
+   },[]) 
+  
+  const login = () => {
+    auth.signInWithEmailAndPassword(email, password)
+    .then((authUser)=>{
+      if(authUser.user.uid){
+        navigation.replace('Tasked')
+      }
+    })
+    .catch((error) => alert(error.message));
+  }
+
     return (
-      <View>
+      <KeyboardAvoidingView>
         <TextField
           style={styles.inputBox}
           value={email}
@@ -40,12 +60,12 @@ const Login = (props) =>
         <Button
           label={"Login"}
           style={styles.button}
-          onPress={() => navigation.navigate('Tasked')}
+          onPress={() => login()}
           backgroundColor={colors.logoorange}
           enableShadow
           center
         />
-      </View>
+      </KeyboardAvoidingView>
     );
   
 }
