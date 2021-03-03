@@ -129,17 +129,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators(
-    { updateEmail, updatePassword, updateUsername, updateFullname, signup },
-    dispatch
-  );
-};
 
-const mapStateToProps = (state) => {
-  return {
-    user: state.user,
-  };
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Signup);
+export default Signup;

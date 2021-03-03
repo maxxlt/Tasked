@@ -81,14 +81,5 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({ getUser }, dispatch);
-};
 
-const mapStateToProps = (state) => {
-  return {
-    user: state.user,
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Group);
+export default Group;
