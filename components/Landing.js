@@ -1,8 +1,6 @@
-import React from "react";
-import { StyleSheet, Image } from "react-native";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import { updateEmail, updatePassword, login, getUser } from "../actions/User";
+import React, {useState, useEffect} from "react";
+import { StyleSheet, Image, KeyboardAvoidingView } from "react-native";
+
 import Firebase from "../config/firebase";
 import colors from "../assets/color";
 import SignUp from "./SignUp";
@@ -14,16 +12,13 @@ import {
   Typography,
   ThemeManager,
 } from "react-native-ui-lib";
-class Landing extends React.Component {
-  state = { tab: 0 };
-
-  render() {
-    const { tab } = this.state;
-    Typography.loadTypographies({
+const Landing = (props) => {
+  const [tab, setTab] = useState(0);
+     Typography.loadTypographies({
       welcomeText: { fontSize: 32, paddingBottom: 10, fontWeight: "100" },
     });
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView style={styles.container}>
         <Image
           style={styles.logo}
           source={require("../assets/img/android/logo-black-text.png")}
@@ -39,28 +34,23 @@ class Landing extends React.Component {
           <TabBar.Item
             label="Login"
             onPress={() => {
-              this.setState({
-                tab: 0,
-              });
+             setTab(0);
             }}
           />
           <TabBar.Item
             label="Sign Up"
             onPress={() => {
-              this.setState({
-                tab: 1,
-              });
+              setTab(1);
             }}
           />
         </TabBar>
-        {this.state.tab === 0 ? (
-          <Login navigation={this.props.navigation} />
+        {tab === 0 ? (
+          <Login navigation={props.navigation} />
         ) : (
-          <SignUp navigation={this.props.navigation} />
+          <SignUp navigation={props.navigation} />
         )}
-      </View>
+      </KeyboardAvoidingView>
     );
-  }
 }
 
 const styles = StyleSheet.create({
@@ -107,17 +97,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators(
-    { updateEmail, updatePassword, login, getUser },
-    dispatch
-  );
-};
 
-const mapStateToProps = (state) => {
-  return {
-    user: state.user,
-  };
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Landing);
+export default Landing;

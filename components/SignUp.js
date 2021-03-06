@@ -1,5 +1,5 @@
-import React from "react";
-import { TextInput, StyleSheet, FlatList } from "react-native";
+import React, {useState, useEffect} from "react";
+import { TextInput, StyleSheet,KeyboardAvoidingView } from "react-native";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import {
@@ -10,67 +10,90 @@ import {
   signup,
 } from "../actions/User";
 import {
-  View,
   TextField,
-  TouchableOpacity,
   Button,
-  Text,
-  Shadows,
 } from "react-native-ui-lib";
 import colors from "../assets/color";
+import { auth, db } from "../config/firebase";
 
-class Signup extends React.Component {
-  handleSignUp = () => {
-    this.props.signup();
-    this.props.navigation.navigate("Group");
-  };
 
-  render() {
+const Signup = (props) =>  {
+   const [email, setEmail] = useState('');
+   const [password, setPassword] = useState('');
+   const [username, setUsername] = useState('');
+   const [fullname, setFullname] = useState('');
+   const {navigation} = props;
+
+   const register = () =>{
+      auth.createUserWithEmailAndPassword(email, password)
+      .then(authUser =>{
+          authUser.user.updateProfile({
+            uid: authUser.user.uid,
+            email: email,
+            displayName: username, 
+            fullname: fullname
+
+          });
+          db.collection("users").doc(authUser.user.uid).set({
+            uid: authUser.user.uid,
+            email: email,
+            username: username,
+            fullname: fullname,
+          });
+          navigation.replace('Tasked');
+      }).catch(error => alert(error.message))
+      setEmail('');
+      setPassword('');
+      setUsername('');
+      setFullname('');
+   }
     return (
-      <View>
+      <KeyboardAvoidingView behavior="padding">
         <TextField
           style={styles.inputBox}
-          value={this.props.user.email}
-          onChangeText={(email) => this.props.updateEmail(email)}
+          value={email}
+          onChangeText={(email) =>setEmail(email)}
           placeholder="Email"
           autoCapitalize="none"
           hideUnderline
           enableErrors
         />
+
         <TextField
           style={styles.inputBox}
-          value={this.props.user.password}
-          onChangeText={(password) => this.props.updatePassword(password)}
+          value={password}
+          onChangeText={(password) => setPassword(password)}
           placeholder="Password"
           secureTextEntry={true}
           hideUnderline
         />
         <TextField
           style={styles.inputBox}
-          value={this.props.user.username}
-          onChangeText={(username) => this.props.updateUsername(username)}
+          value={username}
+          onChangeText={(username) => setUsername(username)}
           placeholder="Username"
           autoCapitalize="none"
           hideUnderline
         />
         <TextField
           style={styles.inputBox}
-          value={this.props.user.fullname}
-          onChangeText={(fullname) => this.props.updateFullname(fullname)}
+          value={fullname}
+          onChangeText={(fullname) => setFullname(fullname)}
           placeholder="Full Name"
           hideUnderline
+          
         />
         <Button
           label={"Sign Up"}
           style={styles.button}
-          onPress={this.handleSignUp}
+          onPress={register}
           backgroundColor={colors.logoorange}
           enableShadow
           center
         />
-      </View>
+      </KeyboardAvoidingView>
     );
-  }
+
 }
 
 const styles = StyleSheet.create({
@@ -106,17 +129,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators(
-    { updateEmail, updatePassword, updateUsername, updateFullname, signup },
-    dispatch
-  );
-};
 
-const mapStateToProps = (state) => {
-  return {
-    user: state.user,
-  };
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Signup);
+export default Signup;
