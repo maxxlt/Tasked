@@ -28,18 +28,30 @@ const DATA = [
     title: "4th Item",
   },
 ];
-const Item = ({ item, onPress, style }) => (
+const IconItem = ({ item, onPress, style }) => (
   <View style={styles.icon_image}>
     <Image
       style={styles.tinyLogo}
-      source={require("../assets/group_tags/red_dot.png")}
+      source={require("../assets/participant_test.png")}
     />
+  </View>
+);
+const ParticipantsIconItem = ({ item, onPress, style }) => (
+  <View style={styles.participants_container}>
+    <Image
+      style={styles.tinyLogo}
+      source={require("../assets/participant_test.png")}
+    />
+    <Text style={styles.username_text}>Group name</Text>
   </View>
 );
 
 const CreateGroup = (props) => {
-  const renderItem = ({ item }) => {
-    return <Item item={item} style={{ width: "45%" }} />;
+  const renderIconItem = ({ item }) => {
+    return <IconItem item={item} style={{ width: "45%" }} />;
+  };
+  const renderParticipantsItem = ({ item }) => {
+    return <ParticipantsIconItem item={item} style={{ width: "45%" }} />;
   };
   return (
     <View style={styles.container}>
@@ -48,17 +60,29 @@ const CreateGroup = (props) => {
       </View>
       <Text style={styles.label}>Group name</Text>
       <KeyboardAvoidingView>
-        <View style={styles.inputBox_container}>
+        <View style={styles.groupname_input_container}>
           <TextInput style={styles.inputBox} placeholder="Type group name" />
         </View>
       </KeyboardAvoidingView>
       <Text style={styles.label}>Participants</Text>
-      <View style={styles.flatlist_container}>
+      <View style={styles.icon_flatlist_container}>
         <FlatList
           data={DATA}
-          renderItem={renderItem}
+          renderItem={renderIconItem}
           keyExtractor={(item) => item.id}
           horizontal
+        ></FlatList>
+      </View>
+      <KeyboardAvoidingView>
+        <View style={styles.username_input_container}>
+          <TextInput style={styles.inputBox} placeholder="Type username" />
+        </View>
+      </KeyboardAvoidingView>
+      <View style={styles.username_flatlist_container}>
+        <FlatList
+          data={DATA}
+          renderItem={renderParticipantsItem}
+          keyExtractor={(item) => item.id}
         ></FlatList>
       </View>
       <Button
@@ -86,6 +110,7 @@ const styles = StyleSheet.create({
   title_container: {
     alignItems: "center",
     justifyContent: "center",
+    marginTop: 50,
   },
   title_text: {
     fontSize: 24,
@@ -102,10 +127,18 @@ const styles = StyleSheet.create({
     borderColor: "#ddd",
     borderRadius: 5,
   },
-  inputBox_container: {
+  groupname_input_container: {
     marginTop: 12,
     height: 52,
     borderRadius: 5,
+    marginHorizontal: 20,
+    backgroundColor: "#FFFFFF",
+  },
+  username_input_container: {
+    marginTop: 12,
+    height: 52,
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
     marginHorizontal: 20,
     backgroundColor: "#FFFFFF",
   },
@@ -113,12 +146,33 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderColor: "#F6820D",
     borderRadius: 5,
+    marginTop: 26,
+    marginHorizontal: 33,
   },
-  flatlist_container: {
+  icon_flatlist_container: {
     height: 60,
-    borderWidth: 1,
   },
   icon_image: {
     paddingVertical: 15,
+    height: 32,
+    width: 32,
+    marginLeft: 20,
+  },
+  username_flatlist_container: {
+    // height: 0,
+    maxHeight: 150,
+    borderBottomLeftRadius: 5,
+    borderBottomRightRadius: 5,
+    marginHorizontal: 20,
+    backgroundColor: "#FFFFFF",
+  },
+  username_text: {
+    marginLeft: 12,
+    paddingVertical: 5,
+  },
+  participants_container: {
+    flexDirection: "row",
+    marginBottom: 10,
+    marginLeft: 12,
   },
 });
