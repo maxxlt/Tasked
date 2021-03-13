@@ -51,7 +51,7 @@ const Group = (props) => {
       <Item
         item={item}
         onPress={() => setSelectedId(item.id)}
-        style={{ backgroundColor }}
+        style={{ backgroundColor, width: "45%" }}
       />
     );
   };
@@ -60,6 +60,7 @@ const Group = (props) => {
       <Appbar title="Groups" />
       <SafeAreaView style={styles.container}>
         <FlatList
+          numColumns={2}
           data={DATA}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
