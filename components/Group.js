@@ -87,7 +87,9 @@ const Group = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 12,
+    paddingLeft: 12,
+    paddingRight: 12,
+    paddingTop: 30,
   },
   actionButtonIcon: {
     fontSize: 20,
