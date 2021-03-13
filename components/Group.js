@@ -8,6 +8,7 @@ import {
   Button,
   SafeAreaView,
   FlatList,
+  Image,
 } from "react-native";
 import Firebase, { db } from "../config/firebase";
 import { bindActionCreators } from "redux";
@@ -40,7 +41,12 @@ const DATA = [
 const Item = ({ item, onPress, style }) => (
   <TouchableOpacity onPress={onPress} style={styles.groupCard}>
     <View>
-      <Text style={styles.title}>{item.title}</Text>
+      <Image
+        style={styles.tinyLogo}
+        source={require("../assets/group_tags/red_dot.png")}
+      />
+      <Text style={styles.group_name}>{item.title}</Text>
+      <Text style={styles.task_amount}>{item.title}</Text>
     </View>
   </TouchableOpacity>
 
@@ -130,6 +136,23 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 5,
     padding: 10,
+  },
+  tinyLogo: {
+    width: 26,
+    height: 26,
+    marginLeft: 12,
+    marginTop: 12,
+  },
+  group_name: {
+    marginLeft: 12,
+    marginTop: 42,
+    fontSize: 16,
+  },
+  task_amount: {
+    marginTop: 8,
+    marginLeft: 12,
+    fontSize: 12,
+    color: "#8B8B8B",
   },
 });
 
