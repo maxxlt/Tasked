@@ -43,10 +43,19 @@ const DATA = [
 const Item = ({ item, onPress, style }) => (
   <TouchableOpacity onPress={onPress} style={styles.groupCard}>
     <View>
-      <Image
-        style={styles.tinyLogo}
-        source={require("../assets/group_tags/red_dot.png")}
-      />
+      <View style={styles.top_card_container}>
+        <Image
+          style={styles.tinyLogo}
+          source={require("../assets/group_tags/red_dot.png")}
+        />
+        <TouchableOpacity style={styles.three_dots_container}>
+          <Image
+            style={styles.three_dots}
+            source={require("../assets/three_dots.png")}
+          />
+        </TouchableOpacity>
+      </View>
+
       <Text style={styles.group_name}>{item.title}</Text>
       <Text style={styles.task_amount}>{item.title}</Text>
     </View>
@@ -98,13 +107,6 @@ const Group = (props) => {
           onPress={toggleModal}
         >
           <Ionicons name="md-create" style={styles.actionButtonIcon} />
-        </ActionButton.Item>
-        <ActionButton.Item
-          buttonColor="#3498db"
-          title="Update Group"
-          onPress={() => {}}
-        >
-          <MaterialIcons name="upgrade" style={styles.actionButtonIcon} />
         </ActionButton.Item>
       </ActionButton>
     </View>
@@ -164,6 +166,19 @@ const styles = StyleSheet.create({
     marginLeft: 12,
     fontSize: 12,
     color: "#8B8B8B",
+  },
+  top_card_container: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  three_dots_container: {
+    alignSelf: "flex-end",
+    marginRight: 12,
+    marginTop: 12,
+  },
+  three_dots: {
+    height: 26,
+    resizeMode: "contain",
   },
 });
 
