@@ -56,7 +56,10 @@ const CreateGroup = (props) => {
   };
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.x_btn_container}>
+      <TouchableOpacity
+        style={styles.x_btn_container}
+        onPress={props.isModalVisible}
+      >
         <Image style={styles.x_btn} source={require("../assets/x_btn.png")} />
       </TouchableOpacity>
       <View style={styles.title_container}>

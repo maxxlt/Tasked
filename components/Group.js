@@ -88,10 +88,6 @@ const Group = (props) => {
           animationIn="slideInLeft"
           animationOut="slideOutRight"
         >
-          {/* <View style={styles.popup}>
-            <Text>Hello!</Text>
-            <Button title="Hide modal" onPress={toggleModal} />
-          </View> */}
           <CreateGroup isModalVisible={toggleModal} />
         </Modal>
       </SafeAreaView>
