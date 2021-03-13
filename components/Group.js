@@ -21,6 +21,8 @@ import Colors from "../assets/color";
 import Appbar from "./Appbar";
 import Modal from "react-native-modal";
 import CreateGroup from "./CreateGroup";
+import OptionsMenu from "react-native-options-menu";
+
 const DATA = [
   {
     id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
@@ -48,12 +50,26 @@ const Item = ({ item, onPress, style }) => (
           style={styles.tinyLogo}
           source={require("../assets/group_tags/red_dot.png")}
         />
-        <TouchableOpacity style={styles.three_dots_container}>
-          <Image
-            style={styles.three_dots}
-            source={require("../assets/three_dots.png")}
-          />
-        </TouchableOpacity>
+
+        <OptionsMenu
+          customButton={
+            <View style={styles.three_dots_container}>
+              <Image
+                style={styles.three_dots}
+                source={require("../assets/three_dots.png")}
+              />
+            </View>
+          }
+          buttonStyle={{
+            width: 32,
+            height: 8,
+            margin: 7.5,
+            resizeMode: "contain",
+          }}
+          destructiveIndex={1}
+          options={["Edit", "Delete", "Cancel"]}
+          // actions={[this.editPost, this.deletePost]}
+        />
       </View>
 
       <Text style={styles.group_name}>{item.title}</Text>
