@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { Button } from "react-native-ui-lib";
 import colors from "../assets/color";
+import FirestoreCreateGroup from "../backend/FirestoreCreateGroup.js";
 const DATA = [
   {
     id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
@@ -48,6 +49,7 @@ const ParticipantsIconItem = ({ item, onPress, style }) => (
 );
 
 const CreateGroup = (props) => {
+  const [groupname, setGroupName] = useState("");
   const renderIconItem = ({ item }) => {
     return <IconItem item={item} style={{ width: "45%" }} />;
   };
@@ -68,7 +70,11 @@ const CreateGroup = (props) => {
       <Text style={styles.label}>Group name</Text>
       <KeyboardAvoidingView>
         <View style={styles.groupname_input_container}>
-          <TextInput style={styles.inputBox} placeholder="Type group name" />
+          <TextInput
+            style={styles.inputBox}
+            placeholder="Type group name"
+            onChangeText={(text) => setGroupName(text)}
+          />
         </View>
       </KeyboardAvoidingView>
       <Text style={styles.label}>Participants</Text>
@@ -96,7 +102,11 @@ const CreateGroup = (props) => {
         label={"Create Group"}
         style={styles.button}
         backgroundColor={colors.logoorange}
-        onPress={props.isModalVisible}
+        disabled={!groupname.length}
+        onPress={() => {
+          FirestoreCreateGroup(groupname);
+          props.isModalVisible();
+        }}
         enableShadow
         center
       />

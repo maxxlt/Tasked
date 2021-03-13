@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   TextInput,
@@ -9,8 +9,9 @@ import {
   SafeAreaView,
   FlatList,
   Image,
+  ActivityIndicator,
 } from "react-native";
-import Firebase, { db } from "../config/firebase";
+import Firebase, { db, auth } from "../config/firebase";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { getUser } from "../actions/User";
@@ -79,10 +80,31 @@ const Item = ({ item, onPress, style }) => (
 );
 
 const Group = (props) => {
-  const { navigation } = props;
-
+  const [loading, setLoading] = useState(true); // Set loading to true on component mount
+  const [groups, setGroups] = useState([]); // Initial empty array of users
   const [selectedId, setSelectedId] = useState(null);
   const [isModalVisible, setModalVisible] = useState(false);
+  useEffect(() => {
+    const subscriber = db.collection("groups").onSnapshot((querySnapshot) => {
+      const group = [];
+
+      querySnapshot.forEach((documentSnapshot) => {
+        group.push({
+          ...documentSnapshot.data(),
+          key: documentSnapshot.id,
+        });
+      });
+      setGroups(group);
+      setLoading(false);
+    });
+
+    // Unsubscribe from events when no longer in use
+    return () => subscriber();
+  }, []);
+
+  if (loading) {
+    return <ActivityIndicator />;
+  }
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
