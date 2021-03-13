@@ -19,6 +19,8 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Colors from "../assets/color";
 import Appbar from "./Appbar";
+import Modal from "react-native-modal";
+import CreateGroup from "./CreateGroup";
 const DATA = [
   {
     id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
@@ -57,6 +59,10 @@ const Group = (props) => {
   const { navigation } = props;
 
   const [selectedId, setSelectedId] = useState(null);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
 
   const renderItem = ({ item }) => {
     const backgroundColor = item.id === selectedId ? "#6e3b6e" : "#f9c2ff";
@@ -79,12 +85,23 @@ const Group = (props) => {
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
         />
+        <Modal
+          isVisible={isModalVisible}
+          animationIn="slideInLeft"
+          animationOut="slideOutRight"
+        >
+          {/* <View style={styles.popup}>
+            <Text>Hello!</Text>
+            <Button title="Hide modal" onPress={toggleModal} />
+          </View> */}
+          <CreateGroup isModalVisible={toggleModal} />
+        </Modal>
       </SafeAreaView>
       <ActionButton buttonColor={Colors.logoorange}>
         <ActionButton.Item
           buttonColor="#9b59b6"
           title="New Group"
-          onPress={() => console.log("notes tapped!")}
+          onPress={toggleModal}
         >
           <Ionicons name="md-create" style={styles.actionButtonIcon} />
         </ActionButton.Item>
@@ -153,6 +170,11 @@ const styles = StyleSheet.create({
     marginLeft: 12,
     fontSize: 12,
     color: "#8B8B8B",
+  },
+  popup: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 
