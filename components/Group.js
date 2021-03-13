@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   TextInput,
@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   Text,
   Button,
+  SafeAreaView,
+  FlatList,
 } from "react-native";
 import Firebase, { db } from "../config/firebase";
 import { bindActionCreators } from "redux";
@@ -16,52 +18,76 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Colors from "../assets/color";
 import Appbar from "./Appbar";
+const DATA = [
+  {
+    id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
+    title: "First Item",
+  },
+  {
+    id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
+    title: "Second Item",
+  },
+  {
+    id: "58694a0f-3da1-471f-bd96-145571e29d72",
+    title: "Third Item",
+  },
+];
 
+const Item = ({ item, onPress, style }) => (
+  <TouchableOpacity onPress={onPress} style={[styles.item, style]}>
+    <Text style={styles.title}>{item.title}</Text>
+  </TouchableOpacity>
+);
 
 const Group = (props) => {
-  const {navigation} = props;
- 
+  const { navigation } = props;
+
+  const [selectedId, setSelectedId] = useState(null);
+
+  const renderItem = ({ item }) => {
+    const backgroundColor = item.id === selectedId ? "#6e3b6e" : "#f9c2ff";
+
     return (
-      <View style={{ flex: 1, backgroundColor: "#f3f3f3" }}>
-        <Appbar title ="Groups"/>
-        <View style={styles.container}>
-         
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              console.log('hi');
-            }}
-          >
-            <Text style={styles.buttonText}>Add Group</Text>
-          </TouchableOpacity>
-          <Text></Text>
-        </View>
-        <ActionButton buttonColor={Colors.logoorange}>
-          <ActionButton.Item
-            buttonColor="#9b59b6"
-            title="New Group"
-            onPress={() => console.log("notes tapped!")}
-          >
-            <Ionicons name="md-create" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
-          <ActionButton.Item
-            buttonColor="#3498db"
-            title="Update Group"
-            onPress={() => {}}
-          >
-            <MaterialIcons name="upgrade" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
-        </ActionButton>
-      </View>
+      <Item
+        item={item}
+        onPress={() => setSelectedId(item.id)}
+        style={{ backgroundColor }}
+      />
     );
-  
-}
+  };
+  return (
+    <View style={{ flex: 1, backgroundColor: "#f3f3f3" }}>
+      <Appbar title="Groups" />
+      <SafeAreaView style={styles.container}>
+        <FlatList
+          data={DATA}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+        />
+      </SafeAreaView>
+      <ActionButton buttonColor={Colors.logoorange}>
+        <ActionButton.Item
+          buttonColor="#9b59b6"
+          title="New Group"
+          onPress={() => console.log("notes tapped!")}
+        >
+          <Ionicons name="md-create" style={styles.actionButtonIcon} />
+        </ActionButton.Item>
+        <ActionButton.Item
+          buttonColor="#3498db"
+          title="Update Group"
+          onPress={() => {}}
+        >
+          <MaterialIcons name="upgrade" style={styles.actionButtonIcon} />
+        </ActionButton.Item>
+      </ActionButton>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    padding: 12,
   },
   actionButtonIcon: {
     fontSize: 20,
@@ -80,6 +106,5 @@ const styles = StyleSheet.create({
     width: 200,
   },
 });
-
 
 export default Group;
