@@ -31,12 +31,20 @@ const DATA = [
     id: "58694a0f-3da1-471f-bd96-145571e29d72",
     title: "Third Item",
   },
+  {
+    id: "58694a0f-3da1-471f-bd96-145571e29sdf2",
+    title: "4th Item",
+  },
 ];
 
 const Item = ({ item, onPress, style }) => (
-  <TouchableOpacity onPress={onPress} style={[styles.item, style]}>
-    <Text style={styles.title}>{item.title}</Text>
+  <TouchableOpacity onPress={onPress} style={styles.groupCard}>
+    <View>
+      <Text style={styles.title}>{item.title}</Text>
+    </View>
   </TouchableOpacity>
+
+  // <GroupCard />
 );
 
 const Group = (props) => {
@@ -90,7 +98,7 @@ const styles = StyleSheet.create({
   container: {
     paddingLeft: 12,
     paddingRight: 12,
-    paddingTop: 30,
+    paddingTop: 12,
   },
   actionButtonIcon: {
     fontSize: 20,
@@ -107,6 +115,21 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     width: 200,
+  },
+  groupCard: {
+    height: 180,
+    width: 165,
+    margin: 16,
+    borderRadius: 5,
+    color: "#FFFFFF",
+    height: 150,
+    backgroundColor: "white",
+    elevation: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    padding: 10,
   },
 });
 
