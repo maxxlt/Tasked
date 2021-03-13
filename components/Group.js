@@ -51,8 +51,6 @@ const Item = ({ item, onPress, style }) => (
       <Text style={styles.task_amount}>{item.title}</Text>
     </View>
   </TouchableOpacity>
-
-  // <GroupCard />
 );
 
 const Group = (props) => {
@@ -170,11 +168,6 @@ const styles = StyleSheet.create({
     marginLeft: 12,
     fontSize: 12,
     color: "#8B8B8B",
-  },
-  popup: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
   },
 });
 
