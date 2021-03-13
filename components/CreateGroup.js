@@ -7,6 +7,7 @@ import {
   TextInput,
   FlatList,
   Image,
+  TouchableOpacity,
 } from "react-native";
 import { Button } from "react-native-ui-lib";
 import colors from "../assets/color";
@@ -55,6 +56,9 @@ const CreateGroup = (props) => {
   };
   return (
     <View style={styles.container}>
+      <TouchableOpacity style={styles.x_btn_container}>
+        <Image style={styles.x_btn} source={require("../assets/x_btn.png")} />
+      </TouchableOpacity>
       <View style={styles.title_container}>
         <Text style={styles.title_text}>CREATE GROUP</Text>
       </View>
@@ -110,7 +114,7 @@ const styles = StyleSheet.create({
   title_container: {
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 50,
+    marginTop: 24,
   },
   title_text: {
     fontSize: 24,
@@ -175,4 +179,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginLeft: 12,
   },
+  x_btn_container: {
+    height: 21,
+    width: 21,
+    alignSelf: "flex-end",
+    marginTop: 21,
+    marginRight: 21,
+  },
+  x_btn: {},
 });
