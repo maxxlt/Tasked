@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     alignContent: "center",
     alignItems: "center",
     backgroundColor: "#FCCF3E",
-    height: 150,
+    height: 108,
   },
   image: { height: 40, width: 40, borderRadius: 5 },
   text: {
