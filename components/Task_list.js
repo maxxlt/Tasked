@@ -1,33 +1,55 @@
 import React, {useState} from 'react';
 import { useEffect } from 'react';
-import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar } from 'react-native';
+import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, TouchableHighlight, TouchableOpacity, Pressable } from 'react-native';
 import { CheckBox } from 'react-native-elements'
-import {SwipeableFlatList} from 'react-native-swipeable-flat-list';
-   
+import Swipeable from 'react-native-swipeable';   
 
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+
+//edit function
+const edit = () => {
+  console.log('edit pressed')
+}
+
+//delete function
+const deletep = () => {
+  console.log('delete pressed')
+}
+const rightButtons = [
+ <View style = {{ height:100, alignContent:'center', justifyContent:"center"}}>
+   <TouchableOpacity style={{marginLeft:20}} onPress={edit}><MaterialIcons name="edit" size={30}></MaterialIcons></TouchableOpacity>
+ </View>
+ ,
+ <View style = {{ height:100, alignContent:'center', justifyContent:"center"}}>
+   <TouchableOpacity style={{marginLeft:20}} onPress={deletep}><MaterialIcons name="delete" size={30}></MaterialIcons></TouchableOpacity>
+ </View>
+];
 
 const Item = (props) =>{
   const [check, setCheck] = useState(false); 
    
  
   return  (
-    <View style={styles.item}>
-      <View style ={styles.checkbox}>
-          <CheckBox
-            left
-            checkedColor='grey'
-            checked={check}
-            onPress={() => setCheck(!check)}
-          />
-      </View>
-      <View>
-       {!check &&  <Text style={styles.title}>{props.title}</Text> }
-       {!check && <Text style= {styles.date}>{props.date}</Text>  } 
-       {check &&  <Text style={styles.title1}>{props.title}</Text> }
-       {check && <Text style= {styles.date1}>{props.date}</Text>  }    
-      </View>
+    <Swipeable 
+    rightButtons={rightButtons}>
+      <View style={styles.item}>
+        <View style ={styles.checkbox}>
+            <CheckBox
+              left
+              checkedColor='grey'
+              checked={check}
+              onPress={() => setCheck(!check)}
+            />
+        </View>
+        <View>
+        {!check &&  <Text style={styles.title}>{props.title}</Text> }
+        {!check && <Text style= {styles.date}>{props.date}</Text>  } 
+        {check &&  <Text style={styles.title1}>{props.title}</Text> }
+        {check && <Text style= {styles.date1}>{props.date}</Text>  }    
+        </View>
 
-      </View>
+        </View>
+      </Swipeable>
   );
 
 }
@@ -37,7 +59,7 @@ const Task_list = (props) => {
         <Item title={item.title} date ={item.completeBy} completed ={item.completed} />
       );
   return (
-        <SwipeableFlatList
+        <FlatList
         data={props.Data}
         renderItem={renderItem}
         keyExtractor={item => item.id}
@@ -74,6 +96,7 @@ const styles = StyleSheet.create({
       
         marginBottom:5
       },
+   
       date:{
         marginLeft:25,
         color: 'grey'
