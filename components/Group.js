@@ -68,7 +68,7 @@ const Item = ({ item, onPress, style }) => (
             resizeMode: "contain",
           }}
           destructiveIndex={1}
-          options={["Edit", "Delete", "Cancel"]}
+          options={["Edit", "Delete"]}
           // actions={[this.editPost, this.deletePost]}
         />
       </View>

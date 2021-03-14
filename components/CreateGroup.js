@@ -36,7 +36,7 @@ const IconItem = ({ item, onPress, style }) => (
   <View style={styles.icon_image}>
     <Image
       style={styles.tinyLogo}
-      source={require("../assets/participant_test.png")}
+      source={require("../assets/default_profile_pic.png")}
     />
   </View>
 );
@@ -44,7 +44,7 @@ const ParticipantsIconItem = ({ username, onPress }) => (
   <TouchableOpacity style={styles.participants_container} onPress={onPress}>
     <Image
       style={styles.tinyLogo}
-      source={require("../assets/participant_test.png")}
+      source={require("../assets/default_profile_pic.png")}
     />
     <Text style={styles.username_text}>{username}</Text>
   </TouchableOpacity>
@@ -91,7 +91,6 @@ const CreateGroup = (props) => {
             placeholder="Type group name"
             onChangeText={(text) => {
               setGroupName(text);
-              console.log(participantsids);
             }}
           />
         </View>
@@ -99,7 +98,7 @@ const CreateGroup = (props) => {
       <Text style={styles.label}>Participants</Text>
       <View style={styles.icon_flatlist_container}>
         <FlatList
-          data={DATA}
+          data={participantsids}
           renderItem={renderIconItem}
           keyExtractor={(item) => item.id}
           horizontal
@@ -225,4 +224,8 @@ const styles = StyleSheet.create({
     marginRight: 21,
   },
   x_btn: {},
+  tinyLogo: {
+    height: 32,
+    width: 32,
+  },
 });
