@@ -1,41 +1,34 @@
-import React, {useState, useEffect} from "react";
-import Appbar from './Appbar';
-import {
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Text,
-} from "react-native";
+import React, { useState, useEffect } from "react";
+import Appbar from "./Appbar";
+import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import { auth } from "../config/firebase";
 const Profile = (props) => {
-  const[username, setUserName] = useState('');
- 
-  useEffect(()=>{
+  const [username, setUserName] = useState("");
+
+  useEffect(() => {
     const user = auth.currentUser.displayName;
     setUserName(user);
-    console.log(user)
-  },[])
-  
- const {navigation} = props;
+  }, []);
+
+  const { navigation } = props;
   return (
     <View>
-       <Appbar title="Profile"/>
+      <Appbar title="Profile" />
       <Text>HELLO {username}</Text>
       <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              auth.signOut();
-              navigation.navigate("Home");
-            }}
-          >
-          <Text style={styles.buttonText}>Log Out</Text>
-          </TouchableOpacity>
+        style={styles.button}
+        onPress={() => {
+          auth.signOut();
+          navigation.navigate("Home");
+        }}
+      >
+        <Text style={styles.buttonText}>Log Out</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
-const styles =StyleSheet.create({
- 
+const styles = StyleSheet.create({
   button: {
     marginTop: 30,
     marginBottom: 20,

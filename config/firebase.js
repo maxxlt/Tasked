@@ -19,6 +19,7 @@ let Firebase = !firebase.apps.length
 
 export const db = firebase.firestore();
 export const auth = firebase.auth();
+export const arrayToUpdate = firebase.firestore.FieldValue;
 // avoid deprecated warnings
 db.settings({
   timestampsInSnapshots: true,
