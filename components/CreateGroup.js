@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -11,6 +11,9 @@ import {
 } from "react-native";
 import { Button } from "react-native-ui-lib";
 import colors from "../assets/color";
+import FirestoreCreateGroup from "../backend/FirestoreCreateGroup.js";
+import FirestoreQueryUser from "../backend/FirestoreQueryUser.js";
+import { db, auth, arrayToUpdate } from "../config/firebase";
 const DATA = [
   {
     id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
@@ -37,22 +40,37 @@ const IconItem = ({ item, onPress, style }) => (
     />
   </View>
 );
-const ParticipantsIconItem = ({ item, onPress, style }) => (
-  <View style={styles.participants_container}>
+const ParticipantsIconItem = ({ username, onPress }) => (
+  <TouchableOpacity style={styles.participants_container} onPress={onPress}>
     <Image
       style={styles.tinyLogo}
       source={require("../assets/participant_test.png")}
     />
-    <Text style={styles.username_text}>Group name</Text>
-  </View>
+    <Text style={styles.username_text}>{username}</Text>
+  </TouchableOpacity>
 );
 
 const CreateGroup = (props) => {
+  const [groupname, setGroupName] = useState("");
+  const [queriedusers, setQueriedUsers] = useState([]);
+  const [participantsids, setParticipantsIds] = useState([
+    auth.currentUser.uid,
+  ]);
   const renderIconItem = ({ item }) => {
     return <IconItem item={item} style={{ width: "45%" }} />;
   };
   const renderParticipantsItem = ({ item }) => {
-    return <ParticipantsIconItem item={item} style={{ width: "45%" }} />;
+    return (
+      <ParticipantsIconItem
+        username={item.username}
+        onPress={() => {
+          setParticipantsIds((participantsids) => [
+            ...participantsids,
+            item.id,
+          ]);
+        }}
+      />
+    );
   };
   return (
     <View style={styles.container}>
@@ -68,7 +86,14 @@ const CreateGroup = (props) => {
       <Text style={styles.label}>Group name</Text>
       <KeyboardAvoidingView>
         <View style={styles.groupname_input_container}>
-          <TextInput style={styles.inputBox} placeholder="Type group name" />
+          <TextInput
+            style={styles.inputBox}
+            placeholder="Type group name"
+            onChangeText={(text) => {
+              setGroupName(text);
+              console.log(participantsids);
+            }}
+          />
         </View>
       </KeyboardAvoidingView>
       <Text style={styles.label}>Participants</Text>
@@ -82,12 +107,18 @@ const CreateGroup = (props) => {
       </View>
       <KeyboardAvoidingView>
         <View style={styles.username_input_container}>
-          <TextInput style={styles.inputBox} placeholder="Type username" />
+          <TextInput
+            style={styles.inputBox}
+            placeholder="Type username"
+            onChangeText={(text) => {
+              FirestoreQueryUser(text, setQueriedUsers);
+            }}
+          />
         </View>
       </KeyboardAvoidingView>
       <View style={styles.username_flatlist_container}>
         <FlatList
-          data={DATA}
+          data={queriedusers}
           renderItem={renderParticipantsItem}
           keyExtractor={(item) => item.id}
         ></FlatList>
@@ -96,7 +127,11 @@ const CreateGroup = (props) => {
         label={"Create Group"}
         style={styles.button}
         backgroundColor={colors.logoorange}
-        onPress={props.isModalVisible}
+        disabled={!groupname.length}
+        onPress={() => {
+          FirestoreCreateGroup(groupname, participantsids);
+          props.isModalVisible();
+        }}
         enableShadow
         center
       />
