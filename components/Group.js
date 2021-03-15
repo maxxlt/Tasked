@@ -43,8 +43,8 @@ const DATA = [
   },
 ];
 
-const Item = ({ item, onPress, style }) => (
-  <TouchableOpacity onPress={onPress} style={styles.groupCard}>
+const Item = ({ item }) => (
+  <TouchableOpacity style={styles.groupCard}>
     <View>
       <View style={styles.top_card_container}>
         <Image
@@ -73,8 +73,8 @@ const Item = ({ item, onPress, style }) => (
         />
       </View>
 
-      <Text style={styles.group_name}>{item.title}</Text>
-      <Text style={styles.task_amount}>{item.title}</Text>
+      <Text style={styles.group_name}>{item.group_name}</Text>
+      <Text style={styles.task_amount}>{item.group_id}</Text>
     </View>
   </TouchableOpacity>
 );
@@ -87,12 +87,16 @@ const Group = (props) => {
   useEffect(() => {
     const subscriber = db.collection("groups").onSnapshot((querySnapshot) => {
       const group = [];
-
+      // Only query the groups that user is participated in
       querySnapshot.forEach((documentSnapshot) => {
-        group.push({
-          ...documentSnapshot.data(),
-          key: documentSnapshot.id,
-        });
+        for (let j = 0; j < documentSnapshot.data().participants.length; j++) {
+          if (auth.currentUser.uid == documentSnapshot.data().participants[j]) {
+            group.push({
+              ...documentSnapshot.data(),
+              key: documentSnapshot.id,
+            });
+          }
+        }
       });
       setGroups(group);
       setLoading(false);
@@ -109,16 +113,8 @@ const Group = (props) => {
     setModalVisible(!isModalVisible);
   };
 
-  const renderItem = ({ item }) => {
-    const backgroundColor = item.id === selectedId ? "#6e3b6e" : "#f9c2ff";
-
-    return (
-      <Item
-        item={item}
-        onPress={() => setSelectedId(item.id)}
-        style={{ backgroundColor, width: "45%" }}
-      />
-    );
+  const renderGroups = ({ item }) => {
+    return <Item item={item} />;
   };
   return (
     <View style={{ flex: 1, backgroundColor: "#f3f3f3" }}>
@@ -126,8 +122,8 @@ const Group = (props) => {
       <SafeAreaView style={styles.container}>
         <FlatList
           numColumns={2}
-          data={DATA}
-          renderItem={renderItem}
+          data={groups}
+          renderItem={renderGroups}
           keyExtractor={(item) => item.id}
         />
         <Modal
