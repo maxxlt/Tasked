@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -11,24 +11,18 @@ import {
 } from "react-native";
 import { Button } from "react-native-ui-lib";
 import colors from "../assets/color";
-import { db, auth, arrayToUpdate } from "../config/firebase";
-
+import {auth} from "../config/firebase";
 
 const ForgotPassword = (props) => {
-  //const [groupname, setGroupName] = useState("");
-  //const [queriedusers, setQueriedUsers] = useState([]);
-  //const [participantsids, setParticipantsIds] = useState([
-    //auth.currentUser.uid,]);
-    const [email] = useState("");
-    console.log(email);
+    const [email, setEmail] = useState("");
     const submit = () => {
-        //console.log(email);
         auth
         .sendPasswordResetEmail(email)
         .then(() => {
-            Alert.alert("Password reset link has been sent to "+ email);
+            Alert.alert("Password reset link has been sent to: "+ email);
         })
-        .catch(() => {Alert.alert("The user does not exist")})
+        .catch(() => {Alert.alert(email)})
+        setEmail("");
     };
 
   return (
@@ -48,9 +42,8 @@ const ForgotPassword = (props) => {
           <TextInput
             style={styles.inputBox}
             placeholder="Enter existing email"
-            onChangeText={(text) => {
-              //setGroupName(text);
-             // console.log(participantsids);
+            onChangeText={(email) => {
+              setEmail(email);
             }}
           />
         </View>
