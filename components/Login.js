@@ -1,7 +1,8 @@
 import React ,{useState, useEffect} from "react";
-import { TextInput, StyleSheet, KeyboardAvoidingView } from "react-native";
+import { TextInput, StyleSheet, KeyboardAvoidingView, TouchableOpacity } from "react-native";
 import { bindActionCreators } from "redux";
-
+import ForgotPassword from "./ForgotPassword";
+import Modal from "react-native-modal";
 import { updateEmail, updatePassword, login, getUser } from "../actions/User";
 import Firebase, { auth } from "../config/firebase";
 
@@ -19,7 +20,11 @@ const Login = (props) =>
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const {navigation} = props;
+    const [isModalVisible, setModalVisible] = useState(false);
 
+    const toggleModal = () => {
+      setModalVisible(!isModalVisible);
+    };
    useEffect(() => {
       const unsubscribe = auth.onAuthStateChanged((authUser) =>{
         if(authUser){
@@ -41,6 +46,13 @@ const Login = (props) =>
 
     return (
       <KeyboardAvoidingView>
+        <Modal
+          isVisible={isModalVisible}
+          animationIn="slideInLeft"
+          animationOut="slideOutRight"
+        >
+          <ForgotPassword isModalVisible={toggleModal} />
+        </Modal>
         <TextField
           style={styles.inputBox}
           value={email}
@@ -61,6 +73,14 @@ const Login = (props) =>
           label={"Login"}
           style={styles.button}
           onPress={() => login()}
+          backgroundColor={colors.logoorange}
+          enableShadow
+          center
+        />
+        <Button
+          label={"Forgot password?"}
+          style={styles.forgotpassword}
+          onPress={toggleModal}
           backgroundColor={colors.logoorange}
           enableShadow
           center
@@ -92,6 +112,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderColor: "#F6820D",
     borderRadius: 5,
+  },
+  forgotpassword: {
+    paddingVertical: 15,
+    paddingHorizontal: 120,
+    //alignItems: "center",
+    borderColor: "#F6820D",
+    borderRadius: 2,
   },
 });
 
