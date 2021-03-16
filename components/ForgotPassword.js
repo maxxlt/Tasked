@@ -5,6 +5,7 @@ import {
   View,
   KeyboardAvoidingView,
   TextInput,
+  Alert,
   Image,
   TouchableOpacity,
 } from "react-native";
@@ -12,11 +13,23 @@ import { Button } from "react-native-ui-lib";
 import colors from "../assets/color";
 import { db, auth, arrayToUpdate } from "../config/firebase";
 
+
 const ForgotPassword = (props) => {
   //const [groupname, setGroupName] = useState("");
   //const [queriedusers, setQueriedUsers] = useState([]);
   //const [participantsids, setParticipantsIds] = useState([
     //auth.currentUser.uid,]);
+    const [email] = useState("");
+    console.log(email);
+    const submit = () => {
+        //console.log(email);
+        auth
+        .sendPasswordResetEmail(email)
+        .then(() => {
+            Alert.alert("Password reset link has been sent to "+ email);
+        })
+        .catch(() => {Alert.alert("The user does not exist")})
+    };
 
   return (
     <View style={styles.container}>
@@ -47,7 +60,7 @@ const ForgotPassword = (props) => {
         label={"Submit"}
         style={styles.button}
         backgroundColor={colors.logoorange}
-        onPress={() => {}}
+        onPress={() => {submit()}}
         enableShadow
         center
       />
