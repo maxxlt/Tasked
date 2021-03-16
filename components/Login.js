@@ -1,11 +1,8 @@
 import React ,{useState, useEffect} from "react";
-import { TextInput, StyleSheet, KeyboardAvoidingView, TouchableOpacity } from "react-native";
-import { bindActionCreators } from "redux";
+import { TextInput, StyleSheet, KeyboardAvoidingView } from "react-native";
 import ForgotPassword from "./ForgotPassword";
 import Modal from "react-native-modal";
-import { updateEmail, updatePassword, login, getUser } from "../actions/User";
 import Firebase, { auth } from "../config/firebase";
-
 import {
  
   TextField,
@@ -109,6 +106,7 @@ const styles = StyleSheet.create({
   button: {
     paddingVertical: 15,
     paddingHorizontal: 120,
+    marginBottom: 25,
     alignItems: "center",
     borderColor: "#F6820D",
     borderRadius: 5,
@@ -116,9 +114,8 @@ const styles = StyleSheet.create({
   forgotpassword: {
     paddingVertical: 15,
     paddingHorizontal: 120,
-    //alignItems: "center",
     borderColor: "#F6820D",
-    borderRadius: 2,
+    borderRadius: 5,
   },
 });
 

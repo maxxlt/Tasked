@@ -34,14 +34,14 @@ const ForgotPassword = (props) => {
         <Image style={styles.x_btn} source={require("../assets/x_btn.png")} />
       </TouchableOpacity>
       <View style={styles.title_container}>
-        <Text style={styles.title_text}>Forgot Password</Text>
+        <Text style={styles.title_text}>FORGOT PASSWORD</Text>
       </View>
       <Text style={styles.label}>Email</Text>
       <KeyboardAvoidingView>
         <View style={styles.email_input_container}>
           <TextInput
             style={styles.inputBox}
-            placeholder="Enter existing email"
+            placeholder="Enter existing email to rest password"
             onChangeText={(email) => {
               setEmail(email);
             }}
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     marginLeft: 20,
-    marginTop: 15,
+    marginTop: 45,
   },
   inputBox: {
     marginHorizontal: 18,
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   email_input_container: {
-    marginTop: 12,
+    marginTop: 20,
     height: 52,
     borderRadius: 5,
     marginHorizontal: 20,
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderColor: "#F6820D",
     borderRadius: 5,
-    marginTop: 26,
+    marginTop: 40,
     marginHorizontal: 33,
   },
   x_btn_container: {
