@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { TextInput, StyleSheet, KeyboardAvoidingView } from "react-native";
+import { TextInput, StyleSheet, KeyboardAvoidingView, Alert } from "react-native";
+import FirestoreQueryUser from "../backend/FirestoreQueryUser.js";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import {
@@ -13,10 +14,25 @@ import { TextField, Button } from "react-native-ui-lib";
 import colors from "../assets/color";
 import { auth, db } from "../config/firebase";
 
+  const createTwoButtonAlert = () =>
+    Alert.alert(
+      "Alert Title",
+      "My Alert Msg",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "OK", onPress: () => console.log("OK Pressed") }
+      ]
+    );
+
 const Signup = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const [queriedusername, setQueriedusername] = useState([]); //important
   const [fullname, setFullname] = useState("");
   const { navigation } = props;
 
@@ -67,7 +83,25 @@ const Signup = (props) => {
       <TextField
         style={styles.inputBox}
         value={username}
-        onChangeText={(username) => setUsername(username)}
+        onChangeText={(username) => {
+          FirestoreQueryUser(username, setQueriedusername);
+          console.log(username);
+          console.log(queriedusername);
+          if (queriedusername.length == 0) {
+            setUsername(username);
+            console.log("CAN");
+          } else if (queriedusername.length > 0){
+            console.log("CANnot");
+            Alert.alert(
+              "Username already exists",
+              "Enter a new username",
+              [
+                {
+                text: "OK", onPress: () => console.log("OK Pressed") }
+              ]
+            );
+          }
+        }}
         placeholder="Username"
         autoCapitalize="none"
         hideUnderline
