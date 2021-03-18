@@ -1,47 +1,49 @@
-import React ,{useState, useEffect} from "react";
-import { TextInput, StyleSheet, KeyboardAvoidingView } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  TextInput,
+  StyleSheet,
+  KeyboardAvoidingView,
+  View,
+  TouchableOpacity,
+  Text,
+} from "react-native";
 import ForgotPassword from "./ForgotPassword";
 import Modal from "react-native-modal";
 import Firebase, { auth } from "../config/firebase";
-import {
- 
-  TextField,
-
-  Button,
-  
-} from "react-native-ui-lib";
+import { TextField, Button } from "react-native-ui-lib";
 import colors from "../assets/color";
 
-const Login = (props) => 
-{
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const {navigation} = props;
-    const [isModalVisible, setModalVisible] = useState(false);
+const Login = (props) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { navigation } = props;
+  const [isModalVisible, setModalVisible] = useState(false);
 
-    const toggleModal = () => {
-      setModalVisible(!isModalVisible);
-    };
-   useEffect(() => {
-      const unsubscribe = auth.onAuthStateChanged((authUser) =>{
-        if(authUser){
-          navigation.replace('Tasked');
-        }
-      });
-      return unsubscribe();
-   },[]) 
-  
-  const login = () => {
-    auth.signInWithEmailAndPassword(email, password)
-    .then((authUser)=>{
-      if(authUser.user.uid){
-        navigation.replace('Tasked')
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((authUser) => {
+      if (authUser) {
+        navigation.replace("Tasked");
       }
-    })
-    .catch((error) => alert(error.message));
-  }
+    });
+    return unsubscribe();
+  }, []);
 
-    return (
+  const login = () => {
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .then((authUser) => {
+        if (authUser.user.uid) {
+          navigation.replace("Tasked");
+        }
+      })
+      .catch((error) => alert(error.message));
+  };
+
+  return (
+    <View>
       <KeyboardAvoidingView>
         <Modal
           isVisible={isModalVisible}
@@ -53,7 +55,7 @@ const Login = (props) =>
         <TextField
           style={styles.inputBox}
           value={email}
-          onChangeText={(text)=> setEmail(text)}
+          onChangeText={(text) => setEmail(text)}
           placeholder="Email"
           autoCapitalize="none"
           hideUnderline
@@ -74,18 +76,13 @@ const Login = (props) =>
           enableShadow
           center
         />
-        <Button
-          label={"Forgot password?"}
-          style={styles.forgotpassword}
-          onPress={toggleModal}
-          backgroundColor={colors.logoorange}
-          enableShadow
-          center
-        />
       </KeyboardAvoidingView>
-    );
-  
-}
+      <TouchableOpacity onPress={toggleModal}>
+        <Text style={styles.forgotpassword_text}>Forgot password?</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -111,13 +108,10 @@ const styles = StyleSheet.create({
     borderColor: "#F6820D",
     borderRadius: 5,
   },
-  forgotpassword: {
-    paddingVertical: 15,
-    paddingHorizontal: 120,
-    borderColor: "#F6820D",
-    borderRadius: 5,
+  forgotpassword_text: {
+    fontSize: 14,
+    color: colors.logoorange,
   },
 });
-
 
 export default Login;
