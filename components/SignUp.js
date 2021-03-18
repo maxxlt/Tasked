@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { TextInput, StyleSheet, KeyboardAvoidingView, Alert } from "react-native";
+import {
+  TextInput,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Alert,
+} from "react-native";
 import FirestoreQueryUser from "../backend/FirestoreQueryUser.js";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -14,19 +19,15 @@ import { TextField, Button } from "react-native-ui-lib";
 import colors from "../assets/color";
 import { auth, db } from "../config/firebase";
 
-  const createTwoButtonAlert = () =>
-    Alert.alert(
-      "Alert Title",
-      "My Alert Msg",
-      [
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-        { text: "OK", onPress: () => console.log("OK Pressed") }
-      ]
-    );
+const createTwoButtonAlert = () =>
+  Alert.alert("Alert Title", "My Alert Msg", [
+    {
+      text: "Cancel",
+      onPress: () => console.log("Cancel Pressed"),
+      style: "cancel",
+    },
+    { text: "OK", onPress: () => console.log("OK Pressed") },
+  ]);
 
 const Signup = (props) => {
   const [email, setEmail] = useState("");
@@ -35,6 +36,7 @@ const Signup = (props) => {
   const [queriedusername, setQueriedusername] = useState([]); //important
   const [fullname, setFullname] = useState("");
   const { navigation } = props;
+  const [isValid, setValidation] = useState(false);
 
   const register = () => {
     auth
@@ -60,6 +62,18 @@ const Signup = (props) => {
     setUsername("");
     setFullname("");
   };
+  const onCheckUsername = () => {
+    if (queriedusername.length == 0) {
+      setValidation(true);
+    } else if (queriedusername.length > 0) {
+      setValidation(false);
+      Alert.alert("Username already exists", "Enter a different username", [
+        {
+          text: "OK",
+        },
+      ]);
+    }
+  };
   return (
     <KeyboardAvoidingView behavior="padding">
       <TextField
@@ -84,23 +98,9 @@ const Signup = (props) => {
         style={styles.inputBox}
         value={username}
         onChangeText={(username) => {
+          setQueriedusername([]);
           FirestoreQueryUser(username, setQueriedusername);
-          console.log(username);
-          console.log(queriedusername);
-          if (queriedusername.length == 0) {
-            setUsername(username);
-            console.log("CAN");
-          } else if (queriedusername.length > 0){
-            console.log("CANnot");
-            Alert.alert(
-              "Username already exists",
-              "Enter a new username",
-              [
-                {
-                text: "OK", onPress: () => console.log("OK Pressed") }
-              ]
-            );
-          }
+          setUsername(username);
         }}
         placeholder="Username"
         autoCapitalize="none"
@@ -116,7 +116,12 @@ const Signup = (props) => {
       <Button
         label={"Sign Up"}
         style={styles.button}
-        onPress={register}
+        onPress={() => {
+          onCheckUsername();
+          if (isValid) {
+            register();
+          }
+        }}
         backgroundColor={colors.logoorange}
         enableShadow
         center
