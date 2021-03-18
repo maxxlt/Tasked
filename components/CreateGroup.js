@@ -52,7 +52,7 @@ const ParticipantsIconItem = ({ username, onPress }) => (
 
 const CreateGroup = (props) => {
   const [groupname, setGroupName] = useState("");
-  const [queriedusers, setQueriedUsers] = useState([]);
+  const [queriedusers, setQueriedUsers] = useState([]); //important
   const [participantsids, setParticipantsIds] = useState([
     auth.currentUser.uid,
   ]);
@@ -111,7 +111,7 @@ const CreateGroup = (props) => {
             style={styles.inputBox}
             placeholder="Type username"
             onChangeText={(text) => {
-              FirestoreQueryUser(text, setQueriedUsers);
+              FirestoreQueryUser(text, setQueriedUsers);//important
             }}
           />
         </View>
