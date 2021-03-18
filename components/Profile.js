@@ -28,6 +28,9 @@ const Profile = (props) => {
   return (
     <View>
       <Appbar title="Profile" />
+      <View style = {{alignItems:'center' , justifyContent: 'center'}}>
+
+      
       <TouchableOpacity>
           <Image
             style={styles.profilePic}
@@ -54,6 +57,7 @@ const Profile = (props) => {
       >
         <Text style={styles.logOutbuttonText}>LOG OUT</Text>
       </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -68,8 +72,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 20,
     marginTop: 30,
-    marginRight: 112,
-    marginLeft: 135,
+   
     alignItems: "center",
     justifyContent: "center",
   },
@@ -79,22 +82,19 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     marginTop: 30,
     marginBottom: 15,
-    marginLeft: 170,
-    marginRight: 110,
+
   },
   email: {
     paddingLeft: 15,
     paddingRight: 15,
     paddingBottom: 15,
     marginTop: 5,
-    marginLeft: 120,
-    marginRight: 60,
+  
   },
   editProfileButton: {
     marginTop: 25,
     marginBottom: 140,
-    marginLeft: 107,
-    marginRight: 32,
+   
     alignItems: "center",
     backgroundColor: "#646669",
     borderColor: "#646669",
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   logOutbutton: {
-    marginTop: 120,
+    
     marginBottom: 140,
     marginLeft: 55,
     marginRight: 32,
