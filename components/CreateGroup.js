@@ -83,7 +83,7 @@ const CreateGroup = (props) => {
         <FlatList
           data={participantsids}
           renderItem={renderIconItem}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item, index) => String(index)}
           horizontal
         ></FlatList>
       </View>

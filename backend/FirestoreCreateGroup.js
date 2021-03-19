@@ -15,11 +15,13 @@ const FirestoreCreateGroup = (groupname, participantsids) => {
           group_id: docRef.id,
           participants: arrayToUpdate.arrayUnion(...participantsids),
         });
-      db.collection("users")
-        .doc(auth.currentUser.uid)
-        .update({
-          participated_groups: arrayToUpdate.arrayUnion(docRef.id),
-        });
+      for (let i = 0; i < participantsids.length; i++) {
+        db.collection("users")
+          .doc(participantsids[i])
+          .update({
+            participated_groups: arrayToUpdate.arrayUnion(docRef.id),
+          });
+      }
     });
 };
 
