@@ -44,7 +44,10 @@ const DATA = [
   },
 ];
 
+
+
 const Group = (props) => {
+  const {navigation} = props;
   const [loading, setLoading] = useState(true); // Set loading to true on component mount
   const [groups, setGroups] = useState([]);
   const [selectedGroupId, setSelectedGroupId] = useState("");
@@ -53,8 +56,12 @@ const Group = (props) => {
   );
   const [isEditGroupModalVisible, setEditGroupModalVisible] = useState(false);
 
+  const groupPage = () =>{
+    navigation.navigate("GroupPage")
+  }
+
   const Item = ({ item, toggleEditGroupModal, setSelectedGroupId }) => (
-    <TouchableOpacity style={styles.groupCard}>
+    <TouchableOpacity onPress={groupPage} style={styles.groupCard}>
       <View>
         <View style={styles.top_card_container}>
           <Image
