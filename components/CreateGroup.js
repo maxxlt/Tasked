@@ -14,29 +14,12 @@ import colors from "../assets/color";
 import FirestoreCreateGroup from "../backend/FirestoreCreateGroup.js";
 import FirestoreQueryUser from "../backend/FirestoreQueryUser.js";
 import { db, auth, arrayToUpdate } from "../config/firebase";
-const DATA = [
-  {
-    id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-    title: "First Item",
-  },
-  {
-    id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-    title: "Second Item",
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29d72",
-    title: "Third Item",
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29sdf2",
-    title: "4th Item",
-  },
-];
+
 const IconItem = ({ item, onPress, style }) => (
   <View style={styles.icon_image}>
     <Image
       style={styles.tinyLogo}
-      source={require("../assets/participant_test.png")}
+      source={require("../assets/default_profile_pic.png")}
     />
   </View>
 );
@@ -44,7 +27,7 @@ const ParticipantsIconItem = ({ username, onPress }) => (
   <TouchableOpacity style={styles.participants_container} onPress={onPress}>
     <Image
       style={styles.tinyLogo}
-      source={require("../assets/participant_test.png")}
+      source={require("../assets/default_profile_pic.png")}
     />
     <Text style={styles.username_text}>{username}</Text>
   </TouchableOpacity>
@@ -91,7 +74,6 @@ const CreateGroup = (props) => {
             placeholder="Type group name"
             onChangeText={(text) => {
               setGroupName(text);
-              console.log(participantsids);
             }}
           />
         </View>
@@ -99,7 +81,7 @@ const CreateGroup = (props) => {
       <Text style={styles.label}>Participants</Text>
       <View style={styles.icon_flatlist_container}>
         <FlatList
-          data={DATA}
+          data={participantsids}
           renderItem={renderIconItem}
           keyExtractor={(item) => item.id}
           horizontal
@@ -111,7 +93,7 @@ const CreateGroup = (props) => {
             style={styles.inputBox}
             placeholder="Type username"
             onChangeText={(text) => {
-              FirestoreQueryUser(text, setQueriedUsers);//important
+              FirestoreQueryUser(text, setQueriedUsers); //important
             }}
           />
         </View>
@@ -225,4 +207,8 @@ const styles = StyleSheet.create({
     marginRight: 21,
   },
   x_btn: {},
+  tinyLogo: {
+    height: 32,
+    width: 32,
+  },
 });
