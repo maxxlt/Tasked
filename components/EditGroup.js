@@ -13,6 +13,7 @@ import colors from "../assets/color";
 import { Button } from "react-native-ui-lib";
 import FirestoreQueryUser from "../backend/FirestoreQueryUser.js";
 import FirestoreQueryAllParticipants from "../backend/FirestoreQueryAllParticipants";
+import FirestoreUpdateGroup from "../backend/FirestoreUpdateGroup";
 
 const ExistingParticipantsItem = ({ username }) => (
   <View style={styles.participants_container}>
@@ -38,6 +39,7 @@ const EditGroup = (props) => {
   const [queriedusers, setQueriedUsers] = useState([]);
   const [participantsids, setParticipantsIds] = useState(props.participants);
   const [queriedParticipants, setQueriedParticipants] = useState([]);
+  const [groupName, setGroupName] = useState(props.selectedGroupName);
   useEffect(() => {
     const subscriber = FirestoreQueryAllParticipants(
       participantsids,
@@ -80,7 +82,7 @@ const EditGroup = (props) => {
           <TextInput
             style={styles.inputBox}
             placeholder="Type group name"
-            value={props.selectedGroupName}
+            value={groupName}
             onChangeText={(text) => {
               setGroupName(text);
             }}
@@ -116,6 +118,7 @@ const EditGroup = (props) => {
         style={styles.button}
         backgroundColor={colors.logoorange}
         onPress={() => {
+          FirestoreUpdateGroup(props.selectedGroupId, groupName);
           props.isModalVisible();
         }}
         enableShadow
