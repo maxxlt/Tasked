@@ -8,6 +8,11 @@ const FirestoreDeleteParticipant = (participantId, groupId) => {
     .update({
       participants: arrayToUpdate.arrayRemove(participantId),
     });
+  db.collection("users")
+    .doc(participantId)
+    .update({
+      participated_groups: arrayToUpdate.arrayRemove(groupId),
+    });
 };
 
 export default FirestoreDeleteParticipant;
