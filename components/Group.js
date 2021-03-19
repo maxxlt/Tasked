@@ -25,6 +25,7 @@ import Modal from "react-native-modal";
 import CreateGroup from "./CreateGroup";
 import EditGroup from "./EditGroup";
 import OptionsMenu from "react-native-options-menu";
+import FirestoreDeleteGroup from "../backend/FirestoreDeleteGroup";
 
 const DATA = [
   {
@@ -101,7 +102,7 @@ const Group = (props) => {
                 toggleEditGroupModal();
               },
               () => {
-                console.log("DELETE");
+                FirestoreDeleteGroup(item.group_id);
               },
             ]}
           />
