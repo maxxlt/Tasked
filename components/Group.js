@@ -10,6 +10,7 @@ import {
   FlatList,
   Image,
   ActivityIndicator,
+  ScrollView,
 } from "react-native";
 import Firebase, { db, auth } from "../config/firebase";
 import { bindActionCreators } from "redux";
@@ -44,23 +45,29 @@ const DATA = [
   },
 ];
 
-
-
 const Group = (props) => {
-  const {navigation} = props;
+  const { navigation } = props;
   const [loading, setLoading] = useState(true); // Set loading to true on component mount
   const [groups, setGroups] = useState([]);
   const [selectedGroupId, setSelectedGroupId] = useState("");
+  const [selectedGroupName, setSelectedGroupName] = useState("");
   const [isCreateGroupModalVisible, setCreateGroupModalVisible] = useState(
     false
   );
   const [isEditGroupModalVisible, setEditGroupModalVisible] = useState(false);
+  const [participants, setParticipants] = useState([]);
 
-  const groupPage = () =>{
-    navigation.navigate("GroupPage")
-  }
+  const groupPage = () => {
+    navigation.navigate("GroupPage");
+  };
 
-  const Item = ({ item, toggleEditGroupModal, setSelectedGroupId }) => (
+  const Item = ({
+    item,
+    toggleEditGroupModal,
+    setSelectedGroupId,
+    setSelectedGroupName,
+    setParticipants,
+  }) => (
     <TouchableOpacity onPress={groupPage} style={styles.groupCard}>
       <View>
         <View style={styles.top_card_container}>
@@ -88,7 +95,9 @@ const Group = (props) => {
             options={["Edit", "Delete"]}
             actions={[
               () => {
-                setSelectedGroupId(item.uid);
+                setSelectedGroupId(item.group_id);
+                setSelectedGroupName(item.group_name);
+                setParticipants(item.participants);
                 toggleEditGroupModal();
               },
               () => {
@@ -105,17 +114,28 @@ const Group = (props) => {
   );
 
   useEffect(() => {
+    setLoading(true);
     const subscriber = db.collection("groups").onSnapshot((querySnapshot) => {
       const group = [];
       // Only query the groups that user is participated in
       querySnapshot.forEach((documentSnapshot) => {
-        for (let j = 0; j < documentSnapshot.data().participants.length; j++) {
-          if (auth.currentUser.uid == documentSnapshot.data().participants[j]) {
-            group.push({
-              ...documentSnapshot.data(),
-              key: documentSnapshot.id,
-            });
+        try {
+          for (
+            let j = 0;
+            j < documentSnapshot.data().participants.length;
+            j++
+          ) {
+            if (
+              auth.currentUser.uid == documentSnapshot.data().participants[j]
+            ) {
+              group.push({
+                ...documentSnapshot.data(),
+                key: documentSnapshot.id,
+              });
+            }
           }
+        } catch (e) {
+          console.log(e);
         }
       });
       setGroups(group);
@@ -142,18 +162,20 @@ const Group = (props) => {
         item={item}
         toggleEditGroupModal={toggleEditGroupModal}
         setSelectedGroupId={setSelectedGroupId}
+        setSelectedGroupName={setSelectedGroupName}
+        setParticipants={setParticipants}
       />
     );
   };
   return (
     <View style={{ flex: 1, backgroundColor: "#f3f3f3" }}>
       <Appbar title="Groups" />
-      <SafeAreaView style={styles.container}>
+      <ScrollView style={styles.container}>
         <FlatList
           numColumns={2}
           data={groups}
           renderItem={renderGroups}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item, index) => String(index)}
         />
         <Modal
           isVisible={isCreateGroupModalVisible}
@@ -170,9 +192,11 @@ const Group = (props) => {
           <EditGroup
             isModalVisible={toggleEditGroupModal}
             selectedGroupId={selectedGroupId}
+            selectedGroupName={selectedGroupName}
+            participants={participants}
           />
         </Modal>
-      </SafeAreaView>
+      </ScrollView>
       <ActionButton buttonColor={Colors.logoorange}>
         <ActionButton.Item
           buttonColor="#9b59b6"
