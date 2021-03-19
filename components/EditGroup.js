@@ -12,6 +12,7 @@ import {
 import colors from "../assets/color";
 import { Button } from "react-native-ui-lib";
 import FirestoreQueryUser from "../backend/FirestoreQueryUser.js";
+import FirestoreQueryAllParticipants from "../backend/FirestoreQueryAllParticipants";
 
 const ExistingParticipantsItem = ({ username }) => (
   <View style={styles.participants_container}>
@@ -36,6 +37,15 @@ const ParticipantsIconItem = ({ username, onPress }) => (
 const EditGroup = (props) => {
   const [queriedusers, setQueriedUsers] = useState([]);
   const [participantsids, setParticipantsIds] = useState(props.participants);
+  const [queriedParticipants, setQueriedParticipants] = useState([]);
+  useEffect(() => {
+    const subscriber = FirestoreQueryAllParticipants(
+      participantsids,
+      setQueriedParticipants
+    );
+    return () => subscriber();
+  }, []);
+
   const renderParticipantsItem = ({ item }) => {
     return (
       <ParticipantsIconItem
@@ -50,17 +60,7 @@ const EditGroup = (props) => {
     );
   };
   const renderExistingParticipantsItem = ({ item }) => {
-    return (
-      <ExistingParticipantsItem
-        username={item.username}
-        onPress={() => {
-          setParticipantsIds((participantsids) => [
-            ...participantsids,
-            item.id,
-          ]);
-        }}
-      />
-    );
+    return <ExistingParticipantsItem username={item.username} />;
   };
 
   return (
@@ -89,7 +89,7 @@ const EditGroup = (props) => {
         <Text style={styles.label}>Participants</Text>
         <View style={styles.participants_flatlist_container}>
           <FlatList
-            data={participantsids}
+            data={queriedParticipants}
             renderItem={renderExistingParticipantsItem}
             keyExtractor={(item, index) => String(index)}
           ></FlatList>
