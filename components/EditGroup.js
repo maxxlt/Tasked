@@ -8,12 +8,14 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import colors from "../assets/color";
 import { Button } from "react-native-ui-lib";
 import FirestoreQueryUser from "../backend/FirestoreQueryUser.js";
 import FirestoreQueryAllParticipants from "../backend/FirestoreQueryAllParticipants";
 import FirestoreUpdateGroup from "../backend/FirestoreUpdateGroup";
+import FirestoreUpdateParticipants from "../backend/FirestoreUpdateParticipants";
 
 const ExistingParticipantsItem = ({ username }) => (
   <View style={styles.participants_container}>
@@ -46,17 +48,30 @@ const EditGroup = (props) => {
       setQueriedParticipants
     );
     return () => subscriber();
-  }, []);
+  }, [participantsids]);
 
   const renderParticipantsItem = ({ item }) => {
     return (
       <ParticipantsIconItem
         username={item.username}
         onPress={() => {
-          setParticipantsIds((participantsids) => [
-            ...participantsids,
-            item.id,
-          ]);
+          if (participantsids.includes(item.uid)) {
+            Alert.alert(
+              "Username already exists",
+              "Enter a different username",
+              [
+                {
+                  text: "OK",
+                },
+              ]
+            );
+          } else {
+            setParticipantsIds((participantsids) => [
+              ...participantsids,
+              item.id,
+            ]);
+            FirestoreUpdateParticipants(item.uid, props.selectedGroupId);
+          }
         }}
       />
     );
