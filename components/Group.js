@@ -22,6 +22,7 @@ import Colors from "../assets/color";
 import Appbar from "./Appbar";
 import Modal from "react-native-modal";
 import CreateGroup from "./CreateGroup";
+import EditGroup from "./EditGroup";
 import OptionsMenu from "react-native-options-menu";
 
 const DATA = [
@@ -43,47 +44,59 @@ const DATA = [
   },
 ];
 
-const Item = ({ item }) => (
-  <TouchableOpacity style={styles.groupCard}>
-    <View>
-      <View style={styles.top_card_container}>
-        <Image
-          style={styles.tinyLogo}
-          source={require("../assets/group_tags/red_dot.png")}
-        />
-
-        <OptionsMenu
-          customButton={
-            <View style={styles.three_dots_container}>
-              <Image
-                style={styles.three_dots}
-                source={require("../assets/three_dots.png")}
-              />
-            </View>
-          }
-          buttonStyle={{
-            width: 32,
-            height: 8,
-            margin: 7.5,
-            resizeMode: "contain",
-          }}
-          destructiveIndex={1}
-          options={["Edit", "Delete"]}
-          // actions={[this.editPost, this.deletePost]}
-        />
-      </View>
-
-      <Text style={styles.group_name}>{item.group_name}</Text>
-      <Text style={styles.task_amount}>{item.group_id}</Text>
-    </View>
-  </TouchableOpacity>
-);
-
 const Group = (props) => {
   const [loading, setLoading] = useState(true); // Set loading to true on component mount
-  const [groups, setGroups] = useState([]); // Initial empty array of users
-  const [selectedId, setSelectedId] = useState(null);
-  const [isModalVisible, setModalVisible] = useState(false);
+  const [groups, setGroups] = useState([]);
+  const [selectedGroupId, setSelectedGroupId] = useState("");
+  const [isCreateGroupModalVisible, setCreateGroupModalVisible] = useState(
+    false
+  );
+  const [isEditGroupModalVisible, setEditGroupModalVisible] = useState(false);
+
+  const Item = ({ item, toggleEditGroupModal, setSelectedGroupId }) => (
+    <TouchableOpacity style={styles.groupCard}>
+      <View>
+        <View style={styles.top_card_container}>
+          <Image
+            style={styles.tinyLogo}
+            source={require("../assets/group_tags/red_dot.png")}
+          />
+
+          <OptionsMenu
+            customButton={
+              <View style={styles.three_dots_container}>
+                <Image
+                  style={styles.three_dots}
+                  source={require("../assets/three_dots.png")}
+                />
+              </View>
+            }
+            buttonStyle={{
+              width: 32,
+              height: 8,
+              margin: 7.5,
+              resizeMode: "contain",
+            }}
+            destructiveIndex={1}
+            options={["Edit", "Delete"]}
+            actions={[
+              () => {
+                setSelectedGroupId(item.uid);
+                toggleEditGroupModal();
+              },
+              () => {
+                console.log("DELETE");
+              },
+            ]}
+          />
+        </View>
+
+        <Text style={styles.group_name}>{item.group_name}</Text>
+        <Text style={styles.task_amount}>{item.group_id}</Text>
+      </View>
+    </TouchableOpacity>
+  );
+
   useEffect(() => {
     const subscriber = db.collection("groups").onSnapshot((querySnapshot) => {
       const group = [];
@@ -109,12 +122,21 @@ const Group = (props) => {
   if (loading) {
     return <ActivityIndicator />;
   }
-  const toggleModal = () => {
-    setModalVisible(!isModalVisible);
+  const toggleCreateGroupModal = () => {
+    setCreateGroupModalVisible(!isCreateGroupModalVisible);
+  };
+  const toggleEditGroupModal = () => {
+    setEditGroupModalVisible(!isEditGroupModalVisible);
   };
 
   const renderGroups = ({ item }) => {
-    return <Item item={item} />;
+    return (
+      <Item
+        item={item}
+        toggleEditGroupModal={toggleEditGroupModal}
+        setSelectedGroupId={setSelectedGroupId}
+      />
+    );
   };
   return (
     <View style={{ flex: 1, backgroundColor: "#f3f3f3" }}>
@@ -127,18 +149,28 @@ const Group = (props) => {
           keyExtractor={(item) => item.id}
         />
         <Modal
-          isVisible={isModalVisible}
+          isVisible={isCreateGroupModalVisible}
           animationIn="slideInLeft"
           animationOut="slideOutRight"
         >
-          <CreateGroup isModalVisible={toggleModal} />
+          <CreateGroup isModalVisible={toggleCreateGroupModal} />
+        </Modal>
+        <Modal
+          isVisible={isEditGroupModalVisible}
+          animationIn="slideInLeft"
+          animationOut="slideOutRight"
+        >
+          <EditGroup
+            isModalVisible={toggleEditGroupModal}
+            selectedGroupId={selectedGroupId}
+          />
         </Modal>
       </SafeAreaView>
       <ActionButton buttonColor={Colors.logoorange}>
         <ActionButton.Item
           buttonColor="#9b59b6"
           title="New Group"
-          onPress={toggleModal}
+          onPress={toggleCreateGroupModal}
         >
           <Ionicons name="md-create" style={styles.actionButtonIcon} />
         </ActionButton.Item>
