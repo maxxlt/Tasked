@@ -16,14 +16,21 @@ import FirestoreQueryUser from "../backend/FirestoreQueryUser.js";
 import FirestoreQueryAllParticipants from "../backend/FirestoreQueryAllParticipants";
 import FirestoreUpdateGroup from "../backend/FirestoreUpdateGroup";
 import FirestoreUpdateParticipants from "../backend/FirestoreUpdateParticipants";
+import FirestoreDeleteParticipant from "../backend/FirestoreDeleteParticipant";
 
-const ExistingParticipantsItem = ({ username }) => (
+const ExistingParticipantsItem = ({ username, onPress }) => (
   <View style={styles.participants_container}>
     <Image
       style={styles.tinyLogo}
       source={require("../assets/default_profile_pic.png")}
     />
     <Text style={styles.username_text}>{username}</Text>
+    <TouchableOpacity style={styles.delete_x_btn_container} onPress={onPress}>
+      <Image
+        style={styles.delete_x_btn}
+        source={require("../assets/x_btn.png")}
+      />
+    </TouchableOpacity>
   </View>
 );
 
@@ -77,7 +84,25 @@ const EditGroup = (props) => {
     );
   };
   const renderExistingParticipantsItem = ({ item }) => {
-    return <ExistingParticipantsItem username={item.username} />;
+    return (
+      <ExistingParticipantsItem
+        username={item.username}
+        onPress={() => {
+          //Updating queriedParticipants so it will refresh the component
+          const newList = queriedParticipants.filter(
+            (element, itemIndex) => element.uid !== item.uid
+          );
+          setQueriedParticipants([...newList]);
+          //Updating participants id array
+          let index = participantsids.indexOf(item.uid);
+          let newParticipantsList = participantsids;
+          newParticipantsList.splice(index, 1);
+          setParticipantsIds(newParticipantsList);
+          //Deleting participant from database
+          FirestoreDeleteParticipant(item.uid, props.selectedGroupId);
+        }}
+      />
+    );
   };
 
   return (
@@ -111,6 +136,7 @@ const EditGroup = (props) => {
             keyExtractor={(item, index) => String(index)}
           ></FlatList>
         </View>
+        <Text style={styles.label}>Add new participant</Text>
         <View style={styles.username_input_container}>
           <TextInput
             style={styles.inputBox}
@@ -238,6 +264,11 @@ const styles = StyleSheet.create({
     marginRight: 21,
   },
   x_btn: {},
+  delete_x_btn_container: {
+    paddingVertical: 8,
+    marginLeft: 20,
+  },
+  delete_x_btn: { height: 16, width: 16 },
   tinyLogo: {
     height: 32,
     width: 32,
