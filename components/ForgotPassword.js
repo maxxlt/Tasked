@@ -11,19 +11,23 @@ import {
 } from "react-native";
 import { Button } from "react-native-ui-lib";
 import colors from "../assets/color";
-import {auth} from "../config/firebase";
+import { auth } from "../config/firebase";
 
 const ForgotPassword = (props) => {
-    const [email, setEmail] = useState("");
-    const submit = () => {
-        auth
-        .sendPasswordResetEmail(email)
-        .then(() => {
-            Alert.alert("Password reset link has been sent to: "+ email);
-        })
-        .catch(() => {Alert.alert(email)})
-        setEmail("");
-    };
+  const [email, setEmail] = useState("");
+  const submit = () => {
+    auth
+      .sendPasswordResetEmail(email)
+      .then(() => {
+        Alert.alert("Password reset link has been sent to: " + email);
+      })
+      .catch(() => {
+        Alert.alert(
+          "Email " + email + " does not exist. Please try different email."
+        );
+      });
+    setEmail("");
+  };
 
   return (
     <View style={styles.container}>
@@ -49,14 +53,16 @@ const ForgotPassword = (props) => {
         </View>
       </KeyboardAvoidingView>
       <TouchableOpacity>
-      <Button
-        label={"Submit"}
-        style={styles.button}
-        backgroundColor={colors.logoorange}
-        onPress={() => {submit()}}
-        enableShadow
-        center
-      />
+        <Button
+          label={"Submit"}
+          style={styles.button}
+          backgroundColor={colors.logoorange}
+          onPress={() => {
+            submit();
+          }}
+          enableShadow
+          center
+        />
       </TouchableOpacity>
     </View>
   );
