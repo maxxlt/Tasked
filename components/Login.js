@@ -13,6 +13,7 @@ import Firebase, { auth } from "../config/firebase";
 import { TextField, Button } from "react-native-ui-lib";
 import colors from "../assets/color";
 
+//Set fields for Login Screen
 const Login = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -30,7 +31,7 @@ const Login = (props) => {
     });
     return unsubscribe();
   }, []);
-
+  //Verify credentials with firebase database
   const login = () => {
     auth
       .signInWithEmailAndPassword(email, password)
@@ -43,6 +44,7 @@ const Login = (props) => {
   };
 
   return (
+    //Set up screen and buttons for login feature
     <View>
       <KeyboardAvoidingView>
         <Modal

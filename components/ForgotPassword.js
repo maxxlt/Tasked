@@ -13,6 +13,7 @@ import { Button } from "react-native-ui-lib";
 import colors from "../assets/color";
 import { auth } from "../config/firebase";
 
+//Verify email exists and then firebase sends a message to reset password for specified profile
 const ForgotPassword = (props) => {
   const [email, setEmail] = useState("");
   const submit = () => {
@@ -30,6 +31,7 @@ const ForgotPassword = (props) => {
   };
 
   return (
+    //Set up a pop-up screen for forgot password feature
     <View style={styles.container}>
       <TouchableOpacity
         style={styles.x_btn_container}
@@ -45,7 +47,7 @@ const ForgotPassword = (props) => {
         <View style={styles.email_input_container}>
           <TextInput
             style={styles.inputBox}
-            placeholder="Enter existing email to rest password"
+            placeholder="Enter existing email to reset password"
             onChangeText={(email) => {
               setEmail(email);
             }}

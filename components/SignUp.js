@@ -29,6 +29,7 @@ const createTwoButtonAlert = () =>
     { text: "OK", onPress: () => console.log("OK Pressed") },
   ]);
 
+//Set up fields for signup screen
 const Signup = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -37,7 +38,7 @@ const Signup = (props) => {
   const [fullname, setFullname] = useState("");
   const { navigation } = props;
   const [isValid, setValidation] = useState(false);
-
+  //Set up fields with the firebase database
   const register = () => {
     auth
       .createUserWithEmailAndPassword(email, password)

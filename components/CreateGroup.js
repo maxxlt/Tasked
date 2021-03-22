@@ -56,6 +56,7 @@ const CreateGroup = (props) => {
     );
   };
   return (
+    //Set up create group screen with buttons and fields that the user can input details
     <View style={styles.container}>
       <TouchableOpacity
         style={styles.x_btn_container}

@@ -11,6 +11,7 @@ import GroupPage from "../components/GroupPage";
 
 const Stack = createStackNavigator();
 
+//Navigator to switch screens based on what the user taps
 const Navigator = (props) => {
   return (
     <NavigationContainer>
@@ -21,7 +22,6 @@ const Navigator = (props) => {
         <Stack.Screen name="Tasked" component={Group_Task_Navigator} />
         <Stack.Screen name="CreateGroup" component={CreateGroup} />
         <Stack.Screen name="GroupPage" component={GroupPage} />
-        
       </Stack.Navigator>
     </NavigationContainer>
   );
