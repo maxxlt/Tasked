@@ -20,9 +20,12 @@ const Login = (props) => {
   const { navigation } = props;
   const [isModalVisible, setModalVisible] = useState(false);
 
+  //toggler for a popup
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
+
+  //Check if user previously logged in
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
       if (authUser) {
@@ -31,7 +34,8 @@ const Login = (props) => {
     });
     return unsubscribe();
   }, []);
-  //Verify credentials with firebase database
+
+  //Verify credentials with firebase authenticator
   const login = () => {
     auth
       .signInWithEmailAndPassword(email, password)
