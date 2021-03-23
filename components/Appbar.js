@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 
-const Appbar = (props) => {
+const Appbar = (props) => { //function for the top yellow UI design passings props in function and returning views
   return (
     <View style={styles.container}>
       <Text style={styles.text}>{props.title}</Text>
@@ -13,7 +13,6 @@ export default Appbar;
 
 const styles = StyleSheet.create({
   container: {
-    //flex:1,
     alignContent: "center",
     alignItems: "center",
     backgroundColor: "#FCCF3E",
