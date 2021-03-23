@@ -17,7 +17,7 @@ const FirestoreCreateGroup = (groupname, participantsids) => {
         });
       for (let i = 0; i < participantsids.length; i++) {
         db.collection("users")
-          .doc(participantsids[i])
+          .doc(participantsids[i]) //adding participantID to end of array
           .update({
             participated_groups: arrayToUpdate.arrayUnion(docRef.id),
           });

@@ -6,11 +6,11 @@ const FirestoreQueryAllParticipants = (
   setQueriedParticipants
 ) => {
   return db.collection("users").onSnapshot((querySnapshot) => {
-    const users = [];
+    const users = []; //array of users
     querySnapshot.forEach((documentSnapshot) => {
       try {
         if (participantsids.includes(documentSnapshot.data().uid)) {
-          users.push({ ...documentSnapshot.data(), key: documentSnapshot.id });
+          users.push({ ...documentSnapshot.data(), key: documentSnapshot.id }); //push to array if matches
         }
       } catch (e) {
         console.log(e);
