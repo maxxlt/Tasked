@@ -18,6 +18,7 @@ import FirestoreUpdateGroup from "../backend/FirestoreUpdateGroup";
 import FirestoreUpdateParticipants from "../backend/FirestoreUpdateParticipants";
 import FirestoreDeleteParticipant from "../backend/FirestoreDeleteParticipant";
 
+//Display the existing members with an icon and the delete button
 const ExistingParticipantsItem = ({ username, onPress }) => (
   <View style={styles.participants_container}>
     <Image
