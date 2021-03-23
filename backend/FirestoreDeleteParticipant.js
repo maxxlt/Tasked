@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { db, arrayToUpdate } from "../config/firebase";
-
+//remove group id
 const FirestoreDeleteParticipant = (participantId, groupId) => {
   db.collection("groups")
     .doc(groupId)

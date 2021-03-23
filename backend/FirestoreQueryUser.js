@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { db, auth, arrayToUpdate } from "../config/firebase";
-
-const FirestoreQueryUser = async (keyword, setQueriedUsers) => {
+//query users
+const FirestoreQueryUser = async (keyword, setQueriedUsers) => { //function to validate against queried array from firestore
   await db
     .collection("users")
-    .where("username", "==", keyword)
+    .where("username", "==", keyword) //validating if equals keyword entered by user
     .get()
     .then((querySnapshot) => {
       querySnapshot.docs.forEach((doc) => {
         const docData = { ...doc.data(), id: doc.id };
-        setQueriedUsers([...[docData]]);
+        setQueriedUsers([...[docData]]); //storing into array
       });
     });
 };

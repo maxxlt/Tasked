@@ -1,24 +1,17 @@
 import React, { useState, useEffect } from "react";
 import {
   View,
-  TextInput,
   StyleSheet,
   TouchableOpacity,
   Text,
-  Button,
-  SafeAreaView,
   FlatList,
   Image,
   ActivityIndicator,
   ScrollView,
 } from "react-native";
-import Firebase, { db, auth } from "../config/firebase";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import { getUser } from "../actions/User";
+import { db, auth } from "../config/firebase";
 import ActionButton from "react-native-action-button";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Colors from "../assets/color";
 import Appbar from "./Appbar";
 import Modal from "react-native-modal";
@@ -26,44 +19,30 @@ import CreateGroup from "./CreateGroup";
 import EditGroup from "./EditGroup";
 import OptionsMenu from "react-native-options-menu";
 import FirestoreDeleteGroup from "../backend/FirestoreDeleteGroup";
-
-const DATA = [
-  {
-    id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-    title: "First Item",
-  },
-  {
-    id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-    title: "Second Item",
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29d72",
-    title: "Third Item",
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29sdf2",
-    title: "4th Item",
-  },
-];
+import FirestoreQueryAllGroups from "../backend/FirestoreQueryAllGroups";
 
 const Group = (props) => {
   const { navigation } = props;
   const [loading, setLoading] = useState(true); // Set loading to true on component mount
-  const [groups, setGroups] = useState([]);
-  const [selectedGroupId, setSelectedGroupId] = useState("");
-  const [selectedGroupName, setSelectedGroupName] = useState("");
+  const [groups, setGroups] = useState([]); // list of queried groups where user participated in
+  const [selectedGroupId, setSelectedGroupId] = useState(""); //a selected group id to pass in Edit Group
+  const [selectedGroupName, setSelectedGroupName] = useState(""); //a selected group name to pass in Edit Group
   const [isCreateGroupModalVisible, setCreateGroupModalVisible] = useState(
+    //to check the state of the Create Group popup
     false
   );
-  const [isEditGroupModalVisible, setEditGroupModalVisible] = useState(false);
-  const [participants, setParticipants] = useState([]);
+  const [isEditGroupModalVisible, setEditGroupModalVisible] = useState(false); //to check the state of the Edit Group popup
+  const [participants, setParticipants] = useState([]); //array of participants to pass in Edit Group
 
+  //individual group task page
   const groupPage = () => {
     navigation.navigate("GroupPage");
   };
 
+  //Group Card
   const Item = ({
-    item,
+    item, //passing in the group object
+    //pass in functions below
     toggleEditGroupModal,
     setSelectedGroupId,
     setSelectedGroupName,
@@ -77,6 +56,7 @@ const Group = (props) => {
             source={require("../assets/group_tags/red_dot.png")}
           />
 
+          {/* 3 dots options */}
           <OptionsMenu
             customButton={
               <View style={styles.three_dots_container}>
@@ -96,12 +76,14 @@ const Group = (props) => {
             options={["Edit", "Delete"]}
             actions={[
               () => {
+                //action for Edit Group
                 setSelectedGroupId(item.group_id);
                 setSelectedGroupName(item.group_name);
                 setParticipants(item.participants);
                 toggleEditGroupModal();
               },
               () => {
+                //action for Delete Group
                 FirestoreDeleteGroup(item.group_id);
               },
             ]}
@@ -114,39 +96,15 @@ const Group = (props) => {
     </TouchableOpacity>
   );
 
+  //Rerenders the component every single time when database for groups is changed
   useEffect(() => {
     setLoading(true);
-    const subscriber = db.collection("groups").onSnapshot((querySnapshot) => {
-      const group = [];
-      // Only query the groups that user is participated in
-      querySnapshot.forEach((documentSnapshot) => {
-        try {
-          for (
-            let j = 0;
-            j < documentSnapshot.data().participants.length;
-            j++
-          ) {
-            if (
-              auth.currentUser.uid == documentSnapshot.data().participants[j]
-            ) {
-              group.push({
-                ...documentSnapshot.data(),
-                key: documentSnapshot.id,
-              });
-            }
-          }
-        } catch (e) {
-          console.log(e);
-        }
-      });
-      setGroups(group);
-      setLoading(false);
-    });
-
+    const subscriber = FirestoreQueryAllGroups(setGroups, setLoading);
     // Unsubscribe from events when no longer in use
     return () => subscriber();
   }, []);
 
+  //sets a loader while populating groups
   if (loading) {
     return <ActivityIndicator />;
   }

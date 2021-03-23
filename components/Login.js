@@ -13,15 +13,19 @@ import Firebase, { auth } from "../config/firebase";
 import { TextField, Button } from "react-native-ui-lib";
 import colors from "../assets/color";
 
+//Set fields for Login Screen
 const Login = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { navigation } = props;
   const [isModalVisible, setModalVisible] = useState(false);
 
+  //toggler for a popup
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
+
+  //Check if user previously logged in
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
       if (authUser) {
@@ -31,6 +35,7 @@ const Login = (props) => {
     return unsubscribe();
   }, []);
 
+  //Verify credentials with firebase authenticator
   const login = () => {
     auth
       .signInWithEmailAndPassword(email, password)
@@ -43,6 +48,7 @@ const Login = (props) => {
   };
 
   return (
+    //Set up screen and buttons for login feature
     <View>
       <KeyboardAvoidingView>
         <Modal

@@ -1,57 +1,52 @@
-import React, {useState, useEffect} from "react";
+import React, { useState } from "react";
 import { StyleSheet, Image, KeyboardAvoidingView } from "react-native";
 
-import Firebase from "../config/firebase";
 import colors from "../assets/color";
 import SignUp from "./SignUp";
 import Login from "./Login";
-import {
-  View,
-  TabBar,
-  Text,
-  Typography,
-  ThemeManager,
-} from "react-native-ui-lib";
+import { TabBar, Text, Typography } from "react-native-ui-lib";
+
+//first page once app loads
 const Landing = (props) => {
-  const [tab, setTab] = useState(0);
-     Typography.loadTypographies({
-      welcomeText: { fontSize: 32, paddingBottom: 10, fontWeight: "100" },
-    });
-    return (
-      <KeyboardAvoidingView style={styles.container}>
-        <Image
-          style={styles.logo}
-          source={require("../assets/img/android/logo-black-text.png")}
+  const [tab, setTab] = useState(0); //switch between login and signup
+  Typography.loadTypographies({
+    welcomeText: { fontSize: 32, paddingBottom: 10, fontWeight: "100" },
+  });
+  return (
+    <KeyboardAvoidingView style={styles.container}>
+      <Image
+        style={styles.logo}
+        source={require("../assets/img/android/logo-black-text.png")}
+      />
+      <Text welcomeText style={styles.welcomeText}>
+        WELCOME
+      </Text>
+      <TabBar
+        style={styles.tabbar}
+        enableShadow={false}
+        indicatorStyle={{ backgroundColor: colors.orange }}
+      >
+        <TabBar.Item
+          label="Login"
+          onPress={() => {
+            setTab(0);
+          }}
         />
-        <Text welcomeText style={styles.welcomeText}>
-          WELCOME
-        </Text>
-        <TabBar
-          style={styles.tabbar}
-          enableShadow={false}
-          indicatorStyle={{ backgroundColor: colors.orange }}
-        >
-          <TabBar.Item
-            label="Login"
-            onPress={() => {
-             setTab(0);
-            }}
-          />
-          <TabBar.Item
-            label="Sign Up"
-            onPress={() => {
-              setTab(1);
-            }}
-          />
-        </TabBar>
-        {tab === 0 ? (
-          <Login navigation={props.navigation} />
-        ) : (
-          <SignUp navigation={props.navigation} />
-        )}
-      </KeyboardAvoidingView>
-    );
-}
+        <TabBar.Item
+          label="Sign Up"
+          onPress={() => {
+            setTab(1);
+          }}
+        />
+      </TabBar>
+      {tab === 0 ? (
+        <Login navigation={props.navigation} />
+      ) : (
+        <SignUp navigation={props.navigation} />
+      )}
+    </KeyboardAvoidingView>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -96,7 +91,5 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
 });
-
-
 
 export default Landing;
