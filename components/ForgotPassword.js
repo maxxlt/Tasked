@@ -13,17 +13,16 @@ import { Button } from "react-native-ui-lib";
 import colors from "../assets/color";
 import { auth } from "../config/firebase";
 
-//Verify email exists and then firebase sends a message to reset password for specified profile
-const ForgotPassword = (props) => {
+const ForgotPassword = (props) => { //function which passes email, setEmail as props
   const [email, setEmail] = useState("");
   const submit = () => {
     auth
       .sendPasswordResetEmail(email)
-      .then(() => {
+      .then(() => { //if authentication passes, alert sent
         Alert.alert("Password reset link has been sent to: " + email);
       })
       .catch(() => {
-        Alert.alert(
+        Alert.alert( //catch function if email does not exist
           "Email " + email + " does not exist. Please try different email."
         );
       });

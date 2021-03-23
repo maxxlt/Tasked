@@ -1,9 +1,10 @@
 import React from "react";
-import { StyleSheet, Text, View, ScrollView, Button } from "react-native";
+import { StyleSheet, View, ScrollView } from "react-native";
 import Task_list from "./Task_list.js";
 import Appbar from "./Appbar";
-//dummy data
+
 const tasks = [
+  //Tasks hard-coded for creating UI. Will update fully next iteration
   {
     id: 1,
     title: "Complete Task View",
