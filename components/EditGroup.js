@@ -35,6 +35,7 @@ const ExistingParticipantsItem = ({ username, onPress }) => (
   </View>
 );
 
+//Display queried user from database
 const ParticipantsIconItem = ({ username, onPress }) => (
   <TouchableOpacity style={styles.participants_container} onPress={onPress}>
     <Image
@@ -46,10 +47,12 @@ const ParticipantsIconItem = ({ username, onPress }) => (
 );
 
 const EditGroup = (props) => {
-  const [queriedusers, setQueriedUsers] = useState([]);
-  const [participantsids, setParticipantsIds] = useState(props.participants);
-  const [queriedParticipants, setQueriedParticipants] = useState([]);
+  const [queriedusers, setQueriedUsers] = useState([]); //queried user from database
+  const [participantsids, setParticipantsIds] = useState(props.participants); //array of group participant's ids
+  const [queriedParticipants, setQueriedParticipants] = useState([]); // array of entire participant's objects
   const [groupName, setGroupName] = useState(props.selectedGroupName);
+
+  //if participantsids or queriedParticipants array changed
   useEffect(() => {
     const subscriber = FirestoreQueryAllParticipants(
       participantsids,
