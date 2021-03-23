@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { db, auth, arrayToUpdate } from "../config/firebase";
-
+//Code to create a group in database
 const FirestoreCreateGroup = (groupname, participantsids) => {
   db.collection("groups")
     .add({

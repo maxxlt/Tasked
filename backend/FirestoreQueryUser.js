@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { db, auth, arrayToUpdate } from "../config/firebase";
-
+//query users
 const FirestoreQueryUser = async (keyword, setQueriedUsers) => {
   await db
     .collection("users")

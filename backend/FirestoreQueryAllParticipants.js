@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { db } from "../config/firebase";
-
+//query participant
 const FirestoreQueryAllParticipants = (
   participantsids,
   setQueriedParticipants

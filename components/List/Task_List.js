@@ -2,6 +2,8 @@ import React from 'react';
 import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar } from 'react-native';
 import colors from "../../assets/color";
 import { Entypo } from "@expo/vector-icons";
+
+
 const Item = (props) => (
     <View
     style={styles.item1}
