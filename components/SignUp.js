@@ -1,47 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
-  TextInput,
   StyleSheet,
   KeyboardAvoidingView,
   Alert,
 } from "react-native";
 import FirestoreQueryUser from "../backend/FirestoreQueryUser.js";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import {
-  updateEmail,
-  updatePassword,
-  updateFullname,
-  updateUsername,
-  signup,
-} from "../actions/User";
+
 import { TextField, Button } from "react-native-ui-lib";
 import colors from "../assets/color";
 import { auth, db } from "../config/firebase";
 
-const createTwoButtonAlert = () =>
-  Alert.alert("Alert Title", "My Alert Msg", [
-    {
-      text: "Cancel",
-      onPress: () => console.log("Cancel Pressed"),
-      style: "cancel",
-    },
-    { text: "OK", onPress: () => console.log("OK Pressed") },
-  ]);
-
 //Set up fields for signup screen
-const Signup = (props) => {
+const Signup = (props) => { //function which passes props as local variables to set current states
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
-  const [queriedusername, setQueriedusername] = useState([]); //important
+  const [queriedusername, setQueriedusername] = useState([]); //queriedusername stores what was fetched from firebase users into an array to validate
   const [fullname, setFullname] = useState("");
   const { navigation } = props;
-  const [isValid, setValidation] = useState(false);
+  const [isValid, setValidation] = useState(false); //boolean isValid to check if username is valids
   //Set up fields with the firebase database
-  const register = () => {
+  const register = () => { //function to register users
     auth
-      .createUserWithEmailAndPassword(email, password)
+      .createUserWithEmailAndPassword(email, password) //passing in email and password as variable before authentication
       .then((authUser) => {
         authUser.user.updateProfile({
           uid: authUser.user.uid,
@@ -63,7 +44,7 @@ const Signup = (props) => {
     setUsername("");
     setFullname("");
   };
-  const onCheckUsername = () => {
+  const onCheckUsername = () => { //function to validate duplicate users
     if (queriedusername.length == 0) {
       setValidation(true);
     } else if (queriedusername.length > 0) {
@@ -75,7 +56,7 @@ const Signup = (props) => {
       ]);
     }
   };
-  return (
+  return ( //UI styling
     <KeyboardAvoidingView behavior="padding">
       <TextField
         style={styles.inputBox}
