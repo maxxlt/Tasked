@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar } from 'react-native';
+import { View, FlatList, StyleSheet, Text, StatusBar } from 'react-native';
 import colors from "../../assets/color";
 import { Entypo } from "@expo/vector-icons";
 

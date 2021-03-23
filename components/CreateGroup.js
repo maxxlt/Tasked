@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -13,7 +13,7 @@ import { Button } from "react-native-ui-lib";
 import colors from "../assets/color";
 import FirestoreCreateGroup from "../backend/FirestoreCreateGroup.js";
 import FirestoreQueryUser from "../backend/FirestoreQueryUser.js";
-import { db, auth, arrayToUpdate } from "../config/firebase";
+import { auth } from "../config/firebase";
 
 const IconItem = ({ item, onPress, style }) => (
   <View style={styles.icon_image}>

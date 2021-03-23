@@ -1,4 +1,4 @@
-import React,{useState, useEffect} from 'react';
+import React,{useState} from 'react';
 
 import { View, StyleSheet, Text, Button, TouchableOpacity } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
@@ -6,8 +6,6 @@ const AddTask = (props) => {
   const[taskTitle, setTaskTitle] = useState('New Task');
   const[completeBy, setCompleteBy] = useState('Set Date');
   const {navigation} = props;
-  
-   
  
   return (
     <View size={styles.container} >
@@ -27,9 +25,6 @@ const AddTask = (props) => {
     </View>
   );
 }
-
-
-
 
 const styles = StyleSheet.create({
   container: {
