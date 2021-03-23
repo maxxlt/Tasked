@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, Text, View, ScrollView, Button } from 'react-native'
 import Task_list from './Task_list.js';
 import Appbar from './Appbar'
-
+//dummy data
 const tasks =[
     {
         id: 1,

@@ -12,8 +12,9 @@ import {
   Typography,
   ThemeManager,
 } from "react-native-ui-lib";
+//first page once app loads
 const Landing = (props) => {
-  const [tab, setTab] = useState(0);
+  const [tab, setTab] = useState(0); //swtich between login and signup
      Typography.loadTypographies({
       welcomeText: { fontSize: 32, paddingBottom: 10, fontWeight: "100" },
     });

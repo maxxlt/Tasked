@@ -5,7 +5,7 @@ import Group from "../components/Group";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import MyTask from "../components/MyTask";
 import Profile from "../components/Profile";
-
+// create bottom tab navigation 
 const Tab = createBottomTabNavigator();
 
 const Group_Task_Navigator = (props) => {
