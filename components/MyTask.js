@@ -3,7 +3,7 @@ import { StyleSheet, View, ScrollView } from 'react-native'
 import Task_list from './Task_list.js';
 import Appbar from './Appbar'
 
-const tasks =[
+const tasks = [ //Tasks hard-coded for creating UI. Will update fully next iteration
     {
         id: 1,
         title: "Complete Task View",

@@ -1,8 +1,7 @@
 import React, {useState} from 'react';
-import { View, FlatList, StyleSheet, Text, StatusBar, TouchableHighlight, TouchableOpacity } from 'react-native';
+import { View, FlatList, StyleSheet, Text, StatusBar, TouchableOpacity } from 'react-native';
 import { CheckBox } from 'react-native-elements'
 import Swipeable from 'react-native-swipeable';   
-
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 //edit function
@@ -27,7 +26,6 @@ const rightButtons = [
 const Item = (props) =>{
   const [check, setCheck] = useState(false); 
    
- 
   return  (
     <Swipeable 
     rightButtons={rightButtons}>
