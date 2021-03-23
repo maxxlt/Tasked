@@ -13,9 +13,10 @@ import { Button } from "react-native-ui-lib";
 import colors from "../assets/color";
 import FirestoreCreateGroup from "../backend/FirestoreCreateGroup.js";
 import FirestoreQueryUser from "../backend/FirestoreQueryUser.js";
-import { db, auth, arrayToUpdate } from "../config/firebase";
+import { auth } from "../config/firebase";
 
-const IconItem = ({ item, onPress, style }) => (
+//Added participants item
+const IconItem = () => (
   <View style={styles.icon_image}>
     <Image
       style={styles.tinyLogo}
@@ -23,6 +24,7 @@ const IconItem = ({ item, onPress, style }) => (
     />
   </View>
 );
+//Queried in search item
 const ParticipantsIconItem = ({ username, onPress }) => (
   <TouchableOpacity style={styles.participants_container} onPress={onPress}>
     <Image
@@ -35,8 +37,9 @@ const ParticipantsIconItem = ({ username, onPress }) => (
 
 const CreateGroup = (props) => {
   const [groupname, setGroupName] = useState("");
-  const [queriedusers, setQueriedUsers] = useState([]); //important
+  const [queriedusers, setQueriedUsers] = useState([]);
   const [participantsids, setParticipantsIds] = useState([
+    //add current user to participantsids by default
     auth.currentUser.uid,
   ]);
   const renderIconItem = ({ item }) => {
@@ -47,8 +50,9 @@ const CreateGroup = (props) => {
       <ParticipantsIconItem
         username={item.username}
         onPress={() => {
+          //pass in the onPress listener to the item
           setParticipantsIds((participantsids) => [
-            ...participantsids,
+            ...participantsids, //add to the end of the list
             item.id,
           ]);
         }}
@@ -74,7 +78,7 @@ const CreateGroup = (props) => {
             style={styles.inputBox}
             placeholder="Type group name"
             onChangeText={(text) => {
-              setGroupName(text);
+              setGroupName(text); //updating the state of the group name every single time user types in the text
             }}
           />
         </View>
@@ -94,7 +98,7 @@ const CreateGroup = (props) => {
             style={styles.inputBox}
             placeholder="Type username"
             onChangeText={(text) => {
-              FirestoreQueryUser(text, setQueriedUsers); //important
+              FirestoreQueryUser(text, setQueriedUsers); //query user from firestore if exists
             }}
           />
         </View>
@@ -110,10 +114,10 @@ const CreateGroup = (props) => {
         label={"Create Group"}
         style={styles.button}
         backgroundColor={colors.logoorange}
-        disabled={!groupname.length}
+        disabled={!groupname.length} //disable button if user didn't type anything in groupname
         onPress={() => {
-          FirestoreCreateGroup(groupname, participantsids);
-          props.isModalVisible();
+          FirestoreCreateGroup(groupname, participantsids); //populate db onPress
+          props.isModalVisible(); //hide the popup
         }}
         enableShadow
         center
