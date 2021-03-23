@@ -19,6 +19,7 @@ import CreateGroup from "./CreateGroup";
 import EditGroup from "./EditGroup";
 import OptionsMenu from "react-native-options-menu";
 import FirestoreDeleteGroup from "../backend/FirestoreDeleteGroup";
+import FirestoreQueryAllGroups from "../backend/FirestoreQueryAllGroups";
 
 const Group = (props) => {
   const { navigation } = props;
@@ -98,33 +99,7 @@ const Group = (props) => {
   //Rerenders the component every single time when database for groups is changed
   useEffect(() => {
     setLoading(true);
-    const subscriber = db.collection("groups").onSnapshot((querySnapshot) => {
-      const group = [];
-      // Only query the groups that user is participated in
-      querySnapshot.forEach((documentSnapshot) => {
-        try {
-          for (
-            let j = 0;
-            j < documentSnapshot.data().participants.length;
-            j++
-          ) {
-            if (
-              auth.currentUser.uid == documentSnapshot.data().participants[j]
-            ) {
-              group.push({
-                ...documentSnapshot.data(),
-                key: documentSnapshot.id,
-              });
-            }
-          }
-        } catch (e) {
-          console.log(e);
-        }
-      });
-      setGroups(group);
-      setLoading(false);
-    });
-
+    const subscriber = FirestoreQueryAllGroups(setGroups, setLoading);
     // Unsubscribe from events when no longer in use
     return () => subscriber();
   }, []);
