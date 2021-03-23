@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import { useEffect } from 'react';
-import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, TouchableHighlight, TouchableOpacity, Pressable } from 'react-native';
+import { View, FlatList, StyleSheet, Text, StatusBar, TouchableHighlight, TouchableOpacity } from 'react-native';
 import { CheckBox } from 'react-native-elements'
 import Swipeable from 'react-native-swipeable';   
 

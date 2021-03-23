@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View, ScrollView, Button } from 'react-native'
+import { StyleSheet, View, ScrollView } from 'react-native'
 import Task_list from './Task_list.js';
 import Appbar from './Appbar'
 
@@ -16,10 +16,7 @@ const tasks =[
         completeBy: "tomorrow",
         completed: false,
     }
-
-
 ]
-
 
 const MyTask = () => {
     return (
@@ -29,7 +26,6 @@ const MyTask = () => {
         <Task_list Data = {tasks}/>
         
         </ScrollView>
-       
     </View>
     )
 }
@@ -44,6 +40,5 @@ const styles = StyleSheet.create({
         fontSize: 20,
         height: 22,
         color: 'white',
-      },
-    
+      },  
 })
