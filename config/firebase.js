@@ -2,7 +2,7 @@ import * as firebase from "firebase";
 import "firebase/firestore";
 import "firebase/auth";
 import "firebase/database";
-
+//configuring firebase backend
 const firebaseConfig = {
   apiKey: "AIzaSyA3WP89ShzQhNK1-DZah22K-NmuifN95d8",
   authDomain: "tasked-1ced9.firebaseapp.com",
