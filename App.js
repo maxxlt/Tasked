@@ -5,15 +5,18 @@ import thunkMiddleware from "redux-thunk";
 
 import Navigator from "./navigation/Navigator";
 import reducer from "./reducers";
+import { rrfProps, store } from "./config/firebase.js";
+import { ReactReduxFirebaseProvider } from "react-redux-firebase";
 
 const middleware = applyMiddleware(thunkMiddleware);
-const store = createStore(reducer, middleware);
 
 export default class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
-        <Navigator />
+        <ReactReduxFirebaseProvider {...rrfProps}>
+          <Navigator />
+        </ReactReduxFirebaseProvider>
       </Provider>
     );
   }
