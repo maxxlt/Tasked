@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import {
   TextInput,
   StyleSheet,
@@ -8,8 +8,9 @@ import {
   Text,
 } from "react-native";
 import ForgotPassword from "./ForgotPassword";
+import { useSelector } from "react-redux";
 import Modal from "react-native-modal";
-import Firebase, { auth } from "../config/firebase";
+import { auth } from "../config/firebase";
 import { TextField, Button } from "react-native-ui-lib";
 import colors from "../assets/color";
 
@@ -19,21 +20,14 @@ const Login = (props) => {
   const [password, setPassword] = useState("");
   const { navigation } = props;
   const [isModalVisible, setModalVisible] = useState(false);
-
+  const uid = useSelector((state) => state.firebase.auth.uid);
+  if (uid) {
+    navigation.replace("Tasked");
+  }
   //toggler for a popup
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
-
-  //Check if user previously logged in
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((authUser) => {
-      if (authUser) {
-        navigation.replace("Tasked");
-      }
-    });
-    return unsubscribe();
-  }, []);
 
   //Verify credentials with firebase authenticator
   const login = () => {

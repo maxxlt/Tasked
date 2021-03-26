@@ -2,6 +2,12 @@ import * as firebase from "firebase";
 import "firebase/firestore";
 import "firebase/auth";
 import "firebase/database";
+import {
+  ReactReduxFirebaseProvider,
+  firebaseReducer,
+} from "react-redux-firebase";
+import { createStore, combineReducers, compose } from "redux";
+import { createFirestoreInstance, firestoreReducer } from "redux-firestore";
 //configuring firebase backend
 const firebaseConfig = {
   apiKey: "AIzaSyA3WP89ShzQhNK1-DZah22K-NmuifN95d8",
@@ -13,11 +19,32 @@ const firebaseConfig = {
   measurementId: "G-TY1NPDKBG3",
 };
 
+const rrfConfig = {
+  userProfile: "users",
+};
+
 let Firebase = !firebase.apps.length
   ? firebase.initializeApp(firebaseConfig)
   : firebase.app();
 
 export const db = firebase.firestore();
+
+const rootReducer = combineReducers({
+  firebase: firebaseReducer,
+  firestore: firestoreReducer,
+});
+
+const initialState = {};
+
+export const store = createStore(rootReducer, initialState);
+
+export const rrfProps = {
+  firebase,
+  config: rrfConfig,
+  dispatch: store.dispatch,
+  createFirestoreInstance,
+};
+
 export const auth = firebase.auth();
 export const arrayToUpdate = firebase.firestore.FieldValue;
 // avoid deprecated warnings
