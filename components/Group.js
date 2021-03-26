@@ -35,8 +35,8 @@ const Group = (props) => {
   const [participants, setParticipants] = useState([]); //array of participants to pass in Edit Group
 
   //individual group task page
-  const groupPage = () => {
-    navigation.navigate("GroupPage");
+  const groupTask = () => {
+    navigation.navigate("GroupTask");
   };
 
   //Group Card
@@ -48,7 +48,7 @@ const Group = (props) => {
     setSelectedGroupName,
     setParticipants,
   }) => (
-    <TouchableOpacity onPress={groupPage} style={styles.groupCard}>
+    <TouchableOpacity onPress={groupTask} style={styles.groupCard}>
       <View>
         <View style={styles.top_card_container}>
           <Image
