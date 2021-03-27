@@ -4,6 +4,23 @@ import { StyleSheet, Text, View, ScrollView } from "react-native";
 import ActionButton from "react-native-action-button";
 import Colors from "../assets/color";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import Task_list from "./Task_list";
+
+const tasks = [
+  //Tasks hard-coded for creating UI. Will update fully next iteration
+  {
+    id: 1,
+    title: "Complete Task View",
+    completeBy: "today",
+    completed: false,
+  },
+  {
+    id: 2,
+    title: "Complete Profile Page",
+    completeBy: "tomorrow",
+    completed: false,
+  },
+];
 
 export default function GroupTask() {
   const [isCreateTaskModalVisible, setCreateTaskModalVisible] = useState(
@@ -16,7 +33,9 @@ export default function GroupTask() {
   return (
     <View style={{ flex: 1, backgroundColor: "#f3f3f3" }}>
       <Appbar title="LOL" />
-      <ScrollView style={styles.container}></ScrollView>
+      <ScrollView style={styles.container}>
+        <Task_list Data={tasks} />
+      </ScrollView>
       <ActionButton buttonColor={Colors.logoorange}>
         <ActionButton.Item
           buttonColor="#9b59b6"
