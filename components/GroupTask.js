@@ -5,6 +5,8 @@ import ActionButton from "react-native-action-button";
 import Colors from "../assets/color";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Task_list from "./Task_list";
+import CreateTask from "./CreateTask";
+import Modal from "react-native-modal";
 
 const tasks = [
   //Tasks hard-coded for creating UI. Will update fully next iteration
@@ -35,6 +37,13 @@ export default function GroupTask() {
       <Appbar title="LOL" />
       <ScrollView style={styles.container}>
         <Task_list Data={tasks} />
+        <Modal
+          isVisible={isCreateTaskModalVisible}
+          animationIn="slideInLeft"
+          animationOut="slideOutRight"
+        >
+          <CreateTask isModalVisible={toggleCreateTaskModal} />
+        </Modal>
       </ScrollView>
       <ActionButton buttonColor={Colors.logoorange}>
         <ActionButton.Item
