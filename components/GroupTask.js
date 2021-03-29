@@ -1,5 +1,5 @@
 import Appbar from "./Appbar";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import ActionButton from "react-native-action-button";
 import Colors from "../assets/color";
@@ -7,6 +7,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import Task_list from "./Task_list";
 import CreateTask from "./CreateTask";
 import Modal from "react-native-modal";
+import { Context } from "../reducers/Store";
 
 const tasks = [
   //Tasks hard-coded for creating UI. Will update fully next iteration
@@ -29,9 +30,11 @@ export default function GroupTask() {
     //to check the state of the Create Group popup
     false
   );
+  const [state, dispatch] = useContext(Context);
   const toggleCreateTaskModal = () => {
     setCreateTaskModalVisible(!isCreateTaskModalVisible);
   };
+
   return (
     <View style={{ flex: 1, backgroundColor: "#f3f3f3" }}>
       <Appbar title="LOL" />
