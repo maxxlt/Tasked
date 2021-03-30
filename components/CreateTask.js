@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   StyleSheet,
   Text,
@@ -14,8 +14,8 @@ import { Button } from "react-native-ui-lib";
 import colors from "../assets/color";
 import FirestoreCreateTask from "../backend/FirestoreCreateTask.js";
 import FirestoreQueryUser from "../backend/FirestoreQueryUser.js";
-import { auth } from "../config/firebase";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import {Context} from '../reducers/Store'
 
 //Added participants item
 const IconItem = ({ assigneduser }) => (
@@ -42,6 +42,7 @@ const CreateTask = (props) => {
   const [taskname, setTaskName] = useState("");
   const [queriedusers, setQueriedUsers] = useState([]);
   const [assigneduser, setAssignedUser] = useState("");
+  const [state, dispatch] = useContext(Context)
 
   //Time and date picker hooks
   const [date, setDate] = useState(new Date(1598051730000));
@@ -152,7 +153,7 @@ const CreateTask = (props) => {
         backgroundColor={colors.logoorange}
         disabled={!taskname.length} //disable button if user didn't type anything in taskname
         onPress={() => {
-          FirestoreCreateTask(taskname, queriedusers); //populate db onPress
+          FirestoreCreateTask(taskname, queriedusers, date, state.selectedGroup); //populate db onPress
           props.isModalVisible(); //hide the popup
         }}
         enableShadow

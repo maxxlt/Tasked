@@ -2,13 +2,23 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { db, auth, arrayToUpdate } from "../config/firebase";
 //Code to create a group in database
-const FirestoreCreateTask = (taskname, participantsids) => {
+const FirestoreCreateTask = (taskname, assigneduser, date, group) => {
   db.collection("tasks")
     .add({
+      group: group,
       task_name: taskname,
       task_id: "",
-      completed: false,
-      participantsids: participantsids
+      is_complete: false,
+      assigned_user: assigneduser,
+      due_date: date.toDateString(),
+      due_time: date.toTimeString()
+    })
+    .then((docRef)=> {
+      db.collection("tasks")
+        .doc(docRef.id)
+        .update({
+          task_id: docRef.id,
+        });
     })
    
 };
