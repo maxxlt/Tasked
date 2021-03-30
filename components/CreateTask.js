@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { Button } from "react-native-ui-lib";
 import colors from "../assets/color";
-import FirestoreCreateGroup from "../backend/FirestoreCreateGroup.js";
+import FirestoreCreateTask from "../backend/FirestoreCreateTask.js";
 import FirestoreQueryUser from "../backend/FirestoreQueryUser.js";
 import { auth } from "../config/firebase";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -152,7 +152,7 @@ const CreateTask = (props) => {
         backgroundColor={colors.logoorange}
         disabled={!taskname.length} //disable button if user didn't type anything in taskname
         onPress={() => {
-          FirestoreCreateGroup(taskname, participantsids); //populate db onPress
+          FirestoreCreateTask(taskname, queriedusers); //populate db onPress
           props.isModalVisible(); //hide the popup
         }}
         enableShadow
