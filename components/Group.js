@@ -98,7 +98,7 @@ const Group = (props) => {
         </View>
 
         <Text style={styles.group_name}>{item.group_name}</Text>
-        <Text style={styles.task_amount}>{item.group_id}</Text>
+        <Text style={styles.task_amount}>Tasks: {item.tasks.length}</Text>
       </View>
     </TouchableOpacity>
   );

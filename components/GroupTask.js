@@ -1,6 +1,6 @@
 import Appbar from "./Appbar";
-import React, { useState, useContext } from "react";
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import React, { useState, useContext, useEffect } from "react";
+import { StyleSheet, Text, View, ScrollView, ActivityIndicator, } from "react-native";
 import ActionButton from "react-native-action-button";
 import Colors from "../assets/color";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -8,32 +8,32 @@ import Task_list from "./Task_list";
 import CreateTask from "./CreateTask";
 import Modal from "react-native-modal";
 import { Context } from "../reducers/Store";
+import FirestoreQueryAllTasks from "../backend/FirestoreQueryAllTasks";
 
-const tasks = [
-  //Tasks hard-coded for creating UI. Will update fully next iteration
-  {
-    id: 1,
-    title: "Complete Task View",
-    completeBy: "today",
-    completed: false,
-  },
-  {
-    id: 2,
-    title: "Complete Profile Page",
-    completeBy: "tomorrow",
-    completed: false,
-  },
-];
 
 export default function GroupTask() {
   const [isCreateTaskModalVisible, setCreateTaskModalVisible] = useState(
     //to check the state of the Create Group popup
     false
   );
+  const [loading, setLoading] = useState(true); // Set loading to true on component mount
   const [state, dispatch] = useContext(Context);
+  const [tasks, setTasks] = useState([]);
   const toggleCreateTaskModal = () => {
     setCreateTaskModalVisible(!isCreateTaskModalVisible);
   };
+  //Rerenders the component every single time when database for groups is changed
+  useEffect(() => {
+    setLoading(true);
+    const subscriber = FirestoreQueryAllTasks(setTasks, state.selectedGroup.group_id , setLoading);
+    // Unsubscribe from events when no longer in use
+    return () => subscriber();
+  }, []);
+
+  //sets a loader while populating groups
+  if (loading) {
+    return <ActivityIndicator />;
+  }
 
   return (
     <View style={{ flex: 1, backgroundColor: "#f3f3f3" }}>

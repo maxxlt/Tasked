@@ -19,6 +19,11 @@ const FirestoreCreateTask = (taskname, assigneduser, date, group) => {
         .update({
           task_id: docRef.id,
         });
+      db.collection("groups")
+        .doc(group.group_id)
+        .update({
+          tasks: arrayToUpdate.arrayUnion(docRef.id),
+        });
     })
    
 };

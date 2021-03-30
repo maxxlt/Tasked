@@ -23,9 +23,9 @@ const rightButtons = [
  </View>
 ];
 
-const Item = (props) =>{
+const Item = (item) =>{
   const [check, setCheck] = useState(false); 
-   
+  console.log(item.item.due_date)
   return  (
     <Swipeable 
     rightButtons={rightButtons}>
@@ -39,10 +39,10 @@ const Item = (props) =>{
             />
         </View>
         <View>
-        {!check &&  <Text style={styles.title}>{props.title}</Text> }
-        {!check && <Text style= {styles.date}>{props.date}</Text>  } 
-        {check &&  <Text style={styles.title1}>{props.title}</Text> }
-        {check && <Text style= {styles.date1}>{props.date}</Text>  }    
+        {!check &&  <Text style={styles.title}>{item.item.task_name}</Text> }
+        {!check && <Text style= {styles.date}>{item.item.due_date} {item.item.due_time}</Text>  } 
+        {check &&  <Text style={styles.title1}>{item.item.task_name}</Text> }
+        {check && <Text style= {styles.date1}>{item.item.due_date} {item.item.due_time}</Text>  }    
         </View>
 
         </View>
@@ -53,7 +53,7 @@ const Item = (props) =>{
   
 const Task_list = (props) => {
     const renderItem = ({ item }) => (
-        <Item title={item.title} date ={item.completeBy} completed ={item.completed} />
+        <Item item={item} />
       );
   return (
         <FlatList
