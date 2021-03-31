@@ -37,7 +37,7 @@ export default function GroupTask() {
 
   return (
     <View style={{ flex: 1, backgroundColor: "#f3f3f3" }}>
-      <Appbar title="LOL" />
+      <Appbar title={state.selectedGroup.group_name} />
       <ScrollView style={styles.container}>
         <Task_list Data={tasks} />
         <Modal

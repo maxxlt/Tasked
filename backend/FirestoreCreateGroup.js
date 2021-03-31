@@ -7,6 +7,7 @@ const FirestoreCreateGroup = (groupname, participantsids) => {
     .add({
       group_name: groupname,
       group_id: "",
+      tasks: []
     })
     .then((docRef) => {
       db.collection("groups")

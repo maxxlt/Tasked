@@ -45,7 +45,7 @@ const CreateTask = (props) => {
   const [state, dispatch] = useContext(Context)
 
   //Time and date picker hooks
-  const [date, setDate] = useState(new Date(1598051730000));
+  const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
 
@@ -146,6 +146,10 @@ const CreateTask = (props) => {
             onChange={onPickerChange}
           />
         )}
+      </View>
+      <View style={styles.due_date_container}>
+        <Text style={styles.date_text}>{date.toDateString()}</Text>
+        <Text style={styles.time_text}>{date.toTimeString()}</Text>
       </View>
       <Button
         label={"Create Task"}
@@ -271,4 +275,6 @@ const styles = StyleSheet.create({
   },
   pick_date_text: { color: colors.logoorange },
   pick_time_text: { color: colors.logoorange },
+  date_text: {marginRight:38},
+  time_text: {}
 });
