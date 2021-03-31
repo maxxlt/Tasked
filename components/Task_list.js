@@ -3,29 +3,30 @@ import { View, FlatList, StyleSheet, Text, StatusBar, TouchableOpacity } from 'r
 import { CheckBox } from 'react-native-elements'
 import Swipeable from 'react-native-swipeable';   
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import FirestoreDeleteTask from '../backend/FirestoreDeleteTask';
 import FirestoreUpdateTaskChecked from '../backend/FirestoreUpdateTaskChecked';
 
 //edit function
-const edit = () => {
+const edit_task = (item) => {
   console.log('edit pressed')
 }
 
 //delete function
-const deletep = () => {
-  console.log('delete pressed')
+const delete_task = (item) => {
+  FirestoreDeleteTask(item.item.task_id);
 }
-const rightButtons = [
- <View style = {{ height:100, alignContent:'center', justifyContent:"center"}}>
-   <TouchableOpacity style={{marginLeft:20}} onPress={edit}><MaterialIcons name="edit" size={30}></MaterialIcons></TouchableOpacity>
- </View>
- ,
- <View style = {{ height:100, alignContent:'center', justifyContent:"center"}}>
-   <TouchableOpacity style={{marginLeft:20}} onPress={deletep}><MaterialIcons name="delete" size={30}></MaterialIcons></TouchableOpacity>
- </View>
-];
 
 const Item = (item) =>{
   const [check, setCheck] = useState(false); 
+  const rightButtons = [
+    <View style = {{ height:100, alignContent:'center', justifyContent:"center"}}>
+      <TouchableOpacity style={{marginLeft:20}} onPress={() => edit_task(item)}><MaterialIcons name="edit" size={30}></MaterialIcons></TouchableOpacity>
+    </View>
+    ,
+    <View style = {{ height:100, alignContent:'center', justifyContent:"center"}}>
+      <TouchableOpacity style={{marginLeft:20}} onPress={() => delete_task(item)}><MaterialIcons name="delete" size={30}></MaterialIcons></TouchableOpacity>
+    </View>
+   ];
   return  (
     <Swipeable 
     rightButtons={rightButtons}>
