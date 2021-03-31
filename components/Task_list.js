@@ -3,6 +3,7 @@ import { View, FlatList, StyleSheet, Text, StatusBar, TouchableOpacity } from 'r
 import { CheckBox } from 'react-native-elements'
 import Swipeable from 'react-native-swipeable';   
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import FirestoreUpdateTaskChecked from '../backend/FirestoreUpdateTaskChecked';
 
 //edit function
 const edit = () => {
@@ -25,7 +26,6 @@ const rightButtons = [
 
 const Item = (item) =>{
   const [check, setCheck] = useState(false); 
-  console.log(item.item.due_date)
   return  (
     <Swipeable 
     rightButtons={rightButtons}>
@@ -35,7 +35,7 @@ const Item = (item) =>{
               left
               checkedColor='grey'
               checked={check}
-              onPress={() => setCheck(!check)}
+              onPress={() => {setCheck(!check); FirestoreUpdateTaskChecked(check, item)}}
             />
         </View>
         <View>
