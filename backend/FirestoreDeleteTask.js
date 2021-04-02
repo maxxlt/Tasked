@@ -1,16 +1,30 @@
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import { db} from "../config/firebase";
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { db, arrayToUpdate } from "../config/firebase";
 
-const FirestoreDeleteTask = (taskid) => {
-    db.collection("tasks")
-    .doc(taskid)
+const FirestoreDeleteTask = (task) => {
+  db.collection("tasks")
+    .doc(task.task_id)
     .delete()
     .then(() => {
       console.log("Delete task successful");
     });
-}
+  //delete from groups tasks list
+  db.collection("groups")
+    .doc(task.group.group_id)
+    .update({
+      tasks: arrayToUpdate.arrayRemove(task.task_id),
+    });
+  //if some user assigned to this task
+  if (task.assigned_user != null) {
+    db.collection("users")
+      .doc(task.assigned_user.id)
+      .update({
+        tasks: arrayToUpdate.arrayRemove(task.task_id),
+      });
+  }
+};
 
-export default FirestoreDeleteTask
+export default FirestoreDeleteTask;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});
