@@ -13,6 +13,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import FirestoreDeleteTask from "../backend/FirestoreDeleteTask";
 import FirestoreUpdateTaskChecked from "../backend/FirestoreUpdateTaskChecked";
 import { Context } from "../reducers/Store";
+import Comments from "./Comments";
 
 //edit function
 const edit_task = (item) => {
@@ -50,7 +51,7 @@ const Item = (item) => {
     </View>,
   ];
   return (
-    <Swipeable rightButtons={rightButtons}>
+    <Swipeable style={styles.swipable_container} rightButtons={rightButtons}>
       <View style={styles.item}>
         <View style={styles.checkbox}>
           <CheckBox
@@ -63,7 +64,7 @@ const Item = (item) => {
             }}
           />
         </View>
-        <View>
+        <View style={styles.task_container}>
           {!check && <Text style={styles.title}>{item.item.task_name}</Text>}
           {!check && (
             <Text style={styles.date}>
@@ -76,6 +77,7 @@ const Item = (item) => {
               {item.item.due_date} {item.item.due_time}
             </Text>
           )}
+          <Comments task={item.item} listKey={item.item.task_id} />
         </View>
       </View>
     </Swipeable>
@@ -94,6 +96,11 @@ const Task_list = (props) => {
 };
 
 const styles = StyleSheet.create({
+  task_container: {
+    alignItems: "flex-start",
+    marginHorizontal: 20,
+  },
+  swipable_container: {},
   container: {
     flex: 1,
     marginTop: StatusBar.currentHeight || 0,
@@ -122,7 +129,7 @@ const styles = StyleSheet.create({
   },
 
   date: {
-    marginLeft: 25,
+    marginLeft: 20,
     color: "grey",
   },
   title1: {

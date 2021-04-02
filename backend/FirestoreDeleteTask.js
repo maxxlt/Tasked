@@ -16,7 +16,7 @@ const FirestoreDeleteTask = (task) => {
       tasks: arrayToUpdate.arrayRemove(task.task_id),
     });
   //if some user assigned to this task
-  if (task.assigned_user != null) {
+  if (task.assigned_user != null || task.assigned_user != undefined) {
     db.collection("users")
       .doc(task.assigned_user.id)
       .update({
