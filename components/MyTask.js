@@ -10,12 +10,14 @@ const tasks = [
     title: "Complete Task View",
     completeBy: "today",
     completed: false,
+    comments: [],
   },
   {
     id: 2,
     title: "Complete Profile Page",
     completeBy: "tomorrow",
     completed: false,
+    comments: [],
   },
 ];
 

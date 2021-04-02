@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { db, arrayToUpdate } from "../config/firebase";
+import uuid from "uuid";
 
 const FirestoreAddComment = (
   task,
@@ -12,6 +13,7 @@ const FirestoreAddComment = (
   const comment = {
     comment_body: comment_body,
     task_id: task.task_id,
+    comment_id: username + "-" + uuid.v4(),
     user_id: uid,
     creation_in_ms: new Date().getTime(),
     creation_date: new Date().toDateString(),
