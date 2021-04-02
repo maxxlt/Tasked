@@ -12,7 +12,7 @@ const FirestoreCreateTask = (taskname, assigneduser = {}, date, group) => {
       assigned_user: assigneduser,
       comments: [],
       due_date: date.toDateString(),
-      due_time: date.toTimeString(),
+      due_time: date.toTimeString().split(" ", 1)[0], //eliminate timezone
     })
     .then((docRef) => {
       db.collection("tasks").doc(docRef.id).update({

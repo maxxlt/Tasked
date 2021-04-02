@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, FlatList } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  ActivityIndicator,
+} from "react-native";
 import { TextField, Button } from "react-native-ui-lib";
 import colors from "../assets/color";
 import FirestoreAddComment from "../backend/FirestoreAddComment";
@@ -22,15 +28,20 @@ const Comments = (props) => {
   const username = useSelector((state) => state.firebase.auth.displayName);
   const [comment_body, setCommentBody] = useState("");
   const [comments, setComments] = useState([]);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
-    const subscriber = FirestoreQueryAllComments(props.task, setComments);
-    // Unsubscribe from events when no longer in use
-    return () => subscriber();
+    setLoading(true);
+    FirestoreQueryAllComments(props.task, setComments, setLoading);
+    return () => console.log("useEffect completed");
   }, []);
+  if (loading) {
+    return <ActivityIndicator />;
+  }
   return (
     <View>
       <View style={styles.list_container}>
         <FlatList
+          listKey={props.listKey}
           data={comments}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
@@ -38,6 +49,7 @@ const Comments = (props) => {
       </View>
       <View style={styles.field_container}>
         <TextField
+          value={comment_body}
           style={styles.inputBox}
           onChangeText={(text) => setCommentBody(text)}
           placeholder="Add comment here"
@@ -47,14 +59,15 @@ const Comments = (props) => {
           label={"Add comment"}
           style={styles.button}
           onPress={() => {
-            FirestoreAddComment(props.task, comment_body, uid, username);
+            FirestoreAddComment(
+              props.task,
+              comment_body,
+              uid,
+              username,
+              setComments
+            );
+            setCommentBody("");
           }}
-          backgroundColor={colors.logoorange}
-        />
-        <Button
-          label={"Check comment array"}
-          style={styles.button}
-          onPress={() => console.log(comments)}
           backgroundColor={colors.logoorange}
         />
       </View>
