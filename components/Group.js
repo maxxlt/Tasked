@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   StyleSheet,
@@ -20,6 +20,7 @@ import EditGroup from "./EditGroup";
 import OptionsMenu from "react-native-options-menu";
 import FirestoreDeleteGroup from "../backend/FirestoreDeleteGroup";
 import FirestoreQueryAllGroups from "../backend/FirestoreQueryAllGroups";
+import { Context } from "../reducers/Store";
 
 const Group = (props) => {
   const { navigation } = props;
@@ -33,10 +34,11 @@ const Group = (props) => {
   );
   const [isEditGroupModalVisible, setEditGroupModalVisible] = useState(false); //to check the state of the Edit Group popup
   const [participants, setParticipants] = useState([]); //array of participants to pass in Edit Group
-
+  const [state, dispatch] = useContext(Context);
   //individual group task page
-  const groupPage = () => {
-    navigation.navigate("GroupPage");
+  const groupTask = (item) => {
+    dispatch({ type: "SET_SELECTED_GROUP", payload: item });
+    navigation.navigate("GroupTask");
   };
 
   //Group Card
@@ -48,7 +50,12 @@ const Group = (props) => {
     setSelectedGroupName,
     setParticipants,
   }) => (
-    <TouchableOpacity onPress={groupPage} style={styles.groupCard}>
+    <TouchableOpacity
+      onPress={() => {
+        groupTask(item);
+      }}
+      style={styles.groupCard}
+    >
       <View>
         <View style={styles.top_card_container}>
           <Image
@@ -91,7 +98,7 @@ const Group = (props) => {
         </View>
 
         <Text style={styles.group_name}>{item.group_name}</Text>
-        <Text style={styles.task_amount}>{item.group_id}</Text>
+        <Text style={styles.task_amount}>Tasks: {item.tasks.length}</Text>
       </View>
     </TouchableOpacity>
   );
