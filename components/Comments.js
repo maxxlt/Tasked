@@ -44,7 +44,7 @@ const Comments = (props) => {
           listKey={props.listKey}
           data={comments}
           renderItem={renderItem}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item, index) => item.comment_id}
         />
       </View>
       <View style={styles.field_container}>

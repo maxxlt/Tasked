@@ -44,7 +44,7 @@ const Item = (item) => {
     >
       <TouchableOpacity
         style={{ marginLeft: 20 }}
-        onPress={() => delete_task(item, state)}
+        onPress={() => delete_task(item)}
       >
         <MaterialIcons name="delete" size={30}></MaterialIcons>
       </TouchableOpacity>
@@ -90,7 +90,7 @@ const Task_list = (props) => {
     <FlatList
       data={props.Data}
       renderItem={renderItem}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item, index) => index.toString()}
     />
   );
 };

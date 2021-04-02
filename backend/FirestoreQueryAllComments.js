@@ -4,7 +4,7 @@ import { db } from "../config/firebase";
 
 const FirestoreQueryAllComments = (task, setComments, setLoading) => {
   //if there is anything to query
-  if (!task.comments) {
+  if (task.comments.length > 0) {
     db.collection("tasks")
       .doc(task.task_id)
       .get()
@@ -12,7 +12,6 @@ const FirestoreQueryAllComments = (task, setComments, setLoading) => {
         setComments(documentSnapshot.data().comments);
       });
   }
-
   setLoading(false);
   return console.log("Query complete");
 };
