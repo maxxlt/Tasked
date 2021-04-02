@@ -10,6 +10,7 @@ const FirestoreCreateTask = (taskname, assigneduser = {}, date, group) => {
       task_id: "",
       is_complete: false,
       assigned_user: assigneduser,
+      comments: [],
       due_date: date.toDateString(),
       due_time: date.toTimeString(),
     })

@@ -77,7 +77,7 @@ const Item = (item) => {
               {item.item.due_date} {item.item.due_time}
             </Text>
           )}
-          <Comments />
+          <Comments task={item.item} />
         </View>
       </View>
     </Swipeable>
