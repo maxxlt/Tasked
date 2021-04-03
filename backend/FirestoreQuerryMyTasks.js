@@ -1,6 +1,6 @@
 import React from "react";
-import { db, auth } from "../config/firebase";
-import { StyleSheet, Text, View } from "react-native";
+import { db,  } from "../config/firebase";
+import { StyleSheet} from "react-native";
 
 const FirestoreQueryMyTasks = (setTasks, userid, setLoading) => {
   return db.collection("tasks").onSnapshot((querySnapshot) => {
