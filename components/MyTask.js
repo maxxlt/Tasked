@@ -1,27 +1,26 @@
-import React from "react";
+import React, {useState, useEffect}  from "react";
 import { StyleSheet, View, ScrollView } from "react-native";
 import Task_list from "./Task_list.js";
 import Appbar from "./Appbar";
+import { auth } from "../config/firebase";
 
-const tasks = [
-  //Tasks hard-coded for creating UI. Will update fully next iteration
-  {
-    id: 1,
-    title: "Complete Task View",
-    completeBy: "today",
-    completed: false,
-    comments: [],
-  },
-  {
-    id: 2,
-    title: "Complete Profile Page",
-    completeBy: "tomorrow",
-    completed: false,
-    comments: [],
-  },
-];
+import FirestoreQueryMyTasks from "../backend/FirestoreQuerryMyTasks";
+
 
 const MyTask = () => {
+  const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState(true); 
+  //Rerenders the component every single time when database for groups is changed
+  
+  useEffect(() =>
+  {
+    setLoading(true);
+    const subscriber = FirestoreQueryMyTasks(setTasks, auth.currentUser.uid , setLoading);
+    // Unsubscribe from events when no longer in use
+    
+    return () => subscriber();
+  }, []);
+
   return (
     <View style={styles.container}>
       <Appbar title="Tasks" />
