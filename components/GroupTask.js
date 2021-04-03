@@ -1,4 +1,4 @@
-import Appbar from "./Appbar";
+import AppbarWBackButton from "./AppBarWBackButton";
 import React, { useState, useContext, useEffect } from "react";
 import { StyleSheet, Text, View, ScrollView, ActivityIndicator, } from "react-native";
 import ActionButton from "react-native-action-button";
@@ -11,7 +11,7 @@ import { Context } from "../reducers/Store";
 import FirestoreQueryAllTasks from "../backend/FirestoreQueryAllTasks";
 
 
-export default function GroupTask() {
+export default function GroupTask(props) {
   const [isCreateTaskModalVisible, setCreateTaskModalVisible] = useState(
     //to check the state of the Create Group popup
     false
@@ -19,6 +19,7 @@ export default function GroupTask() {
   const [loading, setLoading] = useState(true); // Set loading to true on component mount
   const [state, dispatch] = useContext(Context);
   const [tasks, setTasks] = useState([]);
+  const { navigation } = props;
   const toggleCreateTaskModal = () => {
     setCreateTaskModalVisible(!isCreateTaskModalVisible);
   };
@@ -37,7 +38,9 @@ export default function GroupTask() {
 
   return (
     <View style={{ flex: 1, backgroundColor: "#f3f3f3" }}>
-      <Appbar title={state.selectedGroup.group_name} />
+      
+      <AppbarWBackButton title={state.selectedGroup.group_name} nav ={navigation}/>
+
       <ScrollView style={styles.container}>
         <Task_list Data={tasks} />
         <Modal
