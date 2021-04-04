@@ -10,12 +10,33 @@ import {
 } from "react-native";
 import { Button } from "react-native-ui-lib";
 import colors from "../assets/color";
-import { auth } from "../config/firebase";
+import { auth, db } from "../config/firebase";
 
 const EditProfile = (props) => { //function which passes email, setEmail as props
     const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
+
     const submit = () => {
       auth
+       /* .update(username)
+        .then((authUser) => {
+            authUser.user.updateProfile({
+              uid: authUser.user.uid,
+              email: email,
+              displayName: username,
+              fullname: fullname,
+            });
+            db.collection("users").doc(authUser.user.uid).update({
+                uid: authUser.user.uid,
+                displayName: username,
+            });
+            navigation.replace("Tasked");
+      })
+      .catch((error) => alert(error.message));
+    setEmail("");
+    */
+    //};
+
        /* .sendPasswordResetEmail(email)
         .then(() => { //if authentication passes, alert sent
           Alert.alert("Password reset link has been sent to: " + email);
@@ -53,12 +74,12 @@ const EditProfile = (props) => { //function which passes email, setEmail as prop
           />
         </View>
       </KeyboardAvoidingView>
-      <Text style={styles.label}>Password</Text>
+      <Text style={styles.label}>Email</Text>
       <KeyboardAvoidingView>
-        <View style={styles.user_input_container}>
+        <View style={styles.email_input_container}>
           <TextInput
             style={styles.inputBox}
-            placeholder="Enter new password to update"
+            placeholder="Enter new email to update"
             onChangeText={(email) => {
             //changeEmail(email);
             }}
@@ -71,7 +92,7 @@ const EditProfile = (props) => { //function which passes email, setEmail as prop
           style={styles.button}
           backgroundColor={colors.logoorange}
           onPress={() => {
-            //changeEmail();
+            submit();
           }}
           enableShadow
           center
