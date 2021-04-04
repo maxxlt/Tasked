@@ -13,28 +13,29 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import FirestoreDeleteTask from "../backend/FirestoreDeleteTask";
 import FirestoreUpdateTaskChecked from "../backend/FirestoreUpdateTaskChecked";
 import { Context } from "../reducers/Store";
+import Modal from "react-native-modal";
 import Comments from "./Comments";
-
-//edit function
-const edit_task = (item) => {
-  console.log("edit pressed");
-};
+import EditTask from "./EditTask";
 
 //delete function
 const delete_task = (item) => {
   FirestoreDeleteTask(item.item);
 };
 
-const Item = (item) => {
+const Item = (props) => {
   const [check, setCheck] = useState(false);
   const [state, dispatch] = useContext(Context);
+
   const rightButtons = [
     <View
       style={{ height: 100, alignContent: "center", justifyContent: "center" }}
     >
       <TouchableOpacity
         style={{ marginLeft: 20 }}
-        onPress={() => edit_task(item)}
+        onPress={() => {
+          props.setSelectedTask(props.item);
+          props.toggleEditTaskModal();
+        }}
       >
         <MaterialIcons name="edit" size={30}></MaterialIcons>
       </TouchableOpacity>
@@ -44,7 +45,7 @@ const Item = (item) => {
     >
       <TouchableOpacity
         style={{ marginLeft: 20 }}
-        onPress={() => delete_task(item)}
+        onPress={() => delete_task(props)}
       >
         <MaterialIcons name="delete" size={30}></MaterialIcons>
       </TouchableOpacity>
@@ -60,24 +61,24 @@ const Item = (item) => {
             checked={check}
             onPress={() => {
               setCheck(!check);
-              FirestoreUpdateTaskChecked(check, item);
+              FirestoreUpdateTaskChecked(check, props);
             }}
           />
         </View>
         <View style={styles.task_container}>
-          {!check && <Text style={styles.title}>{item.item.task_name}</Text>}
+          {!check && <Text style={styles.title}>{props.item.task_name}</Text>}
           {!check && (
             <Text style={styles.date}>
-              {item.item.due_date} {item.item.due_time}
+              {props.item.due_date} {props.item.due_time}
             </Text>
           )}
           {check && <Text style={styles.title1}>{item.item.task_name}</Text>}
           {check && (
             <Text style={styles.date1}>
-              {item.item.due_date} {item.item.due_time}
+              {props.item.due_date} {props.item.due_time}
             </Text>
           )}
-          <Comments task={item.item} listKey={item.item.task_id} />
+          <Comments task={props.item} listKey={props.item.task_id} />
         </View>
       </View>
     </Swipeable>
@@ -85,13 +86,40 @@ const Item = (item) => {
 };
 
 const Task_list = (props) => {
-  const renderItem = ({ item }) => <Item item={item} />;
-  return (
-    <FlatList
-      data={props.Data}
-      renderItem={renderItem}
-      keyExtractor={(item, index) => index.toString()}
+  const [isEditTaskModalVisible, setEditTaskModalVisible] = useState(
+    //to check the state of the Edit Task popup
+    false
+  );
+  const toggleEditTaskModal = () => {
+    setEditTaskModalVisible(!isEditTaskModalVisible);
+  };
+  const renderItem = ({ item }) => (
+    <Item
+      item={item}
+      toggleEditTaskModal={toggleEditTaskModal}
+      setSelectedTask={setSelectedTask}
     />
+  );
+  const [selectedTask, setSelectedTask] = useState({});
+
+  return (
+    <View>
+      <FlatList
+        data={props.Data}
+        renderItem={renderItem}
+        keyExtractor={(item, index) => index.toString()}
+      />
+      <Modal
+        isVisible={isEditTaskModalVisible}
+        animationIn="slideInLeft"
+        animationOut="slideOutRight"
+      >
+        <EditTask
+          toggleEditTaskModal={toggleEditTaskModal}
+          selectedTask={selectedTask}
+        />
+      </Modal>
+    </View>
   );
 };
 
