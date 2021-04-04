@@ -23,7 +23,7 @@ const delete_task = (item) => {
 };
 
 const Item = (props) => {
-  const [check, setCheck] = useState(false);
+  const [check, setCheck] = useState(props.item.is_complete);
   const [state, dispatch] = useContext(Context);
 
   const rightButtons = [
@@ -33,8 +33,9 @@ const Item = (props) => {
       <TouchableOpacity
         style={{ marginLeft: 20 }}
         onPress={() => {
-          props.setSelectedTask(props.item);
-          props.toggleEditTaskModal();
+        console.log("pressed")
+        props.setSelectedTask(props.item);
+        props.toggleEditTaskModal();
         }}
       >
         <MaterialIcons name="edit" size={30}></MaterialIcons>
@@ -60,7 +61,7 @@ const Item = (props) => {
             checkedColor="grey"
             checked={check}
             onPress={() => {
-              setCheck(!check);
+              setCheck(!props.item.is_complete);
               FirestoreUpdateTaskChecked(check, props);
             }}
           />
@@ -72,7 +73,7 @@ const Item = (props) => {
               {props.item.due_date} {props.item.due_time}
             </Text>
           )}
-          {check && <Text style={styles.title1}>{item.item.task_name}</Text>}
+          {check && <Text style={styles.title1}>{props.item.task_name}</Text>}
           {check && (
             <Text style={styles.date1}>
               {props.item.due_date} {props.item.due_time}
