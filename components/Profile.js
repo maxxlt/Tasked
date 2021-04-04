@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Appbar from "./Appbar";
-import { View, StyleSheet, TouchableOpacity, Text, Image } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Text, Image,   KeyboardAvoidingView} from "react-native";
+import Modal from "react-native-modal";
 import { auth } from "../config/firebase";
+import EditProfile from "./EditProfile";
 
 //Set up Profile Screen with username and fullname
 const Profile = (props) => { //hook function in react to declare local variable for the state
   const [username, setUserName] = useState("");
   const [email, setFullName] = useState("");
+  const [isModalVisible, setModalVisible] = useState(false);
 
   useEffect(() => { //function that renders when component loads
     const username = auth.currentUser.displayName;
@@ -14,6 +17,11 @@ const Profile = (props) => { //hook function in react to declare local variable 
     setUserName(username);
     setFullName(email); 
   }, []); 
+
+  //toggler for a popup
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
 
   const { navigation } = props; //prop is an arguement passed
   return ( //styling and UI
@@ -28,13 +36,20 @@ const Profile = (props) => { //hook function in react to declare local variable 
         </TouchableOpacity>
         <Text style={styles.username}>@{username}</Text>
         <Text style={styles.email}>{email}</Text>
+        <KeyboardAvoidingView>
+
+        <Modal
+          isVisible={isModalVisible}
+          animationIn="slideInLeft"
+          animationOut="slideOutRight"
+        >
+          <EditProfile isModalVisible={toggleModal} />
+        </Modal>
+        </KeyboardAvoidingView>
+
         <TouchableOpacity
           style={styles.editProfileButton}
-          onPress={() => {
-            //auth.signOut();
-            //navigation.navigate("Home");
-          }}
-        >
+          onPress={toggleModal}>
           <Text style={styles.editProfileButtonText}>EDIT PROFILE</Text>
         </TouchableOpacity>
         <TouchableOpacity
