@@ -97,8 +97,8 @@ const Task_list = (props) => {
   const renderItem = ({ item }) => (
     <Item
       item={item}
-     // toggleEditTaskModal={toggleEditTaskModal}
-      // setSelectedTask={setSelectedTask}
+      toggleEditTaskModal={toggleEditTaskModal}
+      setSelectedTask={setSelectedTask}
     />
   );
   const [selectedTask, setSelectedTask] = useState({});
