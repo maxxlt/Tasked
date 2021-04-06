@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -12,49 +12,61 @@ import {
 import { Button } from "react-native-ui-lib";
 import colors from "../assets/color";
 import FirestoreCreateGroup from "../backend/FirestoreCreateGroup.js";
+import FirestoreQueryInitials from "../backend/FirestoreQueryInitials";
 import FirestoreQueryUser from "../backend/FirestoreQueryUser.js";
 import { auth } from "../config/firebase";
 
-//Added participants item
-const IconItem = () => (
-  <View style={styles.icon_image}>
-    <Image
-      style={styles.tinyLogo}
-      source={require("../assets/default_profile_pic.png")}
-    />
-  </View>
-);
-//Queried in search item
-const ParticipantsIconItem = ({ username, onPress }) => (
-  <TouchableOpacity style={styles.participants_container} onPress={onPress}>
-    <Image
-      style={styles.tinyLogo}
-      source={require("../assets/default_profile_pic.png")}
-    />
-    <Text style={styles.username_text}>{username}</Text>
-  </TouchableOpacity>
-);
+
 
 const CreateGroup = (props) => {
   const [groupname, setGroupName] = useState("");
   const [queriedusers, setQueriedUsers] = useState([]);
-  const [participantsids, setParticipantsIds] = useState([
-    //add current user to participantsids by default
-    auth.currentUser.uid,
+  const [initials, setInitials] = useState("");
+  const [initial, setInitial] = useState('')
+  const [participantsids, setParticipantsIds] = useState([ 
+    auth.currentUser.displayName.charAt(0),
   ]);
+ 
+  
+
+
+  
+  //Added participants item
   const renderIconItem = ({ item }) => {
-    return <IconItem item={item} style={{ width: "45%" }} />;
-  };
+    
+    
+  return (
+      <View style={styles.icon_image}>
+        <View style={styles.tinyLogo}>
+       
+        <Text style= {{color:"white", fontWeight:"bold"}}>{item}</Text>
+        </View>
+      </View>
+
+  )
+}
+
+
+  //Queried in search item
+  const ParticipantsIconItem = ({ username, onPress }) => (
+    <TouchableOpacity style={styles.participants_container} onPress={onPress}>
+      <View
+        style={styles.tinyLogo}>
+          <Text style={{color:"white", fontWeight:"bold"}} >{initials}</Text>
+          </View>
+      <Text style={styles.username_text}>{username}</Text>
+    </TouchableOpacity>
+  );
+  
   const renderParticipantsItem = ({ item }) => {
     return (
       <ParticipantsIconItem
         username={item.username}
-        onPress={() => {
+        onPress={ () => {
+          
           //pass in the onPress listener to the item
-          setParticipantsIds((participantsids) => [
-            ...participantsids, //add to the end of the list
-            item.id,
-          ]);
+          setParticipantsIds((participantsids) => [...participantsids, initials])
+         
         }}
       />
     );
@@ -79,6 +91,7 @@ const CreateGroup = (props) => {
             placeholder="Type group name"
             onChangeText={(text) => {
               setGroupName(text); //updating the state of the group name every single time user types in the text
+        
             }}
           />
         </View>
@@ -98,7 +111,8 @@ const CreateGroup = (props) => {
             style={styles.inputBox}
             placeholder="Type username"
             onChangeText={(text) => {
-              FirestoreQueryUser(text, setQueriedUsers); //query user from firestore if exists
+              FirestoreQueryUser(text, setQueriedUsers, setInitials); //query user from firestore if exists
+              
             }}
           />
         </View>
@@ -215,5 +229,10 @@ const styles = StyleSheet.create({
   tinyLogo: {
     height: 32,
     width: 32,
+    borderRadius:16,
+    backgroundColor:"#FCCF3E",
+    alignContent:"center",
+    justifyContent:"center",
+    alignItems:"center"
   },
 });
