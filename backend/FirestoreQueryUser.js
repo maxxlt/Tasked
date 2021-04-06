@@ -10,8 +10,8 @@ const FirestoreQueryUser = async (keyword, setQueriedUsers, setInitials) => { //
     .then((querySnapshot) => {
       querySnapshot.docs.forEach((doc) => {
         const docData = { ...doc.data(), id: doc.id };
-        const fullName  =docData.fullname.split(' ') 
-        const initial = fullName.shift().charAt(0) + fullName.pop().charAt(0);
+        const fullName  =docData.fullname
+        const initial = fullName.charAt(0) + fullName.charAt(1) 
         setInitials(initial.toUpperCase())
         setQueriedUsers([...[docData]]); //storing into array
       });

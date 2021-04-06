@@ -2,15 +2,17 @@ import React, { useState, useEffect } from "react";
 import Appbar from "./Appbar";
 import { View, StyleSheet, TouchableOpacity, Text, Image } from "react-native";
 import { auth } from "../config/firebase";
+import FirestoreQueryInitials from "../backend/FirestoreQueryInitials";
 
 //Set up Profile Screen with username and fullname
 const Profile = (props) => { //hook function in react to declare local variable for the state
   const [username, setUserName] = useState("");
   const [email, setFullName] = useState("");
-
+  const [initial, setInitial] = useState("");
   useEffect(() => { //function that renders when component loads
     const username = auth.currentUser.displayName;
     const email = auth.currentUser.email;
+    setInitial(FirestoreQueryInitials(auth.currentUser.uid))
     setUserName(username);
     setFullName(email); 
   }, []); 
@@ -20,11 +22,12 @@ const Profile = (props) => { //hook function in react to declare local variable 
     <View>
       <Appbar title="Profile" />
       <View style={{ alignItems: "center", justifyContent: "center" }}>
+        
         <TouchableOpacity>
-          <Image
-            style={styles.profilePic}
-            source={require("../assets/default_profile_pic.png")}
-          />
+          <View style ={styles.profilePic}>
+          <Text style= {{color:"white", fontWeight:"bold", fontSize:28}}>{initial}</Text>
+          </View>
+         
         </TouchableOpacity>
         <Text style={styles.username}>@{username}</Text>
         <Text style={styles.email}>{email}</Text>
@@ -54,15 +57,15 @@ const Profile = (props) => { //hook function in react to declare local variable 
 
 const styles = StyleSheet.create({
   profilePic: {
-    width: 150,
-    height: 150,
-    borderRadius: 80,
+    width: 110,
+    height: 110,
+    borderRadius: 55,
     paddingLeft: 20,
     paddingRight: 20,
     paddingTop: 20,
     paddingBottom: 20,
     marginTop: 30,
-
+    backgroundColor:"#FCCF3E",
     alignItems: "center",
     justifyContent: "center",
   },

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { LogBox } from 'react-native';
+
 import {
   StyleSheet,
   Text,
@@ -21,15 +23,11 @@ import { auth } from "../config/firebase";
 const CreateGroup = (props) => {
   const [groupname, setGroupName] = useState("");
   const [queriedusers, setQueriedUsers] = useState([]);
-  const [initials, setInitials] = useState("");
-  const [initial, setInitial] = useState('')
+  const [initials, setInitials] = useState(""); 
   const [participantsids, setParticipantsIds] = useState([ 
-    auth.currentUser.displayName.charAt(0),
+    FirestoreQueryInitials(auth.currentUser.uid)
   ]);
- 
-  
-
-
+  LogBox.ignoreAllLogs()
   
   //Added participants item
   const renderIconItem = ({ item }) => {

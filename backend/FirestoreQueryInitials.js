@@ -1,18 +1,18 @@
 
 import { db, auth } from "../config/firebase";
 import { StyleSheet, Text, View } from "react-native";
-
-const FirestoreQueryInitials = (setInitial, userId) => {
- return db.collection("users").onSnapshot((querySnapshot) => {
+let initial = ''
+const FirestoreQueryInitials = (userId) => {
+ db.collection("users").onSnapshot((querySnapshot) => {
 
     querySnapshot.forEach((documentSnapshot) => {
       try {
         if (userId == documentSnapshot.data().uid)
         {
-            const fullName  = documentSnapshot.data().fullname.split(' ') 
-            const initial = fullName.shift().charAt(0) + fullName.shift().charAt(1)
+            const fullName  = documentSnapshot.data().fullname
+            initial = fullName.charAt(0) + fullName.charAt(1)
            
-            setInitial(initial.toUpperCase() )
+          
            
         }
       } catch (e) {
@@ -21,6 +21,7 @@ const FirestoreQueryInitials = (setInitial, userId) => {
     });
    
   });
+  return initial.toUpperCase() 
 };
 
 export default FirestoreQueryInitials;
