@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect,useContext } from "react";
 import {
   TextInput,
   StyleSheet,
@@ -10,9 +10,11 @@ import {
 import ForgotPassword from "./ForgotPassword";
 import { useSelector } from "react-redux";
 import Modal from "react-native-modal";
-import { auth } from "../config/firebase";
 import { TextField, Button } from "react-native-ui-lib";
 import colors from "../assets/color";
+import FirestoreQueryInitials from "../backend/FirestoreQueryInitials";
+import { Context } from "../reducers/Store";
+import { auth } from "../config/firebase";
 
 //Set fields for Login Screen
 const Login = (props) => {
@@ -21,7 +23,10 @@ const Login = (props) => {
   const { navigation } = props;
   const [isModalVisible, setModalVisible] = useState(false);
   const uid = useSelector((state) => state.firebase.auth.uid);
+  const [state, dispatch] = useContext(Context);
+
   if (uid) {
+   
     navigation.replace("Tasked");
   }
   //toggler for a popup
@@ -35,6 +40,7 @@ const Login = (props) => {
       .signInWithEmailAndPassword(email, password)
       .then((authUser) => {
         if (authUser.user.uid) {
+          dispatch({type: "SET_USER_INITIAL", payload:   FirestoreQueryInitials(authUser.user.uid) })
           navigation.replace("Tasked");
         }
       })

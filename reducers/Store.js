@@ -1,10 +1,11 @@
 import React, { createContext, useReducer } from "react";
 import Reducer from "./Reducer";
 
+import { auth } from "../config/firebase";
 const initialState = {
   currentUser: null,
   selectedGroup: null,
-  userInitial: null,
+  userInitial:  null,
   error: null,
 };
 
