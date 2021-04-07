@@ -23,10 +23,11 @@ const Login = (props) => {
   const { navigation } = props;
   const [isModalVisible, setModalVisible] = useState(false);
   const uid = useSelector((state) => state.firebase.auth.uid);
-  const [state, dispatch] = useContext(Context);
 
-  if (uid) {
+
    
+  if (uid) {
+  
     navigation.replace("Tasked");
   }
   //toggler for a popup
@@ -40,7 +41,7 @@ const Login = (props) => {
       .signInWithEmailAndPassword(email, password)
       .then((authUser) => {
         if (authUser.user.uid) {
-          dispatch({type: "SET_USER_INITIAL", payload:   FirestoreQueryInitials(authUser.user.uid) })
+        
           navigation.replace("Tasked");
         }
       })

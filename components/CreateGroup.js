@@ -14,22 +14,39 @@ import {
 import { Button } from "react-native-ui-lib";
 import colors from "../assets/color";
 import FirestoreCreateGroup from "../backend/FirestoreCreateGroup.js";
-import FirestoreQueryInitials from "../backend/FirestoreQueryInitials";
 import FirestoreQueryUser from "../backend/FirestoreQueryUser.js";
-import { auth } from "../config/firebase";
-import { Context } from "../reducers/Store";
 
+
+import { db, auth } from "../config/firebase";
 LogBox.ignoreAllLogs()
 
 const CreateGroup = (props) => {
   const [groupname, setGroupName] = useState("");
-  const [state, dispatch] = useContext(Context);
   const [queriedusers, setQueriedUsers] = useState([]);
   const [initials, setInitials] = useState("")
-  const initial = state.userInitial
-  const [participantsids, setParticipantsIds] = useState([initial]);
- 
- 
+  const [participantsids, setParticipantsIds] = useState([]);
+  const fireinitial = () => {
+    db.collection("users").onSnapshot((querySnapshot) => {
+      querySnapshot.forEach((documentSnapshot) => {
+        try {
+          if (auth.currentUser.uid == documentSnapshot.data().uid)
+          {
+              const fullName  = documentSnapshot.data().fullname
+              const i = fullName.charAt(0) + fullName.charAt(1)          
+              setParticipantsIds([i.toUpperCase()])
+          }
+        } catch (e) {
+          console.log(e);
+        }
+      });
+    });
+    
+  }
+  useEffect(() => { //function that renders when component loads
+   
+    fireinitial()
+    
+  }, [groupname]); 
   //Added participants item
   const renderIconItem = ({ item }) => {
 

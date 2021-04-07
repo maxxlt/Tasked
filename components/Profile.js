@@ -1,23 +1,41 @@
 import React, { useState, useEffect, useContext } from "react";
 import Appbar from "./Appbar";
 import { View, StyleSheet, TouchableOpacity, Text, Image } from "react-native";
-import { auth } from "../config/firebase";
+
 import { Context } from "../reducers/Store";
 import FirestoreQueryInitials from "../backend/FirestoreQueryInitials";
 
+import { db, auth } from "../config/firebase";
 //Set up Profile Screen with username and fullname
 const Profile = (props) => { //hook function in react to declare local variable for the state
   const [username, setUserName] = useState("");
-  const [state, dispatch] = useContext(Context);
   const [email, setFullName] = useState("");
-  const initial = state.userInitial
+  const [initial, setInitial] = useState("");
+ 
+  const fireinitial = () => {
+    db.collection("users").onSnapshot((querySnapshot) => {
+      querySnapshot.forEach((documentSnapshot) => {
+        try {
+          if (auth.currentUser.uid == documentSnapshot.data().uid)
+          {
+              const fullName  = documentSnapshot.data().fullname
+              const i = fullName.charAt(0) + fullName.charAt(1)          
+              setInitial(i.toUpperCase())
+          }
+        } catch (e) {
+          console.log(e);
+        }
+      });
+    });
+    
+  }
   useEffect(() => { //function that renders when component loads
     const username = auth.currentUser.displayName;
     const email = auth.currentUser.email;
-    
+    fireinitial()
     setUserName(username);
     setFullName(email); 
-  }, []); 
+  }, [username]); 
 
   const { navigation } = props; //prop is an arguement passed
   return ( //styling and UI
