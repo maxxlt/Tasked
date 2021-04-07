@@ -17,33 +17,13 @@ import FirestoreQueryUser from "../backend/FirestoreQueryUser.js";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Context } from "../reducers/Store";
 
-//Added participants item
-const IconItem = ({ assigneduser }) => (
-  <View style={styles.participants_container}>
-    <Image
-      style={styles.tinyLogo}
-      source={require("../assets/default_profile_pic.png")}
-    />
-    <Text style={styles.username_text}>{assigneduser}</Text>
-  </View>
-);
-//Queried in search item
-const ParticipantsIconItem = ({ username, onPress }) => (
-  <TouchableOpacity style={styles.participants_container} onPress={onPress}>
-    <Image
-      style={styles.tinyLogo}
-      source={require("../assets/default_profile_pic.png")}
-    />
-    <Text style={styles.username_text}>{username}</Text>
-  </TouchableOpacity>
-);
 
 const CreateTask = (props) => {
   const [taskname, setTaskName] = useState("");
   const [queriedusers, setQueriedUsers] = useState([]);
   const [assigneduser, setAssignedUser] = useState("");
   const [state, dispatch] = useContext(Context);
-
+  const [initials, setInitials] = useState(""); 
   //Time and date picker hooks
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
@@ -65,6 +45,28 @@ const CreateTask = (props) => {
   const showTimepicker = () => {
     showMode("time");
   };
+  //Added participants item
+const IconItem = ({ assigneduser }) => (
+  <View style={styles.participants_container}>
+    <View
+      style={styles.tinyLogo}
+    >
+      <Text style={styles.texin} >{initials}</Text>
+      </View>
+    <Text style={styles.username_text}>{assigneduser}</Text>
+  </View>
+);
+//Queried in search item
+const ParticipantsIconItem = ({ username, onPress }) => (
+  <TouchableOpacity style={styles.participants_container} onPress={onPress}>
+    <View
+      style={styles.tinyLogo}
+    >
+      <Text style={styles.texin}>{initials}</Text>
+      </View>
+    <Text style={styles.username_text}>{username}</Text>
+  </TouchableOpacity>
+);
 
   const renderParticipantsItem = ({ item }) => {
     return (
@@ -113,7 +115,7 @@ const CreateTask = (props) => {
             style={styles.inputBox}
             placeholder="Type username"
             onChangeText={(text) => {
-              FirestoreQueryUser(text, setQueriedUsers); //query user from firestore if exists
+              FirestoreQueryUser(text, setQueriedUsers, setInitials); //query user from firestore if exists
             }}
           />
         </View>
@@ -190,6 +192,10 @@ const styles = StyleSheet.create({
   title_text: {
     fontSize: 24,
   },
+  texin:{
+    color:"white",
+    fontWeight:"bold"
+  },
   label: {
     fontSize: 16,
     marginLeft: 20,
@@ -261,6 +267,11 @@ const styles = StyleSheet.create({
   tinyLogo: {
     height: 32,
     width: 32,
+    borderRadius:16, 
+    backgroundColor:"#FCCF3E",
+    alignContent:"center",
+    justifyContent:"center",
+    alignItems:"center"
   },
   participants_flatlist_container: {
     marginTop: 12,

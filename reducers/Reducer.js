@@ -10,6 +10,11 @@ const Reducer = (state, action) => {
         ...state,
         selectedGroup: action.payload,
       };
+      case "SET_USER_INITIAL":
+      return {
+        ...state,
+        userInitial: action.payload,
+      };
     default:
       return state;
   }

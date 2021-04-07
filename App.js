@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Provider } from "react-redux";
 import Navigator from "./navigation/Navigator";
 import { rrfProps, store } from "./config/firebase.js";
 import { ReactReduxFirebaseProvider } from "react-redux-firebase";
 import Store from "./reducers/Store";
 
-export default class App extends React.Component {
-  render() {
+ const App = () => {
+
     return (
       <Store>
         <Provider store={store}>
@@ -16,5 +16,6 @@ export default class App extends React.Component {
         </Provider>
       </Store>
     );
-  }
+  
 }
+export default App
