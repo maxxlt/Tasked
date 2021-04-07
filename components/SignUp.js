@@ -44,6 +44,21 @@ const Signup = (props) => { //function which passes props as local variables to 
     setUsername("");
     setFullname("");
   };
+
+  const onValidatePassword = (p) => { //function to ensure a password is valid: At least 8 characters long, 1 lowercase, 1 capital, 1 number, 1 special character => !@#$%^&*
+    if ( /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/.test(p)) {
+      setValidation(true);
+    }
+    else {
+      setValidation(false);
+      Alert.alert("Invalid Password", "Password must be 8 characters and contain: 1 lowercase letter, 1 capital letter, 1 number, and 1 special character.", [
+        {
+          text: "OK",
+        },
+      ]);
+    }
+  };
+
   const onCheckUsername = () => { //function to validate duplicate users
     if (queriedusername.length == 0) {
       setValidation(true);
@@ -100,6 +115,7 @@ const Signup = (props) => { //function which passes props as local variables to 
         style={styles.button}
         onPress={() => {
           onCheckUsername();
+          onValidatePassword(password);
           if (isValid) {
             register();
           }
