@@ -1,18 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Appbar from "./Appbar";
 import { View, StyleSheet, TouchableOpacity, Text, Image } from "react-native";
 import { auth } from "../config/firebase";
+import { Context } from "../reducers/Store";
 import FirestoreQueryInitials from "../backend/FirestoreQueryInitials";
 
 //Set up Profile Screen with username and fullname
 const Profile = (props) => { //hook function in react to declare local variable for the state
   const [username, setUserName] = useState("");
+  const [state, dispatch] = useContext(Context);
   const [email, setFullName] = useState("");
-  const [initial, setInitial] = useState("");
+  const initial = state.userInitial
   useEffect(() => { //function that renders when component loads
     const username = auth.currentUser.displayName;
     const email = auth.currentUser.email;
-    setInitial(FirestoreQueryInitials(auth.currentUser.uid))
+    
     setUserName(username);
     setFullName(email); 
   }, []); 

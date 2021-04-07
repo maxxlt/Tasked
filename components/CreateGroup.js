@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext } from "react";
 import { LogBox } from 'react-native';
 
 import {
@@ -17,21 +17,22 @@ import FirestoreCreateGroup from "../backend/FirestoreCreateGroup.js";
 import FirestoreQueryInitials from "../backend/FirestoreQueryInitials";
 import FirestoreQueryUser from "../backend/FirestoreQueryUser.js";
 import { auth } from "../config/firebase";
+import { Context } from "../reducers/Store";
 
-
+LogBox.ignoreAllLogs()
 
 const CreateGroup = (props) => {
   const [groupname, setGroupName] = useState("");
+  const [state, dispatch] = useContext(Context);
   const [queriedusers, setQueriedUsers] = useState([]);
-  const [initials, setInitials] = useState(""); 
-  const [participantsids, setParticipantsIds] = useState([ 
-    FirestoreQueryInitials(auth.currentUser.uid)
-  ]);
-  LogBox.ignoreAllLogs()
-  
+  const [initials, setInitials] = useState("")
+  const initial = state.userInitial
+  const [participantsids, setParticipantsIds] = useState([initial]);
+ 
+ 
   //Added participants item
   const renderIconItem = ({ item }) => {
-    
+
     
   return (
       <View style={styles.icon_image}>

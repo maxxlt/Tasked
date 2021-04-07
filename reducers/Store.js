@@ -4,6 +4,7 @@ import Reducer from "./Reducer";
 const initialState = {
   currentUser: null,
   selectedGroup: null,
+  userInitial: null,
   error: null,
 };
 
