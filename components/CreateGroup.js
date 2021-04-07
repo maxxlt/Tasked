@@ -46,7 +46,7 @@ const CreateGroup = (props) => {
    
     fireinitial()
     
-  }, [groupname]); 
+  }, []); 
   //Added participants item
   const renderIconItem = ({ item }) => {
 
