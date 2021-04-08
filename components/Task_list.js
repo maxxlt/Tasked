@@ -16,6 +16,7 @@ import { Context } from "../reducers/Store";
 import Modal from "react-native-modal";
 import Comments from "./Comments";
 import EditTask from "./EditTask";
+import FirestoreQueryInitials from "../backend/FirestoreQueryInitials";
 
 //delete function
 const delete_task = (item) => {
@@ -33,7 +34,7 @@ const Item = (props) => {
       <TouchableOpacity
         style={{ marginLeft: 20 }}
         onPress={() => {
-        console.log("pressed")
+    
         props.setSelectedTask(props.item);
         props.toggleEditTaskModal();
         }}

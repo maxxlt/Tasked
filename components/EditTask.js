@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -12,37 +12,20 @@ import {
 } from "react-native";
 import { Button } from "react-native-ui-lib";
 import colors from "../assets/color";
-import FirestoreCreateTask from "../backend/FirestoreCreateTask.js";
 import FirestoreQueryUser from "../backend/FirestoreQueryUser.js";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Context } from "../reducers/Store";
 import FirestoreEditTask from "../backend/FirestoreEditTask";
 
-//Added participants item
-const IconItem = ({ assigneduser }) => (
-  <View style={styles.participants_container}>
-    <Image
-      style={styles.tinyLogo}
-      source={require("../assets/default_profile_pic.png")}
-    />
-    <Text style={styles.username_text}>{assigneduser}</Text>
-  </View>
-);
-//Queried in search item
-const ParticipantsIconItem = ({ username, onPress }) => (
-  <TouchableOpacity style={styles.participants_container} onPress={onPress}>
-    <Image
-      style={styles.tinyLogo}
-      source={require("../assets/default_profile_pic.png")}
-    />
-    <Text style={styles.username_text}>{username}</Text>
-  </TouchableOpacity>
-);
+
+
+import { db, auth } from "../config/firebase";
 const EditTask = (props) => {
   const [taskname, setTaskName] = useState(props.selectedTask.task_name);
   const [queriedusers, setQueriedUsers] = useState([
     props.selectedTask.assigned_user,
   ]);
+  const [initials, setInitials] = useState()
   const [assigneduser, setAssignedUser] = useState(
     props.selectedTask.assigned_user.username
   );
@@ -81,6 +64,52 @@ const EditTask = (props) => {
       />
     );
   };
+  //Added participants item
+const IconItem = ({ assigneduser }) => (
+  <View style={styles.participants_container}>
+    <View
+      style={styles.tinyLogo}
+      source={require("../assets/default_profile_pic.png")}
+    >
+        <Text style={{color:"white", fontWeight:"bold"}} >{initials}</Text>
+     
+      </View>
+    <Text style={styles.username_text}>{assigneduser}</Text>
+  </View>
+);
+//Queried in search item
+const ParticipantsIconItem = ({ username, onPress }) => (
+  <TouchableOpacity style={styles.participants_container} onPress={onPress}>
+     <View
+      style={styles.tinyLogo}
+      source={require("../assets/default_profile_pic.png")}>
+        <Text style={{color:"white", fontWeight:"bold"}} >{initials}</Text>
+     
+      </View>
+    <Text style={styles.username_text}>{username}</Text>
+  </TouchableOpacity>
+);
+const fireinitial = () => {
+  db.collection("users").onSnapshot((querySnapshot) => {
+    querySnapshot.forEach((documentSnapshot) => {
+      try {
+        if ( props.selectedTask.assigned_user.uid == documentSnapshot.data().uid)
+        {
+            const fullName  = documentSnapshot.data().fullname
+            const i = fullName.charAt(0) + fullName.charAt(1)          
+            setInitials([i.toUpperCase()])
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    });
+  });
+  
+}
+
+useEffect (()=>{
+  fireinitial()
+},[])
   return (
     //Set up create group screen with buttons and fields that the user can input details
     <View style={styles.container}>
@@ -119,7 +148,8 @@ const EditTask = (props) => {
             style={styles.inputBox}
             placeholder="Type username"
             onChangeText={(text) => {
-              FirestoreQueryUser(text, setQueriedUsers); //query user from firestore if exists
+              FirestoreQueryUser(text, setQueriedUsers, setInitials); //query user from firestore if exists
+              console.log(initials)
             }}
           />
         </View>
@@ -267,6 +297,11 @@ const styles = StyleSheet.create({
   tinyLogo: {
     height: 32,
     width: 32,
+    borderRadius:16,
+    backgroundColor:"#FCCF3E",
+    alignContent:"center",
+    justifyContent:"center",
+    alignItems:"center"
   },
   participants_flatlist_container: {
     marginTop: 12,
