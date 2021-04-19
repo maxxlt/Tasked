@@ -25,6 +25,7 @@ const CreateGroup = (props) => {
   const [queriedusers, setQueriedUsers] = useState([]);
   const [initials, setInitials] = useState("")
   const [participantsids, setParticipantsIds] = useState([]);
+  const [participantId, setParticipantId] = useState([auth.currentUser.uid])
   const fireinitial = () => {
     db.collection("users").onSnapshot((querySnapshot) => {
       querySnapshot.forEach((documentSnapshot) => {
@@ -34,6 +35,7 @@ const CreateGroup = (props) => {
               const fullName  = documentSnapshot.data().fullname
               const i = fullName.charAt(0) + fullName.charAt(1)          
               setParticipantsIds([i.toUpperCase()])
+              
           }
         } catch (e) {
           console.log(e);
@@ -78,10 +80,12 @@ const CreateGroup = (props) => {
     return (
       <ParticipantsIconItem
         username={item.username}
+        
         onPress={ () => {
           
           //pass in the onPress listener to the item
           setParticipantsIds((participantsids) => [...participantsids, initials])
+          setParticipantId((participantId) => [...participantId, item.uid])
          
         }}
       />
@@ -146,7 +150,7 @@ const CreateGroup = (props) => {
         backgroundColor={colors.logoorange}
         disabled={!groupname.length} //disable button if user didn't type anything in groupname
         onPress={() => {
-          FirestoreCreateGroup(groupname, participantsids); //populate db onPress
+          FirestoreCreateGroup(groupname, participantId); //populate db onPress
           props.isModalVisible(); //hide the popup
         }}
         enableShadow
