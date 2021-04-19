@@ -94,6 +94,7 @@ const Item = (props) => {
               {props.item.due_date} {props.item.due_time}
             </Text>
           )}
+          <Text  style={styles.assignedTo}>Assigned to:  {props.item.assigned_user.username} </Text>
           <Comments task={props.item} listKey={props.item.task_id} />
         </View>
       </View>
@@ -186,6 +187,12 @@ const styles = StyleSheet.create({
     marginLeft: 25,
     textDecorationLine: "line-through",
     color: "grey",
+  },
+  assignedTo:{
+    marginTop:5,
+    fontSize: 15,
+    marginLeft: 20,
+    marginBottom: 5,
   },
 });
 
