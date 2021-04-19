@@ -59,7 +59,6 @@ const registerForPushNotificationsAsync = async () => {
 
 export const sendPushNotification = async (expoPushToken, task) => {
   console.log("Sending notification to " + expoPushToken);
-  console.log(task);
   const message = {
     to: expoPushToken,
     sound: "default",
