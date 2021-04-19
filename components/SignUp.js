@@ -16,9 +16,12 @@ const Signup = (props) => {
   const [queriedusername, setQueriedusername] = useState([]); //queriedusername stores what was fetched from firebase users into an array to validate
   const [fullname, setFullname] = useState("");
   const { navigation } = props;
-  const [isValid, setValidation] = useState(false); //boolean isValid to check if username is valids
+  const [isPasswordValid, setPasswordValidation] = useState(false);
+  const [isUsernameValid, setUsernameValidation] = useState(false);
+  const [isFullnameValid, setFullnameValidation] = useState(false);
+  const [initials, setInitials] = useState("");
   //Set up fields with the firebase database
-  const register = async () => {
+  const register = () => {
     //function to register users
     auth
       .createUserWithEmailAndPassword(email, password) //passing in email and password as variable before authentication
@@ -35,13 +38,13 @@ const Signup = (props) => {
           username: username,
           fullname: fullname,
         });
+        navigation.replace("Tasked");
       })
       .catch((error) => alert(error.message));
     setEmail("");
     setPassword("");
     setUsername("");
     setFullname("");
-    await navigation.replace("Tasked");
   };
 
   const onValidatePassword = (p) => {
@@ -51,9 +54,9 @@ const Signup = (props) => {
         p
       )
     ) {
-      setValidation(true);
+      setPasswordValidation(true);
     } else {
-      setValidation(false);
+      setPasswordValidation(false);
       Alert.alert(
         "Invalid Password",
         "Password must be 8 characters and contain: 1 lowercase letter, 1 capital letter, 1 number, and 1 special character.",
@@ -69,9 +72,9 @@ const Signup = (props) => {
   const onCheckUsername = () => {
     //function to validate duplicate users
     if (queriedusername.length == 0) {
-      setValidation(true);
+      setUsernameValidation(true);
     } else if (queriedusername.length > 0) {
-      setValidation(false);
+      setUsernameValidation(false);
       Alert.alert("Username already exists", "Enter a different username", [
         {
           text: "OK",
@@ -96,6 +99,9 @@ const Signup = (props) => {
         style={styles.inputBox}
         value={password}
         onChangeText={(password) => setPassword(password)}
+        onBlur={async () => {
+          onValidatePassword(password);
+        }}
         placeholder="Password"
         secureTextEntry={true}
         hideUnderline
@@ -104,9 +110,12 @@ const Signup = (props) => {
         style={styles.inputBox}
         value={username}
         onChangeText={(username) => {
-          setQueriedusername([]);
-          FirestoreQueryUser(username, setQueriedusername);
           setUsername(username);
+        }}
+        onBlur={async () => {
+          setQueriedusername([]);
+          await FirestoreQueryUser(username, setQueriedusername, setInitials);
+          onCheckUsername();
         }}
         placeholder="Username"
         autoCapitalize="none"
@@ -116,18 +125,20 @@ const Signup = (props) => {
         style={styles.inputBox}
         value={fullname}
         onChangeText={(fullname) => setFullname(fullname)}
+        onBlur={async () => {
+          if (fullname.length >= 2) {
+            setFullnameValidation(true);
+          }
+        }}
         placeholder="Full Name"
         hideUnderline
       />
       <Button
         label={"Sign Up"}
         style={styles.button}
-        onPress={() => {
-          onCheckUsername();
-          onValidatePassword(password);
-          if (isValid) {
-            register();
-          }
+        disabled={!(isPasswordValid && isUsernameValid && isFullnameValid)}
+        onPress={async () => {
+          register();
         }}
         backgroundColor={colors.logoorange}
         enableShadow
