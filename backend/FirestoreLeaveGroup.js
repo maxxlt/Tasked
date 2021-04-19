@@ -11,6 +11,13 @@ const FirestoreLeaveGroup = (groupId) => {
         "participants": firebase.firestore.FieldValue.arrayRemove(auth.currentUser.uid),
         
     })
+
+    var userref =db.collection("users").doc(auth.currentUser.uid)
+    
+    userref.update({
+        "participated_groups": firebase.firestore.FieldValue.arrayRemove(groupId),
+        
+    })
 };
 
 export default FirestoreLeaveGroup;
