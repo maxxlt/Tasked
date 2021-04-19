@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, ScrollView } from "react-native";
+import { StyleSheet, View, ScrollView, ActivityIndicator } from "react-native";
 import Task_list from "./Task_list.js";
 import Appbar from "./Appbar";
 import { auth } from "../config/firebase";
@@ -31,6 +31,9 @@ const MyTask = () => {
 
     return () => subscriber();
   }, []);
+  if (loading) {
+    return <ActivityIndicator />;
+  }
 
   return (
     <View style={styles.container}>
