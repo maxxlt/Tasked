@@ -17,10 +17,15 @@ import Modal from "react-native-modal";
 import Comments from "./Comments";
 import EditTask from "./EditTask";
 import FirestoreQueryInitials from "../backend/FirestoreQueryInitials";
+import FirestoreNotifyUser from "../backend/FirestoreNotifyUser";
 
 //delete function
 const delete_task = (item) => {
   FirestoreDeleteTask(item.item);
+};
+
+const notify_user = (item) => {
+  FirestoreNotifyUser(item.item);
 };
 
 const Item = (props) => {
@@ -34,9 +39,8 @@ const Item = (props) => {
       <TouchableOpacity
         style={{ marginLeft: 20 }}
         onPress={() => {
-    
-        props.setSelectedTask(props.item);
-        props.toggleEditTaskModal();
+          props.setSelectedTask(props.item);
+          props.toggleEditTaskModal();
         }}
       >
         <MaterialIcons name="edit" size={30}></MaterialIcons>
@@ -50,6 +54,16 @@ const Item = (props) => {
         onPress={() => delete_task(props)}
       >
         <MaterialIcons name="delete" size={30}></MaterialIcons>
+      </TouchableOpacity>
+    </View>,
+    <View
+      style={{ height: 100, alignContent: "center", justifyContent: "center" }}
+    >
+      <TouchableOpacity
+        style={{ marginLeft: 20 }}
+        onPress={() => notify_user(props)}
+      >
+        <MaterialIcons name="notifications-active" size={30}></MaterialIcons>
       </TouchableOpacity>
     </View>,
   ];

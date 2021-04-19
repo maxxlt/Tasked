@@ -7,47 +7,48 @@ import FirestoreQueryInitials from "../backend/FirestoreQueryInitials";
 
 import { db, auth } from "../config/firebase";
 //Set up Profile Screen with username and fullname
-const Profile = (props) => { //hook function in react to declare local variable for the state
+const Profile = (props) => {
+  //hook function in react to declare local variable for the state
   const [username, setUserName] = useState("");
   const [email, setFullName] = useState("");
   const [initial, setInitial] = useState("");
- 
+
   const fireinitial = () => {
     db.collection("users").onSnapshot((querySnapshot) => {
       querySnapshot.forEach((documentSnapshot) => {
         try {
-          if (auth.currentUser.uid == documentSnapshot.data().uid)
-          {
-              const fullName  = documentSnapshot.data().fullname
-              const i = fullName.charAt(0) + fullName.charAt(1)          
-              setInitial(i.toUpperCase())
+          if (auth.currentUser.uid == documentSnapshot.data().uid) {
+            const fullName = documentSnapshot.data().fullname;
+            const i = fullName.charAt(0) + fullName.charAt(1);
+            setInitial(i.toUpperCase());
           }
         } catch (e) {
           console.log(e);
         }
       });
     });
-    
-  }
-  useEffect(() => { //function that renders when component loads
+  };
+  useEffect(() => {
+    //function that renders when component loads
     const username = auth.currentUser.displayName;
     const email = auth.currentUser.email;
-    fireinitial()
+    fireinitial();
     setUserName(username);
-    setFullName(email); 
-  }, [username]); 
+    setFullName(email);
+  }, [username]);
 
   const { navigation } = props; //prop is an arguement passed
-  return ( //styling and UI
+  return (
+    //styling and UI
     <View>
       <Appbar title="Profile" />
       <View style={{ alignItems: "center", justifyContent: "center" }}>
-        
         <TouchableOpacity>
-          <View style ={styles.profilePic}>
-          <Text style= {{color:"white", fontWeight:"bold", fontSize:28}}>{initial}</Text>
+          <View style={styles.profilePic}>
+            <Text style={{ color: "white", fontWeight: "bold", fontSize: 28 }}>
+              {initial}
+            </Text>
           </View>
-         
         </TouchableOpacity>
         <Text style={styles.username}>@{username}</Text>
         <Text style={styles.email}>{email}</Text>
@@ -62,10 +63,12 @@ const Profile = (props) => { //hook function in react to declare local variable 
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.logOutbutton}
-          onPress={() => {
+          onPress={async () => {
             //Logout of profile upon tapping logout button
-            auth.signOut();
-            navigation.navigate("Home");
+            await auth.signOut();
+            if (!auth.currentUser) {
+              navigation.navigate("Home");
+            }
           }}
         >
           <Text style={styles.logOutbuttonText}>LOG OUT</Text>
@@ -85,7 +88,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 20,
     marginTop: 30,
-    backgroundColor:"#FCCF3E",
+    backgroundColor: "#FCCF3E",
     alignItems: "center",
     justifyContent: "center",
   },
