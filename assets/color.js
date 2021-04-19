@@ -3,5 +3,6 @@ const colors = {
   white: "#FFFFFF",
   orange: "#FCCF3E",
   logoorange: "#FFC038",
+  gray: "#DDDDDD",
 };
 export default colors;
