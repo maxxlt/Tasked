@@ -1,25 +1,39 @@
-import React, {useState, useEffect}  from "react";
-import { StyleSheet, View, ScrollView } from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View, ScrollView, ActivityIndicator } from "react-native";
 import Task_list from "./Task_list.js";
 import Appbar from "./Appbar";
 import { auth } from "../config/firebase";
-
+import FirestoreUpdatePushToken from "../backend/FirestoreUpdatePushToken";
 import FirestoreQueryMyTasks from "../backend/FirestoreQuerryMyTasks";
-
+import registerForPushNotificationsAsync from "../backend/Notification";
 
 const MyTask = () => {
   const [tasks, setTasks] = useState([]);
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
   //Rerenders the component every single time when database for groups is changed
-  
-  useEffect(() =>
-  {
+
+  useEffect(() => {
     setLoading(true);
-    const subscriber = FirestoreQueryMyTasks(setTasks, auth.currentUser.uid , setLoading);
+    registerForPushNotificationsAsync().then((token) =>
+      FirestoreUpdatePushToken(token)
+    );
+    let subscriber = () => {
+      console.log("no user detected");
+    };
+    if (auth.currentUser) {
+      subscriber = FirestoreQueryMyTasks(
+        setTasks,
+        auth.currentUser.uid,
+        setLoading
+      );
+    }
     // Unsubscribe from events when no longer in use
-    
+
     return () => subscriber();
   }, []);
+  if (loading) {
+    return <ActivityIndicator />;
+  }
 
   return (
     <View style={styles.container}>

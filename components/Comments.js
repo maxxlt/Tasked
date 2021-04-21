@@ -79,7 +79,7 @@ export default Comments;
 
 const styles = StyleSheet.create({
   list_container: {
-    marginLeft: 20,
+    marginLeft: 16,
     marginVertical: 20,
   },
   field_container: {},
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   button: {
-    marginLeft: 20,
+    marginLeft: 16,
     height: 40,
     width: 145,
     borderColor: "#F6820D",

@@ -1,9 +1,6 @@
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  KeyboardAvoidingView,
-  Alert,
-} from "react-native";
+import * as Notifications from "expo-notifications";
+import { StyleSheet, KeyboardAvoidingView, Alert } from "react-native";
 import FirestoreQueryUser from "../backend/FirestoreQueryUser.js";
 
 import { TextField, Button } from "react-native-ui-lib";
@@ -11,16 +8,21 @@ import colors from "../assets/color";
 import { auth, db } from "../config/firebase";
 
 //Set up fields for signup screen
-const Signup = (props) => { //function which passes props as local variables to set current states
+const Signup = (props) => {
+  //function which passes props as local variables to set current states
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [queriedusername, setQueriedusername] = useState([]); //queriedusername stores what was fetched from firebase users into an array to validate
   const [fullname, setFullname] = useState("");
   const { navigation } = props;
-  const [isValid, setValidation] = useState(false); //boolean isValid to check if username is valids
+  const [isPasswordValid, setPasswordValidation] = useState(false);
+  const [isUsernameValid, setUsernameValidation] = useState(false);
+  const [isFullnameValid, setFullnameValidation] = useState(false);
+  const [initials, setInitials] = useState("");
   //Set up fields with the firebase database
-  const register = () => { //function to register users
+  const register = () => {
+    //function to register users
     auth
       .createUserWithEmailAndPassword(email, password) //passing in email and password as variable before authentication
       .then((authUser) => {
@@ -45,25 +47,34 @@ const Signup = (props) => { //function which passes props as local variables to 
     setFullname("");
   };
 
-  const onValidatePassword = (p) => { //function to ensure a password is valid: At least 8 characters long, 1 lowercase, 1 capital, 1 number, 1 special character => !@#$%^&*
-    if ( /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/.test(p)) {
-      setValidation(true);
-    }
-    else {
-      setValidation(false);
-      Alert.alert("Invalid Password", "Password must be 8 characters and contain: 1 lowercase letter, 1 capital letter, 1 number, and 1 special character.", [
-        {
-          text: "OK",
-        },
-      ]);
+  const onValidatePassword = (p) => {
+    //function to ensure a password is valid: At least 8 characters long, 1 lowercase, 1 capital, 1 number, 1 special character => !@#$%^&*
+    if (
+      /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/.test(
+        p
+      )
+    ) {
+      setPasswordValidation(true);
+    } else {
+      setPasswordValidation(false);
+      Alert.alert(
+        "Invalid Password",
+        "Password must be 8 characters and contain: 1 lowercase letter, 1 capital letter, 1 number, and 1 special character.",
+        [
+          {
+            text: "OK",
+          },
+        ]
+      );
     }
   };
 
-  const onCheckUsername = () => { //function to validate duplicate users
+  const onCheckUsername = () => {
+    //function to validate duplicate users
     if (queriedusername.length == 0) {
-      setValidation(true);
+      setUsernameValidation(true);
     } else if (queriedusername.length > 0) {
-      setValidation(false);
+      setUsernameValidation(false);
       Alert.alert("Username already exists", "Enter a different username", [
         {
           text: "OK",
@@ -71,7 +82,8 @@ const Signup = (props) => { //function which passes props as local variables to 
       ]);
     }
   };
-  return ( //UI styling
+  return (
+    //UI styling
     <KeyboardAvoidingView behavior="padding">
       <TextField
         style={styles.inputBox}
@@ -87,6 +99,9 @@ const Signup = (props) => { //function which passes props as local variables to 
         style={styles.inputBox}
         value={password}
         onChangeText={(password) => setPassword(password)}
+        onBlur={async () => {
+          onValidatePassword(password);
+        }}
         placeholder="Password"
         secureTextEntry={true}
         hideUnderline
@@ -95,9 +110,12 @@ const Signup = (props) => { //function which passes props as local variables to 
         style={styles.inputBox}
         value={username}
         onChangeText={(username) => {
-          setQueriedusername([]);
-          FirestoreQueryUser(username, setQueriedusername);
           setUsername(username);
+        }}
+        onBlur={async () => {
+          setQueriedusername([]);
+          await FirestoreQueryUser(username, setQueriedusername, setInitials);
+          onCheckUsername();
         }}
         placeholder="Username"
         autoCapitalize="none"
@@ -107,18 +125,20 @@ const Signup = (props) => { //function which passes props as local variables to 
         style={styles.inputBox}
         value={fullname}
         onChangeText={(fullname) => setFullname(fullname)}
+        onBlur={async () => {
+          if (fullname.length >= 2) {
+            setFullnameValidation(true);
+          }
+        }}
         placeholder="Full Name"
         hideUnderline
       />
       <Button
         label={"Sign Up"}
         style={styles.button}
-        onPress={() => {
-          onCheckUsername();
-          onValidatePassword(password);
-          if (isValid) {
-            register();
-          }
+        disabled={!(isPasswordValid && isUsernameValid && isFullnameValid)}
+        onPress={async () => {
+          register();
         }}
         backgroundColor={colors.logoorange}
         enableShadow
