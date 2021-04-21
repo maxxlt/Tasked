@@ -39,11 +39,13 @@ const Group = (props) => {
   const groupTask = (item) => {
     dispatch({ type: "SET_SELECTED_GROUP", payload: item });
     navigation.navigate("GroupTask");
+    console.log(item);
   };
 
   //Group Card
   const Item = ({
     item, //passing in the group object
+
     //pass in functions below
     toggleEditGroupModal,
     setSelectedGroupId,
@@ -53,6 +55,7 @@ const Group = (props) => {
     <TouchableOpacity
       onPress={() => {
         groupTask(item);
+        console.log(item);
       }}
       style={styles.groupCard}
     >
@@ -96,7 +99,6 @@ const Group = (props) => {
             ]}
           />
         </View>
-
         <Text style={styles.group_name}>{item.group_name}</Text>
         <Text style={styles.task_amount}>Tasks: {item.tasks.length}</Text>
       </View>
