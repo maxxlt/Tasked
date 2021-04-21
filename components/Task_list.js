@@ -7,6 +7,7 @@ import {
   StatusBar,
   TouchableOpacity,
 } from "react-native";
+import { Avatar, Button, Card, Title, Paragraph } from "react-native-paper";
 import { CheckBox } from "react-native-elements";
 import Swipeable from "react-native-swipeable";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -18,6 +19,7 @@ import Comments from "./Comments";
 import EditTask from "./EditTask";
 import FirestoreQueryInitials from "../backend/FirestoreQueryInitials";
 import FirestoreNotifyUser from "../backend/FirestoreNotifyUser";
+import Colors from "../assets/color";
 
 //delete function
 const delete_task = (item) => {
@@ -29,13 +31,31 @@ const notify_user = (item) => {
 };
 
 const Item = (props) => {
-  const [check, setCheck] = useState(props.item.is_complete);
+  const [onComplete, setOnComplete] = useState(props.item.is_complete);
   const [state, dispatch] = useContext(Context);
+  const [onCardPress, setOnCardPress] = useState(false);
+
+  const togggleCard = () => {
+    setOnCardPress(!onCardPress);
+  };
+
+  const toggleOnComplete = () => {
+    setOnComplete(!onComplete);
+    FirestoreUpdateTaskChecked(onComplete, props);
+  };
+
+  const leftContent = (
+    <View style={[styles.leftSwipeItem]}>
+      <MaterialIcons
+        name="check"
+        size={30}
+        color={Colors.success}
+      ></MaterialIcons>
+    </View>
+  );
 
   const rightButtons = [
-    <View
-      style={{ height: 100, alignContent: "center", justifyContent: "center" }}
-    >
+    <View style={styles.rightSwipeItem}>
       <TouchableOpacity
         style={{ marginLeft: 20 }}
         onPress={() => {
@@ -46,9 +66,7 @@ const Item = (props) => {
         <MaterialIcons name="edit" size={30}></MaterialIcons>
       </TouchableOpacity>
     </View>,
-    <View
-      style={{ height: 100, alignContent: "center", justifyContent: "center" }}
-    >
+    <View style={styles.rightSwipeItem}>
       <TouchableOpacity
         style={{ marginLeft: 20 }}
         onPress={() => delete_task(props)}
@@ -56,9 +74,7 @@ const Item = (props) => {
         <MaterialIcons name="delete" size={30}></MaterialIcons>
       </TouchableOpacity>
     </View>,
-    <View
-      style={{ height: 100, alignContent: "center", justifyContent: "center" }}
-    >
+    <View style={styles.rightSwipeItem}>
       <TouchableOpacity
         style={{ marginLeft: 20 }}
         onPress={() => notify_user(props)}
@@ -68,36 +84,40 @@ const Item = (props) => {
     </View>,
   ];
   return (
-    <Swipeable style={styles.swipable_container} rightButtons={rightButtons}>
-      <View style={styles.item}>
-        <View style={styles.checkbox}>
-          <CheckBox
-            left
-            checkedColor="grey"
-            checked={check}
-            onPress={() => {
-              setCheck(!props.item.is_complete);
-              FirestoreUpdateTaskChecked(check, props);
-            }}
-          />
-        </View>
-        <View style={styles.task_container}>
-          {!check && <Text style={styles.title}>{props.item.task_name}</Text>}
-          {!check && (
-            <Text style={styles.date}>
-              {props.item.due_date} {props.item.due_time}
-            </Text>
+    <Swipeable
+      style={styles.swipable_container}
+      leftContent={leftContent}
+      rightButtons={rightButtons}
+      onLeftActionComplete={() => {
+        toggleOnComplete();
+      }}
+    >
+      <Card onPress={togggleCard} style={styles.card}>
+        <Card.Title
+          title={props.item.task_name}
+          subtitle={
+            "Due date: " + props.item.due_date + " " + props.item.due_time
+          }
+          titleStyle={
+            onComplete ? styles.card_title_complete : styles.card_title
+          }
+          subtitleStyle={
+            onComplete ? styles.card_title_complete : styles.card_title
+          }
+        />
+        <Text
+          style={onComplete ? styles.assign_text_complete : styles.assign_text}
+        >
+          {props.item.assigned_user.username == undefined
+            ? "Assigned to: no one "
+            : "Assigned to: " + props.item.assigned_user.username}
+        </Text>
+        <Card.Content>
+          {onCardPress && (
+            <Comments task={props.item} listKey={props.item.task_id} />
           )}
-          {check && <Text style={styles.title1}>{props.item.task_name}</Text>}
-          {check && (
-            <Text style={styles.date1}>
-              {props.item.due_date} {props.item.due_time}
-            </Text>
-          )}
-          <Text  style={styles.assignedTo}>Assigned to:  {props.item.assigned_user.username} </Text>
-          <Comments task={props.item} listKey={props.item.task_id} />
-        </View>
-      </View>
+        </Card.Content>
+      </Card>
     </Swipeable>
   );
 };
@@ -141,59 +161,38 @@ const Task_list = (props) => {
 };
 
 const styles = StyleSheet.create({
-  task_container: {
-    alignItems: "flex-start",
-    marginHorizontal: 20,
+  leftSwipeItem: {
+    flex: 1,
+    alignItems: "flex-end",
+    justifyContent: "center",
+    paddingRight: 20,
+    marginVertical: 8,
+  },
+  rightSwipeItem: {
+    flex: 1,
+    justifyContent: "center",
+    paddingLeft: 20,
+    marginVertical: 8,
+  },
+  card: {
+    minHeight: 148,
+    marginVertical: 8,
+  },
+  card_title: {
+    marginLeft: 16,
+  },
+  card_title_complete: {
+    marginLeft: 16,
+    textDecorationLine: "line-through",
+  },
+  assign_text: {
+    marginLeft: 32,
+  },
+  assign_text_complete: {
+    marginLeft: 32,
+    textDecorationLine: "line-through",
   },
   swipable_container: {},
-  container: {
-    flex: 1,
-    marginTop: StatusBar.currentHeight || 0,
-  },
-  checkbox: {
-    height: 30,
-    width: 20,
-    marginRight: 25,
-    marginTop: 10,
-  },
-  item: {
-    backgroundColor: "white",
-    shadowColor: "grey",
-    elevation: 2,
-    padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
-    borderRadius: 5,
-    flexDirection: "row",
-  },
-  title: {
-    fontSize: 20,
-    marginLeft: 20,
-
-    marginBottom: 5,
-  },
-
-  date: {
-    marginLeft: 20,
-    color: "grey",
-  },
-  title1: {
-    fontSize: 20,
-    marginLeft: 20,
-    textDecorationLine: "line-through",
-    marginBottom: 5,
-  },
-  date1: {
-    marginLeft: 25,
-    textDecorationLine: "line-through",
-    color: "grey",
-  },
-  assignedTo:{
-    marginTop:5,
-    fontSize: 15,
-    marginLeft: 20,
-    marginBottom: 5,
-  },
 });
 
 export default Task_list;
