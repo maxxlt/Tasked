@@ -19,6 +19,8 @@ import CreateGroup from "./CreateGroup";
 import EditGroup from "./EditGroup";
 import OptionsMenu from "react-native-options-menu";
 import FirestoreDeleteGroup from "../backend/FirestoreDeleteGroup";
+
+import FirestoreLeaveGroup from "../backend/FirestoreLeaveGroup";
 import FirestoreQueryAllGroups from "../backend/FirestoreQueryAllGroups";
 import { Context } from "../reducers/Store";
 
@@ -80,7 +82,7 @@ const Group = (props) => {
               resizeMode: "contain",
             }}
             destructiveIndex={1}
-            options={["Edit", "Delete"]}
+            options={["Edit","Delete", "Leave"]}
             actions={[
               () => {
                 //action for Edit Group
@@ -93,6 +95,9 @@ const Group = (props) => {
                 //action for Delete Group
                 FirestoreDeleteGroup(item.group_id);
               },
+              () => {
+                FirestoreLeaveGroup(item.group_id);
+              }
             ]}
           />
         </View>

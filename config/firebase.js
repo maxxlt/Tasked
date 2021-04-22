@@ -8,15 +8,27 @@ import {
 } from "react-redux-firebase";
 import { createStore, combineReducers, compose } from "redux";
 import { createFirestoreInstance, firestoreReducer } from "redux-firestore";
+import {
+  API_KEY,
+  AUTH_DOMAIN,
+  PROJECT_ID,
+  STORAGE_BUCKET,
+  MESSAGING_SENDER_ID,
+  APP_ID,
+  MEASUREMENT_ID,
+} from "@env";
+
+console.log(API_KEY);
+
 //configuring firebase backend
 const firebaseConfig = {
-  apiKey: "AIzaSyA3WP89ShzQhNK1-DZah22K-NmuifN95d8",
-  authDomain: "tasked-1ced9.firebaseapp.com",
-  projectId: "tasked-1ced9",
-  storageBucket: "tasked-1ced9.appspot.com",
-  messagingSenderId: "589135977048",
-  appId: "1:589135977048:web:275baf1a76cf6f0572082d",
-  measurementId: "G-TY1NPDKBG3",
+  apiKey: API_KEY,
+  authDomain: AUTH_DOMAIN,
+  projectId: PROJECT_ID,
+  storageBucket: STORAGE_BUCKET,
+  messagingSenderId: MESSAGING_SENDER_ID,
+  appId: APP_ID,
+  measurementId: MEASUREMENT_ID,
 };
 
 const rrfConfig = {
