@@ -19,6 +19,7 @@ import CreateGroup from "./CreateGroup";
 import EditGroup from "./EditGroup";
 import OptionsMenu from "react-native-options-menu";
 import FirestoreDeleteGroup from "../backend/FirestoreDeleteGroup";
+import FirestoreQueryAllParticipants from "../backend/FirestoreQueryAllParticipants";
 
 import FirestoreLeaveGroup from "../backend/FirestoreLeaveGroup";
 import FirestoreQueryAllGroups from "../backend/FirestoreQueryAllGroups";
@@ -37,6 +38,7 @@ const Group = (props) => {
   const [isEditGroupModalVisible, setEditGroupModalVisible] = useState(false); //to check the state of the Edit Group popup
   const [participants, setParticipants] = useState([]); //array of participants to pass in Edit Group
   const [state, dispatch] = useContext(Context);
+  const [queriedParticipants, setQueriedParticipants] = useState([]);
   //individual group task page
   const groupTask = (item) => {
     dispatch({ type: "SET_SELECTED_GROUP", payload: item });
@@ -60,10 +62,10 @@ const Group = (props) => {
     >
       <View>
         <View style={styles.top_card_container}>
-          <Image
-            style={styles.tinyLogo}
-            source={require("../assets/group_tags/red_dot.png")}
-          />
+          <View>
+            <Text style={styles.group_name}>{item.group_name}</Text>
+            <Text style={styles.task_amount}>Tasks: {item.tasks.length}</Text>
+          </View>
 
           {/* 3 dots options */}
           <OptionsMenu
@@ -82,7 +84,7 @@ const Group = (props) => {
               resizeMode: "contain",
             }}
             destructiveIndex={1}
-            options={["Edit","Delete", "Leave"]}
+            options={["Edit", "Delete", "Leave"]}
             actions={[
               () => {
                 //action for Edit Group
@@ -97,13 +99,10 @@ const Group = (props) => {
               },
               () => {
                 FirestoreLeaveGroup(item.group_id);
-              }
+              },
             ]}
           />
         </View>
-
-        <Text style={styles.group_name}>{item.group_name}</Text>
-        <Text style={styles.task_amount}>Tasks: {item.tasks.length}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -143,7 +142,7 @@ const Group = (props) => {
       <Appbar title="Groups" />
       <ScrollView style={styles.container}>
         <FlatList
-          numColumns={2}
+          numColumns={1}
           data={groups}
           renderItem={renderGroups}
           keyExtractor={(item, index) => String(index)}
@@ -205,7 +204,6 @@ const styles = StyleSheet.create({
   },
   groupCard: {
     height: 180,
-    width: 165,
     margin: 16,
     borderRadius: 5,
     color: "#FFFFFF",
@@ -226,8 +224,12 @@ const styles = StyleSheet.create({
   },
   group_name: {
     marginLeft: 12,
-    marginTop: 42,
+    marginTop: 7.5,
     fontSize: 16,
+  },
+  participants: {
+    marginLeft: 12,
+    marginTop: 46,
   },
   task_amount: {
     marginTop: 8,
