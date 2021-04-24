@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Alert } from "react-native";
 import {
   StyleSheet,
   Text,
@@ -13,42 +14,25 @@ import colors from "../assets/color";
 import { auth, db } from "../config/firebase";
 
 const EditProfile = (props) => { //function which passes email, setEmail as props
-    const [email, setEmail] = useState("");
-    const [username, setUsername] = useState("");
+  const [Newemail, setNewEmail] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-    const submit = () => {
-      auth
-       /* .update(username)
-        .then((authUser) => {
-            authUser.user.updateProfile({
-              uid: authUser.user.uid,
-              email: email,
-              displayName: username,
-              fullname: fullname,
-            });
-            db.collection("users").doc(authUser.user.uid).update({
-                uid: authUser.user.uid,
-                displayName: username,
-            });
-            navigation.replace("Tasked");
+  const submit = () => {
+    auth //passing in email and password as variable before authentication
+      .signInWithEmailAndPassword(email, password)
+      .then((authUser) => {
+        authUser.user.updateEmail(Newemail);
+        db.collection("users").doc(authUser.user.uid).set({
+          email: Newemail,
+        });
+       // navigation.replace("Tasked");
       })
       .catch((error) => alert(error.message));
+    setNewEmail("");
     setEmail("");
-    */
-    //};
-
-       /* .sendPasswordResetEmail(email)
-        .then(() => { //if authentication passes, alert sent
-          Alert.alert("Password reset link has been sent to: " + email);
-        })
-        .catch(() => {
-          Alert.alert( //catch function if email does not exist
-            "Email " + email + " does not exist. Please try different email."
-          );
-        });
-      setEmail("");
-      */
-    };
+    setPassword("");
+  };
 
   return (
     //Set up a pop-up screen for forgot password feature
@@ -62,26 +46,38 @@ const EditProfile = (props) => { //function which passes email, setEmail as prop
       <View style={styles.title_container}>
         <Text style={styles.title_text}>EDIT PROFILE</Text>
       </View>
-      <Text style={styles.label}>Username</Text>
+      <Text style={styles.label}>Current Email</Text>
       <KeyboardAvoidingView>
-        <View style={styles.user_input_container}>
+        <View style={styles.email_input_container}>
           <TextInput
             style={styles.inputBox}
-            placeholder="Enter new username to update"
+            placeholder="Enter old email to validate"
             onChangeText={(email) => {
-            //changeEmail(email);
+              setEmail(email);
             }}
           />
         </View>
       </KeyboardAvoidingView>
-      <Text style={styles.label}>Email</Text>
+      <Text style={styles.label}>Current Password</Text>
+      <KeyboardAvoidingView>
+        <View style={styles.email_input_container}>
+          <TextInput
+            style={styles.inputBox}
+            placeholder="Enter old pass to validate"
+            onChangeText={(password) => {
+              setPassword(password);
+            }}
+          />
+        </View>
+      </KeyboardAvoidingView>
+      <Text style={styles.label}>New Email</Text>
       <KeyboardAvoidingView>
         <View style={styles.email_input_container}>
           <TextInput
             style={styles.inputBox}
             placeholder="Enter new email to update"
-            onChangeText={(email) => {
-            //changeEmail(email);
+            onChangeText={(Newemail) => {
+              setNewEmail(Newemail);
             }}
           />
         </View>
