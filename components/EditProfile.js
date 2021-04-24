@@ -15,6 +15,7 @@ import { auth, db } from "../config/firebase";
 
 const EditProfile = (props) => { //function which passes email, setEmail as props
   const [Newemail, setNewEmail] = useState("");
+  const [Newusername, setNewUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -23,13 +24,16 @@ const EditProfile = (props) => { //function which passes email, setEmail as prop
       .signInWithEmailAndPassword(email, password)
       .then((authUser) => {
         authUser.user.updateEmail(Newemail);
-        db.collection("users").doc(authUser.user.uid).set({
+        authUser.user.updateProfile({username: Newusername});
+        db.collection("users").doc(authUser.user.uid).update({
           email: Newemail,
+          username: Newusername,
         });
        // navigation.replace("Tasked");
       })
       .catch((error) => alert(error.message));
     setNewEmail("");
+    setNewUsername("");
     setEmail("");
     setPassword("");
   };
@@ -78,6 +82,18 @@ const EditProfile = (props) => { //function which passes email, setEmail as prop
             placeholder="Enter new email to update"
             onChangeText={(Newemail) => {
               setNewEmail(Newemail);
+            }}
+          />
+        </View>
+      </KeyboardAvoidingView>
+      <Text style={styles.label}>New Username</Text>
+      <KeyboardAvoidingView>
+        <View style={styles.user_input_container}>
+          <TextInput
+            style={styles.inputBox}
+            placeholder="Enter new username to update"
+            onChangeText={(Newusername) => {
+              setNewUsername(Newusername);
             }}
           />
         </View>
