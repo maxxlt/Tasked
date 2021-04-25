@@ -11,12 +11,13 @@ const MyTask = () => {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   //Rerenders the component every single time when database for groups is changed
-
-  useEffect(() => {
-    setLoading(true);
+  if (auth.currentUser) {
     registerForPushNotificationsAsync().then((token) =>
       FirestoreUpdatePushToken(token)
     );
+  }
+  useEffect(() => {
+    setLoading(true);
     let subscriber = () => {
       console.log("no user detected");
     };
