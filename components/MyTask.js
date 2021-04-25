@@ -6,6 +6,7 @@ import { auth } from "../config/firebase";
 import FirestoreUpdatePushToken from "../backend/FirestoreUpdatePushToken";
 import FirestoreQueryMyTasks from "../backend/FirestoreQuerryMyTasks";
 import registerForPushNotificationsAsync from "../backend/Notification";
+import Colors from "../assets/color";
 
 const MyTask = () => {
   const [tasks, setTasks] = useState([]);
@@ -55,6 +56,6 @@ const styles = StyleSheet.create({
   actionButtonIcon: {
     fontSize: 20,
     height: 22,
-    color: "white",
+    color: Colors.white,
   },
 });

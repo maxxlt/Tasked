@@ -11,13 +11,11 @@ import {
   Platform,
 } from "react-native";
 import { Button } from "react-native-ui-lib";
-import colors from "../assets/color";
+import Colors from "../assets/color";
 import FirestoreQueryUser from "../backend/FirestoreQueryUser.js";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Context } from "../reducers/Store";
 import FirestoreEditTask from "../backend/FirestoreEditTask";
-
-
 
 import { db, auth } from "../config/firebase";
 const EditTask = (props) => {
@@ -25,7 +23,7 @@ const EditTask = (props) => {
   const [queriedusers, setQueriedUsers] = useState([
     props.selectedTask.assigned_user,
   ]);
-  const [initials, setInitials] = useState()
+  const [initials, setInitials] = useState();
   const [assigneduser, setAssignedUser] = useState(
     props.selectedTask.assigned_user.username
   );
@@ -65,51 +63,54 @@ const EditTask = (props) => {
     );
   };
   //Added participants item
-const IconItem = ({ assigneduser }) => (
-  <View style={styles.participants_container}>
-    <View
-      style={styles.tinyLogo}
-      source={require("../assets/default_profile_pic.png")}
-    >
-        <Text style={{color:"white", fontWeight:"bold"}} >{initials}</Text>
-     
+  const IconItem = ({ assigneduser }) => (
+    <View style={styles.participants_container}>
+      <View
+        style={styles.tinyLogo}
+        source={require("../assets/default_profile_pic.png")}
+      >
+        <Text style={{ color: Colors.white, fontWeight: "bold" }}>
+          {initials}
+        </Text>
       </View>
-    <Text style={styles.username_text}>{assigneduser}</Text>
-  </View>
-);
-//Queried in search item
-const ParticipantsIconItem = ({ username, onPress }) => (
-  <TouchableOpacity style={styles.participants_container} onPress={onPress}>
-     <View
-      style={styles.tinyLogo}
-      source={require("../assets/default_profile_pic.png")}>
-        <Text style={{color:"white", fontWeight:"bold"}} >{initials}</Text>
-     
+      <Text style={styles.username_text}>{assigneduser}</Text>
+    </View>
+  );
+  //Queried in search item
+  const ParticipantsIconItem = ({ username, onPress }) => (
+    <TouchableOpacity style={styles.participants_container} onPress={onPress}>
+      <View
+        style={styles.tinyLogo}
+        source={require("../assets/default_profile_pic.png")}
+      >
+        <Text style={{ color: Colors.white, fontWeight: "bold" }}>
+          {initials}
+        </Text>
       </View>
-    <Text style={styles.username_text}>{username}</Text>
-  </TouchableOpacity>
-);
-const fireinitial = () => {
-  db.collection("users").onSnapshot((querySnapshot) => {
-    querySnapshot.forEach((documentSnapshot) => {
-      try {
-        if ( props.selectedTask.assigned_user.uid == documentSnapshot.data().uid)
-        {
-            const fullName  = documentSnapshot.data().fullname
-            const i = fullName.charAt(0) + fullName.charAt(1)          
-            setInitials([i.toUpperCase()])
+      <Text style={styles.username_text}>{username}</Text>
+    </TouchableOpacity>
+  );
+  const fireinitial = () => {
+    db.collection("users").onSnapshot((querySnapshot) => {
+      querySnapshot.forEach((documentSnapshot) => {
+        try {
+          if (
+            props.selectedTask.assigned_user.uid == documentSnapshot.data().uid
+          ) {
+            const fullName = documentSnapshot.data().fullname;
+            const i = fullName.charAt(0) + fullName.charAt(1);
+            setInitials([i.toUpperCase()]);
+          }
+        } catch (e) {
+          console.log(e);
         }
-      } catch (e) {
-        console.log(e);
-      }
+      });
     });
-  });
-  
-}
+  };
 
-useEffect (()=>{
-  fireinitial()
-},[])
+  useEffect(() => {
+    fireinitial();
+  }, []);
   return (
     //Set up create group screen with buttons and fields that the user can input details
     <View style={styles.container}>
@@ -149,7 +150,7 @@ useEffect (()=>{
             placeholder="Type username"
             onChangeText={(text) => {
               FirestoreQueryUser(text, setQueriedUsers, setInitials); //query user from firestore if exists
-              console.log(initials)
+              console.log(initials);
             }}
           />
         </View>
@@ -190,7 +191,7 @@ useEffect (()=>{
       <Button
         label={"Edit Task"}
         style={styles.button}
-        backgroundColor={colors.logoorange}
+        backgroundColor={Colors.logoorange}
         disabled={!taskname.length} //disable button if user didn't type anything in taskname
         onPress={() => {
           FirestoreEditTask(
@@ -213,7 +214,7 @@ export default EditTask;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F9F9F9",
+    backgroundColor: Colors.lightGrey,
     width: "100%",
     marginBottom: 50,
     borderRadius: 5,
@@ -235,7 +236,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 18,
     paddingVertical: 15,
     fontSize: 16,
-    borderColor: "#ddd",
+    borderColor: Colors.grey,
     borderRadius: 5,
   },
   taskname_input_container: {
@@ -243,7 +244,7 @@ const styles = StyleSheet.create({
     height: 52,
     borderRadius: 5,
     marginHorizontal: 20,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: Colors.white,
   },
   username_input_container: {
     marginTop: 12,
@@ -251,11 +252,11 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5,
     marginHorizontal: 20,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: Colors.white,
   },
   button: {
     alignItems: "center",
-    borderColor: "#F6820D",
+    borderColor: Colors.pumpkinOrange,
     borderRadius: 5,
     marginTop: 26,
     marginHorizontal: 33,
@@ -275,7 +276,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5,
     marginHorizontal: 20,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: Colors.white,
   },
   username_text: {
     marginLeft: 12,
@@ -297,11 +298,11 @@ const styles = StyleSheet.create({
   tinyLogo: {
     height: 32,
     width: 32,
-    borderRadius:16,
-    backgroundColor:"#FCCF3E",
-    alignContent:"center",
-    justifyContent:"center",
-    alignItems:"center"
+    borderRadius: 16,
+    backgroundColor: Colors.orange,
+    alignContent: "center",
+    justifyContent: "center",
+    alignItems: "center",
   },
   participants_flatlist_container: {
     marginTop: 12,
@@ -319,8 +320,8 @@ const styles = StyleSheet.create({
   pick_date_container: {
     marginRight: 88,
   },
-  pick_date_text: { color: colors.logoorange },
-  pick_time_text: { color: colors.logoorange },
+  pick_date_text: { color: Colors.logoorange },
+  pick_time_text: { color: Colors.logoorange },
   date_text: { marginRight: 38 },
   time_text: {},
 });

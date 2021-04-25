@@ -24,6 +24,7 @@ import FirestoreQueryAllParticipants from "../backend/FirestoreQueryAllParticipa
 import FirestoreLeaveGroup from "../backend/FirestoreLeaveGroup";
 import FirestoreQueryAllGroups from "../backend/FirestoreQueryAllGroups";
 import { Context } from "../reducers/Store";
+import { ColorSwatch } from "react-native-ui-lib";
 
 const Group = (props) => {
   const { navigation } = props;
@@ -141,7 +142,7 @@ const Group = (props) => {
     );
   };
   return (
-    <View style={{ flex: 1, backgroundColor: "#f3f3f3" }}>
+    <View style={{ flex: 1, backgroundColor: Colors.lightGrey }}>
       <Appbar title="Groups" />
       <ScrollView style={styles.container}>
         <FlatList
@@ -172,7 +173,7 @@ const Group = (props) => {
       </ScrollView>
       <ActionButton buttonColor={Colors.logoorange}>
         <ActionButton.Item
-          buttonColor="#9b59b6"
+          buttonColor={Colors.purple}
           title="New Group"
           onPress={toggleCreateGroupModal}
         >
@@ -192,15 +193,15 @@ const styles = StyleSheet.create({
   actionButtonIcon: {
     fontSize: 20,
     height: 22,
-    color: "white",
+    color: Colors.white,
   },
   button: {
     marginTop: 30,
     marginBottom: 20,
     paddingVertical: 5,
     alignItems: "center",
-    backgroundColor: "#F6820D",
-    borderColor: "#F6820D",
+    backgroundColor: Colors.pumpkinOrange,
+    borderColor: Colors.pumpkinOrange,
     borderWidth: 1,
     borderRadius: 5,
     width: 200,
@@ -209,11 +210,11 @@ const styles = StyleSheet.create({
     height: 180,
     margin: 16,
     borderRadius: 5,
-    color: "#FFFFFF",
+    color: Colors.white,
     height: 150,
-    backgroundColor: "white",
+    backgroundColor: Colors.white,
     elevation: 5,
-    shadowColor: "#000",
+    shadowColor: Colors.black,
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.1,
     shadowRadius: 5,
@@ -238,7 +239,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
     marginLeft: 12,
     fontSize: 12,
-    color: "#8B8B8B",
+    color: Colors.darkGrey,
   },
   top_card_container: {
     flexDirection: "row",
