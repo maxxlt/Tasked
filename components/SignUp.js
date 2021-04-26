@@ -4,7 +4,7 @@ import { StyleSheet, KeyboardAvoidingView, Alert } from "react-native";
 import FirestoreQueryUser from "../backend/FirestoreQueryUser.js";
 
 import { TextField, Button } from "react-native-ui-lib";
-import colors from "../assets/color";
+import Colors from "../assets/color";
 import { auth, db } from "../config/firebase";
 
 //Set up fields for signup screen
@@ -136,11 +136,11 @@ const Signup = (props) => {
       <Button
         label={"Sign Up"}
         style={styles.button}
-        disabled={!(isPasswordValid && isUsernameValid && isFullnameValid)}
+        disabled={!(password.length && username.length && fullname.length)}
         onPress={async () => {
           register();
         }}
-        backgroundColor={colors.logoorange}
+        backgroundColor={Colors.logoorange}
         enableShadow
         center
       />
@@ -151,7 +151,7 @@ const Signup = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: Colors.white,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     fontSize: 16,
     borderWidth: 1,
-    borderColor: "#ddd",
+    borderColor: Colors.grey,
     borderRadius: 5,
     textAlign: "center",
   },
@@ -168,13 +168,13 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     paddingHorizontal: 120,
     alignItems: "center",
-    borderColor: "#F6820D",
+    borderColor: Colors.pumpkinOrange,
     borderRadius: 5,
   },
   buttonText: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#fff",
+    color: Colors.white,
   },
   buttonSignup: {
     fontSize: 12,

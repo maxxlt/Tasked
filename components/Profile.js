@@ -6,6 +6,7 @@ import { Context } from "../reducers/Store";
 import FirestoreQueryInitials from "../backend/FirestoreQueryInitials";
 
 import { db, auth } from "../config/firebase";
+import Colors from "../assets/color";
 //Set up Profile Screen with username and fullname
 const Profile = (props) => {
   //hook function in react to declare local variable for the state
@@ -45,7 +46,9 @@ const Profile = (props) => {
       <View style={{ alignItems: "center", justifyContent: "center" }}>
         <TouchableOpacity>
           <View style={styles.profilePic}>
-            <Text style={{ color: "white", fontWeight: "bold", fontSize: 28 }}>
+            <Text
+              style={{ color: Colors.black, fontWeight: "bold", fontSize: 28 }}
+            >
               {initial}
             </Text>
           </View>
@@ -88,7 +91,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 20,
     marginTop: 30,
-    backgroundColor: "#FCCF3E",
+    backgroundColor: Colors.orange,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -110,8 +113,8 @@ const styles = StyleSheet.create({
     marginBottom: 140,
 
     alignItems: "center",
-    backgroundColor: "#646669",
-    borderColor: "#646669",
+    backgroundColor: Colors.wolfGrey,
+    borderColor: Colors.wolfGrey,
     borderWidth: 1,
     borderRadius: 5,
     height: 36,
@@ -121,7 +124,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
     fontSize: 13,
     height: 20,
-    color: "white",
+    color: Colors.white,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -130,8 +133,8 @@ const styles = StyleSheet.create({
     marginLeft: 55,
     marginRight: 32,
     alignItems: "center",
-    backgroundColor: "#FFC038",
-    borderColor: "#FFC038",
+    backgroundColor: Colors.logoorange,
+    borderColor: Colors.logoorange,
     borderWidth: 1,
     borderRadius: 5,
     height: 52,
@@ -141,7 +144,7 @@ const styles = StyleSheet.create({
     marginTop: 12,
     fontSize: 20,
     height: 22,
-    color: "white",
+    color: Colors.black,
     alignItems: "center",
     justifyContent: "center",
   },
