@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, ScrollView, ActivityIndicator } from "react-native";
+import { StyleSheet, View, ScrollView, ActivityIndicator, Text } from "react-native";
 import Task_list from "./Task_list.js";
 import Appbar from "./Appbar";
 import { auth } from "../config/firebase";
@@ -35,7 +35,18 @@ const MyTask = () => {
   if (loading) {
     return <ActivityIndicator />;
   }
+  if(tasks.length == 0)
+  {
+    return(
+      <View style={styles.container}>
+      <Appbar title="Tasks" />
+      <View style={{alignItems:"center", justifyContent:"center", alignContent:"center",flex:1}}>
 
+        <Text style = {{color:"grey", size:20}}>No Tasks Assigned</Text>
+      </View>
+    </View>
+    )
+  }
   return (
     <View style={styles.container}>
       <Appbar title="Tasks" />
