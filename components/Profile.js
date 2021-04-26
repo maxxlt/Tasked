@@ -9,9 +9,7 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import Modal from "react-native-modal";
-import { auth } from "../config/firebase";
 import EditProfile from "./EditProfile";
-import { View, StyleSheet, TouchableOpacity, Text, Image } from "react-native";
 
 import { Context } from "../reducers/Store";
 import FirestoreQueryInitials from "../backend/FirestoreQueryInitials";
