@@ -14,7 +14,7 @@ import { Button } from "react-native-ui-lib";
 import Colors from "../assets/color";
 import FirestoreCreateTask from "../backend/FirestoreCreateTask.js";
 import FirestoreQueryUser from "../backend/FirestoreQueryUser.js";
-import DateTimePicker from "@react-native-community/datetimepicker";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Context } from "../reducers/Store";
 
 const CreateTask = (props) => {
@@ -25,25 +25,23 @@ const CreateTask = (props) => {
   const [initials, setInitials] = useState("");
   //Time and date picker hooks
   const [date, setDate] = useState(new Date());
-  const [mode, setMode] = useState("date");
-  const [show, setShow] = useState(false);
+
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   //Time and date picker functions
-  const onPickerChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShow(Platform.OS === "ios");
-    setDate(currentDate);
+  const showDateTimePicker = () => {
+    setDatePickerVisibility(true);
   };
-  const showMode = (currentMode) => {
-    setShow(true);
-    setMode(currentMode);
+
+  const hideDateTimePicker = () => {
+    setDatePickerVisibility(false);
   };
-  const showDatepicker = () => {
-    showMode("date");
+
+  const handleConfirm = (date) => {
+    setDate(date);
+    hideDateTimePicker();
   };
-  const showTimepicker = () => {
-    showMode("time");
-  };
+
   //Added participants item
   const IconItem = ({ assigneduser }) => (
     <View style={styles.participants_container}>
@@ -125,24 +123,17 @@ const CreateTask = (props) => {
       <Text style={styles.label}>Due date</Text>
       <View style={styles.due_date_container}>
         <TouchableOpacity
-          onPress={showDatepicker}
+          onPress={showDateTimePicker}
           style={styles.pick_date_container}
         >
-          <Text style={styles.pick_date_text}>Pick date</Text>
+          <Text style={styles.pick_date_text}>Pick date and time</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={showTimepicker}>
-          <Text style={styles.pick_time_text}>Pick time</Text>
-        </TouchableOpacity>
-        {show && (
-          <DateTimePicker
-            testID="dateTimePicker"
-            value={date}
-            mode={mode}
-            is24Hour={true}
-            display="spinner"
-            onChange={onPickerChange}
-          />
-        )}
+        <DateTimePickerModal
+          isVisible={isDatePickerVisible}
+          mode="datetime"
+          onConfirm={handleConfirm}
+          onCancel={hideDateTimePicker}
+        />
       </View>
       <View style={styles.due_date_container}>
         <Text style={styles.date_text}>{date.toDateString()}</Text>
@@ -279,8 +270,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   due_date_container: {
-    flexDirection: "row",
-    marginHorizontal: 70,
+    marginHorizontal: 33,
     marginTop: 15,
   },
   pick_date_container: {

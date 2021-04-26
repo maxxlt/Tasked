@@ -9,11 +9,12 @@ import {
   Image,
   TouchableOpacity,
   Platform,
+  ScrollView,
 } from "react-native";
 import { Button } from "react-native-ui-lib";
 import Colors from "../assets/color";
 import FirestoreQueryUser from "../backend/FirestoreQueryUser.js";
-import DateTimePicker from "@react-native-community/datetimepicker";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Context } from "../reducers/Store";
 import FirestoreEditTask from "../backend/FirestoreEditTask";
 
@@ -35,23 +36,22 @@ const EditTask = (props) => {
   );
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   //Time and date picker functions
-  const onPickerChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShow(Platform.OS === "ios");
-    setDate(currentDate);
+  const showDateTimePicker = () => {
+    setDatePickerVisibility(true);
   };
-  const showMode = (currentMode) => {
-    setShow(true);
-    setMode(currentMode);
+
+  const hideDateTimePicker = () => {
+    setDatePickerVisibility(false);
   };
-  const showDatepicker = () => {
-    showMode("date");
+
+  const handleConfirm = (date) => {
+    setDate(date);
+    hideDateTimePicker();
   };
-  const showTimepicker = () => {
-    showMode("time");
-  };
+
   const renderParticipantsItem = ({ item }) => {
     return (
       <ParticipantsIconItem
@@ -113,7 +113,7 @@ const EditTask = (props) => {
   }, []);
   return (
     //Set up create group screen with buttons and fields that the user can input details
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <TouchableOpacity
         style={styles.x_btn_container}
         onPress={props.toggleEditTaskModal}
@@ -165,24 +165,17 @@ const EditTask = (props) => {
       <Text style={styles.label}>Due date</Text>
       <View style={styles.due_date_container}>
         <TouchableOpacity
-          onPress={showDatepicker}
+          onPress={showDateTimePicker}
           style={styles.pick_date_container}
         >
-          <Text style={styles.pick_date_text}>Pick date</Text>
+          <Text style={styles.pick_date_text}>Pick date and time</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={showTimepicker}>
-          <Text style={styles.pick_time_text}>Pick time</Text>
-        </TouchableOpacity>
-        {show && (
-          <DateTimePicker
-            testID="dateTimePicker"
-            value={date}
-            mode={mode}
-            is24Hour={true}
-            display="spinner"
-            onChange={onPickerChange}
-          />
-        )}
+        <DateTimePickerModal
+          isVisible={isDatePickerVisible}
+          mode="datetime"
+          onConfirm={handleConfirm}
+          onCancel={hideDateTimePicker}
+        />
       </View>
       <View style={styles.due_date_container}>
         <Text style={styles.date_text}>{date.toDateString()}</Text>
@@ -206,7 +199,7 @@ const EditTask = (props) => {
         enableShadow
         center
       />
-    </View>
+    </ScrollView>
   );
 };
 
@@ -261,6 +254,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginTop: 26,
     marginHorizontal: 33,
+    marginBottom: 10,
   },
   icon_flatlist_container: {
     height: 60,
@@ -314,8 +308,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   due_date_container: {
-    flexDirection: "row",
-    marginHorizontal: 70,
+    marginHorizontal: 33,
     marginTop: 15,
   },
   pick_date_container: {
