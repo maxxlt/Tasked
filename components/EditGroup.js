@@ -42,7 +42,7 @@ const EditGroup = (props) => {
         style={styles.tinyLogo}
         source={require("../assets/default_profile_pic.png")}
       >
-        <Text style={{ color: "white", fontWeight: "bold" }}>
+        <Text style={{ color: Colors.black, fontWeight: "bold" }}>
           {(fullname.charAt(0) + fullname.charAt(1)).toUpperCase()}
         </Text>
       </View>
@@ -109,7 +109,7 @@ const EditGroup = (props) => {
   const ParticipantsIconItem = ({ username, onPress }) => (
     <TouchableOpacity style={styles.participants_container} onPress={onPress}>
       <View style={styles.tinyLogo}>
-        <Text style={{ color: Colors.white, fontWeight: "bold" }}>
+        <Text style={{ color: Colors.black, fontWeight: "bold" }}>
           {initials}
         </Text>
       </View>
@@ -169,6 +169,7 @@ const EditGroup = (props) => {
       <Button
         label={"Edit Group"}
         style={styles.button}
+        color={Colors.black}
         backgroundColor={Colors.logoorange}
         onPress={() => {
           FirestoreUpdateGroup(props.selectedGroupId, groupName);
@@ -198,6 +199,7 @@ const styles = StyleSheet.create({
   },
   title_text: {
     fontSize: 24,
+    color: Colors.black,
   },
   label: {
     fontSize: 16,
