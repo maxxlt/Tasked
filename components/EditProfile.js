@@ -31,7 +31,6 @@ const EditProfile = (props) => {
           email: Newemail,
           username: Newusername,
         });
-        // navigation.replace("Tasked");
       })
       .catch((error) => alert(error.message));
     setNewEmail("");
@@ -54,7 +53,7 @@ const EditProfile = (props) => {
       </View>
       <Text style={styles.label}>Current Email</Text>
       <KeyboardAvoidingView>
-        <View style={styles.email_input_container}>
+        <View style={styles.input_container}>
           <TextInput
             style={styles.inputBox}
             placeholder="Enter old email to validate"
@@ -66,7 +65,7 @@ const EditProfile = (props) => {
       </KeyboardAvoidingView>
       <Text style={styles.label}>Current Password</Text>
       <KeyboardAvoidingView>
-        <View style={styles.email_input_container}>
+        <View style={styles.input_container}>
           <TextInput
             style={styles.inputBox}
             placeholder="Enter old pass to validate"
@@ -78,7 +77,7 @@ const EditProfile = (props) => {
       </KeyboardAvoidingView>
       <Text style={styles.label}>New Email</Text>
       <KeyboardAvoidingView>
-        <View style={styles.email_input_container}>
+        <View style={styles.input_container}>
           <TextInput
             style={styles.inputBox}
             placeholder="Enter new email to update"
@@ -90,7 +89,19 @@ const EditProfile = (props) => {
       </KeyboardAvoidingView>
       <Text style={styles.label}>New Username</Text>
       <KeyboardAvoidingView>
-        <View style={styles.user_input_container}>
+        <View style={styles.input_container}>
+          <TextInput
+            style={styles.inputBox}
+            placeholder="Enter new username to update"
+            onChangeText={(Newusername) => {
+              setNewUsername(Newusername);
+            }}
+          />
+        </View>
+      </KeyboardAvoidingView>
+      <Text style={styles.label}>Fullname</Text>
+      <KeyboardAvoidingView>
+        <View style={styles.input_container}>
           <TextInput
             style={styles.inputBox}
             placeholder="Enter new username to update"
@@ -137,7 +148,7 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     marginLeft: 20,
-    marginTop: 45,
+    marginTop: 15,
   },
   inputBox: {
     marginHorizontal: 18,
@@ -146,10 +157,11 @@ const styles = StyleSheet.create({
     borderColor: "#ddd",
     borderRadius: 5,
   },
-  user_input_container: {
-    marginTop: 20,
+  input_container: {
+    marginTop: 12,
     height: 52,
-    borderRadius: 5,
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
     marginHorizontal: 20,
     backgroundColor: "#FFFFFF",
   },
@@ -157,9 +169,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderColor: "#F6820D",
     borderRadius: 5,
-    marginTop: 40,
+    marginTop: 26,
     marginHorizontal: 33,
-    marginBottom: 21,
   },
   x_btn_container: {
     height: 21,
