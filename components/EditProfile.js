@@ -8,12 +8,14 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import { Button } from "react-native-ui-lib";
 import colors from "../assets/color";
 import { auth, db } from "../config/firebase";
 
-const EditProfile = (props) => { //function which passes email, setEmail as props
+const EditProfile = (props) => {
+  //function which passes email, setEmail as props
   const [Newemail, setNewEmail] = useState("");
   const [Newusername, setNewUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -24,12 +26,12 @@ const EditProfile = (props) => { //function which passes email, setEmail as prop
       .signInWithEmailAndPassword(email, password)
       .then((authUser) => {
         authUser.user.updateEmail(Newemail);
-        authUser.user.updateProfile({username: Newusername});
+        authUser.user.updateProfile({ username: Newusername });
         db.collection("users").doc(authUser.user.uid).update({
           email: Newemail,
           username: Newusername,
         });
-       // navigation.replace("Tasked");
+        // navigation.replace("Tasked");
       })
       .catch((error) => alert(error.message));
     setNewEmail("");
@@ -40,7 +42,7 @@ const EditProfile = (props) => { //function which passes email, setEmail as prop
 
   return (
     //Set up a pop-up screen for forgot password feature
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <TouchableOpacity
         style={styles.x_btn_container}
         onPress={props.isModalVisible}
@@ -110,7 +112,7 @@ const EditProfile = (props) => { //function which passes email, setEmail as prop
           center
         />
       </TouchableOpacity>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -157,6 +159,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginTop: 40,
     marginHorizontal: 33,
+    marginBottom: 21,
   },
   x_btn_container: {
     height: 21,
