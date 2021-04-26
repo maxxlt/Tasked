@@ -60,6 +60,7 @@ const ForgotPassword = (props) => {
         <Button
           label={"Submit"}
           style={styles.button}
+          color={Colors.black}
           backgroundColor={Colors.logoorange}
           onPress={() => {
             submit();
