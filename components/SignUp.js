@@ -135,6 +135,7 @@ const Signup = (props) => {
       />
       <Button
         label={"Sign Up"}
+        color={Colors.black}
         style={styles.button}
         disabled={!(password.length && username.length && fullname.length)}
         onPress={async () => {
@@ -170,11 +171,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderColor: Colors.pumpkinOrange,
     borderRadius: 5,
+    color: Colors.black
   },
   buttonText: {
     fontSize: 20,
     fontWeight: "bold",
-    color: Colors.white,
+    color: Colors.black,
   },
   buttonSignup: {
     fontSize: 12,

@@ -72,7 +72,8 @@ const Login = (props) => {
           hideUnderline
         />
         <Button
-          label={"Login"}
+          label={"Login"} 
+          color={Colors.black}
           style={styles.button}
           onPress={() => login()}
           backgroundColor={Colors.logoorange}
@@ -110,6 +111,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderColor: Colors.pumpkinOrange,
     borderRadius: 5,
+    color: Colors.pumpkinOrange
   },
   forgotpassword_text: {
     fontSize: 14,
