@@ -47,7 +47,7 @@ const Profile = (props) => {
         <TouchableOpacity>
           <View style={styles.profilePic}>
             <Text
-              style={{ color: Colors.white, fontWeight: "bold", fontSize: 28 }}
+              style={{ color: Colors.black, fontWeight: "bold", fontSize: 28 }}
             >
               {initial}
             </Text>
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     marginTop: 12,
     fontSize: 20,
     height: 22,
-    color: Colors.white,
+    color: Colors.black,
     alignItems: "center",
     justifyContent: "center",
   },

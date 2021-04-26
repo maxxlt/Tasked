@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   image: { height: 40, width: 40, borderRadius: 5 },
   text: {
     marginTop: 65,
-    color: Colors.white,
+    color: Colors.black,
     fontSize: 20,
     fontWeight: "bold",
   },

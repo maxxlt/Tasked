@@ -102,7 +102,11 @@ const Group = (props) => {
                 FirestoreDeleteGroup(item.group_id);
               },
               () => {
-                FirestoreLeaveGroup(item.group_id);
+                if (item.participants.length == 1) {
+                  FirestoreDeleteGroup(item.group_id);
+                } else {
+                  FirestoreLeaveGroup(item.group_id);
+                }
               },
             ]}
           />
