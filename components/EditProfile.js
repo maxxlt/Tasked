@@ -21,10 +21,11 @@ const EditProfile = (props) => {
   const [fullname, setFullName] = useState(props.user.fullname);
 
   const submit = () => {
+    console.log(auth.currentUser);
     auth.currentUser.updateProfile({
-      username: username,
-      displayName: fullname,
+      displayName: username,
     });
+    props.setUserName(username);
     db.collection("users").doc(props.user.uid).update({
       username: username,
       fullname: fullname,

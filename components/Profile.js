@@ -18,8 +18,8 @@ import { db, auth } from "../config/firebase";
 //Set up Profile Screen with username and fullname
 const Profile = (props) => {
   //hook function in react to declare local variable for the state
-  const [username, setUserName] = useState("");
-  const [email, setFullName] = useState("");
+  const [username, setUserName] = useState(auth.currentUser.displayName);
+  const [email, setEmail] = useState(auth.currentUser.email);
   const [isModalVisible, setModalVisible] = useState(false);
   const [initial, setInitial] = useState("");
   const [user, setUser] = useState({});
@@ -42,11 +42,7 @@ const Profile = (props) => {
   };
   useEffect(() => {
     //function that renders when component loads
-    const username = auth.currentUser.displayName;
-    const email = auth.currentUser.email;
     fireinitial();
-    setUserName(username);
-    setFullName(email);
   }, [username]);
 
   //toggler for a popup
@@ -75,7 +71,11 @@ const Profile = (props) => {
             animationIn="slideInLeft"
             animationOut="slideOutRight"
           >
-            <EditProfile user={user} isModalVisible={toggleModal} />
+            <EditProfile
+              user={user}
+              setUserName={setUserName}
+              isModalVisible={toggleModal}
+            />
           </Modal>
         </KeyboardAvoidingView>
 
