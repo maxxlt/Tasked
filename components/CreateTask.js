@@ -150,6 +150,7 @@ const CreateTask = (props) => {
       </View>
       <Button
         label={"Create Task"}
+        color={Colors.black}
         style={styles.button}
         backgroundColor={Colors.logoorange}
         disabled={!taskname.length} //disable button if user didn't type anything in taskname
@@ -188,7 +189,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
   texin: {
-    color: Colors.white,
+    color: Colors.black,
     fontWeight: "bold",
   },
   label: {

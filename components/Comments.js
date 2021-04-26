@@ -58,6 +58,7 @@ const Comments = (props) => {
         <Button
           label={"Add comment"}
           style={styles.button}
+          color={Colors.black}
           onPress={() => {
             FirestoreAddComment(
               props.task,
