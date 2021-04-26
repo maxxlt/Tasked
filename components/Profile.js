@@ -1,6 +1,15 @@
 import React, { useState, useEffect, useContext } from "react";
 import Appbar from "./Appbar";
-import { View, StyleSheet, TouchableOpacity, Text, Image } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  Image,
+  KeyboardAvoidingView,
+} from "react-native";
+import Modal from "react-native-modal";
+import EditProfile from "./EditProfile";
 
 import { Context } from "../reducers/Store";
 import FirestoreQueryInitials from "../backend/FirestoreQueryInitials";
@@ -10,15 +19,18 @@ import Colors from "../assets/color";
 //Set up Profile Screen with username and fullname
 const Profile = (props) => {
   //hook function in react to declare local variable for the state
-  const [username, setUserName] = useState("");
-  const [email, setFullName] = useState("");
+  const [username, setUserName] = useState(auth.currentUser.displayName);
+  const [email, setEmail] = useState(auth.currentUser.email);
+  const [isModalVisible, setModalVisible] = useState(false);
   const [initial, setInitial] = useState("");
+  const [user, setUser] = useState({});
 
   const fireinitial = () => {
     db.collection("users").onSnapshot((querySnapshot) => {
       querySnapshot.forEach((documentSnapshot) => {
         try {
           if (auth.currentUser.uid == documentSnapshot.data().uid) {
+            setUser(documentSnapshot.data());
             const fullName = documentSnapshot.data().fullname;
             const i = fullName.charAt(0) + fullName.charAt(1);
             setInitial(i.toUpperCase());
@@ -31,12 +43,13 @@ const Profile = (props) => {
   };
   useEffect(() => {
     //function that renders when component loads
-    const username = auth.currentUser.displayName;
-    const email = auth.currentUser.email;
     fireinitial();
-    setUserName(username);
-    setFullName(email);
   }, [username]);
+
+  //toggler for a popup
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
 
   const { navigation } = props; //prop is an arguement passed
   return (
@@ -55,12 +68,23 @@ const Profile = (props) => {
         </TouchableOpacity>
         <Text style={styles.username}>@{username}</Text>
         <Text style={styles.email}>{email}</Text>
+        <KeyboardAvoidingView>
+          <Modal
+            isVisible={isModalVisible}
+            animationIn="slideInLeft"
+            animationOut="slideOutRight"
+          >
+            <EditProfile
+              user={user}
+              setUserName={setUserName}
+              isModalVisible={toggleModal}
+            />
+          </Modal>
+        </KeyboardAvoidingView>
+
         <TouchableOpacity
           style={styles.editProfileButton}
-          onPress={() => {
-            //auth.signOut();
-            //navigation.navigate("Home");
-          }}
+          onPress={toggleModal}
         >
           <Text style={styles.editProfileButtonText}>EDIT PROFILE</Text>
         </TouchableOpacity>
