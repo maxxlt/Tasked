@@ -69,7 +69,7 @@ const EditTask = (props) => {
         style={styles.tinyLogo}
         source={require("../assets/default_profile_pic.png")}
       >
-        <Text style={{ color: Colors.white, fontWeight: "bold" }}>
+        <Text style={{ color: Colors.black, fontWeight: "bold" }}>
           {initials}
         </Text>
       </View>
@@ -83,7 +83,7 @@ const EditTask = (props) => {
         style={styles.tinyLogo}
         source={require("../assets/default_profile_pic.png")}
       >
-        <Text style={{ color: Colors.white, fontWeight: "bold" }}>
+        <Text style={{ color: Colors.black, fontWeight: "bold" }}>
           {initials}
         </Text>
       </View>
@@ -191,6 +191,7 @@ const EditTask = (props) => {
       <Button
         label={"Edit Task"}
         style={styles.button}
+        color={Colors.black}
         backgroundColor={Colors.logoorange}
         disabled={!taskname.length} //disable button if user didn't type anything in taskname
         onPress={() => {

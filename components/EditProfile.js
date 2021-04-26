@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
+import { color } from "react-native-reanimated";
 import { Button } from "react-native-ui-lib";
 import colors from "../assets/color";
 import { auth, db } from "../config/firebase";
@@ -88,6 +89,7 @@ const EditProfile = (props) => {
         <Button
           label={"Submit"}
           style={styles.button}
+          color={colors.black}
           backgroundColor={colors.logoorange}
           onPress={() => {
             submit();
@@ -106,7 +108,7 @@ export default EditProfile;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F9F9F9",
+    backgroundColor: colors.lightGrey,
     width: "100%",
     marginBottom: 50,
     borderRadius: 5,
@@ -128,7 +130,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 18,
     paddingVertical: 15,
     fontSize: 16,
-    borderColor: "#ddd",
+    borderColor: colors.grey,
     borderRadius: 5,
   },
   input_container: {
@@ -137,14 +139,15 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5,
     marginHorizontal: 20,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.white,
   },
   button: {
     alignItems: "center",
-    borderColor: "#F6820D",
+    borderColor: colors.black,
     borderRadius: 5,
     marginTop: 26,
     marginHorizontal: 33,
+    color: colors.black,
   },
   x_btn_container: {
     height: 21,
