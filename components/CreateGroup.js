@@ -50,7 +50,7 @@ const CreateGroup = (props) => {
     return (
       <View style={styles.icon_image}>
         <View style={styles.tinyLogo}>
-          <Text style={{ color: Colors.white, fontWeight: "bold" }}>
+          <Text style={{ color: Colors.black, fontWeight: "bold" }}>
             {item}
           </Text>
         </View>
@@ -62,7 +62,7 @@ const CreateGroup = (props) => {
   const ParticipantsIconItem = ({ username, onPress }) => (
     <TouchableOpacity style={styles.participants_container} onPress={onPress}>
       <View style={styles.tinyLogo}>
-        <Text style={{ color: Colors.white, fontWeight: "bold" }}>
+        <Text style={{ color: Colors.black, fontWeight: "bold" }}>
           {initials}
         </Text>
       </View>
@@ -139,6 +139,7 @@ const CreateGroup = (props) => {
       <Button
         label={"Create Group"}
         style={styles.button}
+        color={Colors.black}
         backgroundColor={Colors.logoorange}
         disabled={!groupname.length} //disable button if user didn't type anything in groupname
         onPress={() => {

@@ -63,7 +63,10 @@ export default function GroupTask(props) {
           <CreateTask isModalVisible={toggleCreateTaskModal} />
         </Modal>
       </ScrollView>
-      <ActionButton buttonColor={Colors.logoorange}>
+      <ActionButton
+        buttonTextStyle={{ color: Colors.black }}
+        buttonColor={Colors.logoorange}
+      >
         <ActionButton.Item
           buttonColor={Colors.purple}
           title="New Task"
