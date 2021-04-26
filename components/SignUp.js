@@ -115,7 +115,6 @@ const Signup = (props) => {
         onBlur={async () => {
           setQueriedusername([]);
           await FirestoreQueryUser(username, setQueriedusername, setInitials);
-          onCheckUsername();
         }}
         placeholder="Username"
         autoCapitalize="none"
@@ -124,10 +123,10 @@ const Signup = (props) => {
       <TextField
         style={styles.inputBox}
         value={fullname}
-        onChangeText={(fullname) => setFullname(fullname)}
-        onBlur={async () => {
-          console.log(is)
+        onChangeText={(fullname) => {
+          setFullname(fullname);
           if (fullname.length >= 2) {
+            onCheckUsername();
             setFullnameValidation(true);
           }
         }}

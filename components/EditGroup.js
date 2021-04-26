@@ -36,8 +36,16 @@ const EditGroup = (props) => {
     return () => subscriber();
   }, [participantsids]);
   //Display the existing members with an icon and the delete button
-  const ExistingParticipantsItem = ({ username, onPress }) => (
+  const ExistingParticipantsItem = ({ fullname, username, onPress }) => (
     <View style={styles.participants_container}>
+      <View
+        style={styles.tinyLogo}
+        source={require("../assets/default_profile_pic.png")}
+      >
+        <Text style={{ color: "white", fontWeight: "bold" }}>
+          {(fullname.charAt(0) + fullname.charAt(1)).toUpperCase()}
+        </Text>
+      </View>
       <Text style={styles.username_text}>{username}</Text>
       <TouchableOpacity style={styles.delete_x_btn_container} onPress={onPress}>
         <Image
@@ -78,6 +86,7 @@ const EditGroup = (props) => {
   const renderExistingParticipantsItem = ({ item }) => {
     return (
       <ExistingParticipantsItem
+        fullname={item.fullname}
         username={item.username}
         onPress={() => {
           //Updating queriedParticipants so it will refresh the component
@@ -277,6 +286,7 @@ const styles = StyleSheet.create({
     width: 32,
     borderRadius: 16,
     backgroundColor: Colors.orange,
+
     alignContent: "center",
     justifyContent: "center",
     alignItems: "center",
