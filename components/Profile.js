@@ -22,12 +22,14 @@ const Profile = (props) => {
   const [email, setFullName] = useState("");
   const [isModalVisible, setModalVisible] = useState(false);
   const [initial, setInitial] = useState("");
+  const [user, setUser] = useState({});
 
   const fireinitial = () => {
     db.collection("users").onSnapshot((querySnapshot) => {
       querySnapshot.forEach((documentSnapshot) => {
         try {
           if (auth.currentUser.uid == documentSnapshot.data().uid) {
+            setUser(documentSnapshot.data());
             const fullName = documentSnapshot.data().fullname;
             const i = fullName.charAt(0) + fullName.charAt(1);
             setInitial(i.toUpperCase());
@@ -73,7 +75,7 @@ const Profile = (props) => {
             animationIn="slideInLeft"
             animationOut="slideOutRight"
           >
-            <EditProfile isModalVisible={toggleModal} />
+            <EditProfile user={user} isModalVisible={toggleModal} />
           </Modal>
         </KeyboardAvoidingView>
 

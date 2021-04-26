@@ -16,27 +16,19 @@ import { auth, db } from "../config/firebase";
 
 const EditProfile = (props) => {
   //function which passes email, setEmail as props
-  const [Newemail, setNewEmail] = useState("");
-  const [Newusername, setNewUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState(props.user.username);
+  const [email, setEmail] = useState(props.user.email);
+  const [fullname, setFullName] = useState(props.user.fullname);
 
   const submit = () => {
-    auth //passing in email and password as variable before authentication
-      .signInWithEmailAndPassword(email, password)
-      .then((authUser) => {
-        authUser.user.updateEmail(Newemail);
-        authUser.user.updateProfile({ username: Newusername });
-        db.collection("users").doc(authUser.user.uid).update({
-          email: Newemail,
-          username: Newusername,
-        });
-      })
-      .catch((error) => alert(error.message));
-    setNewEmail("");
-    setNewUsername("");
-    setEmail("");
-    setPassword("");
+    auth.currentUser.updateProfile({
+      username: username,
+      displayName: fullname,
+    });
+    db.collection("users").doc(props.user.uid).update({
+      username: username,
+      fullname: fullname,
+    });
   };
 
   return (
@@ -57,44 +49,23 @@ const EditProfile = (props) => {
           <TextInput
             style={styles.inputBox}
             placeholder="Enter old email to validate"
+            value={props.user.email}
+            editable={false}
             onChangeText={(email) => {
               setEmail(email);
             }}
           />
         </View>
       </KeyboardAvoidingView>
-      <Text style={styles.label}>Current Password</Text>
+      <Text style={styles.label}>Username</Text>
       <KeyboardAvoidingView>
         <View style={styles.input_container}>
           <TextInput
             style={styles.inputBox}
-            placeholder="Enter old pass to validate"
-            onChangeText={(password) => {
-              setPassword(password);
-            }}
-          />
-        </View>
-      </KeyboardAvoidingView>
-      <Text style={styles.label}>New Email</Text>
-      <KeyboardAvoidingView>
-        <View style={styles.input_container}>
-          <TextInput
-            style={styles.inputBox}
-            placeholder="Enter new email to update"
-            onChangeText={(Newemail) => {
-              setNewEmail(Newemail);
-            }}
-          />
-        </View>
-      </KeyboardAvoidingView>
-      <Text style={styles.label}>New Username</Text>
-      <KeyboardAvoidingView>
-        <View style={styles.input_container}>
-          <TextInput
-            style={styles.inputBox}
+            value={username}
             placeholder="Enter new username to update"
-            onChangeText={(Newusername) => {
-              setNewUsername(Newusername);
+            onChangeText={(username) => {
+              setUsername(username);
             }}
           />
         </View>
@@ -104,9 +75,10 @@ const EditProfile = (props) => {
         <View style={styles.input_container}>
           <TextInput
             style={styles.inputBox}
-            placeholder="Enter new username to update"
-            onChangeText={(Newusername) => {
-              setNewUsername(Newusername);
+            value={fullname}
+            placeholder="Enter fullname"
+            onChangeText={(fullname) => {
+              setFullName(fullname);
             }}
           />
         </View>
@@ -118,6 +90,7 @@ const EditProfile = (props) => {
           backgroundColor={colors.logoorange}
           onPress={() => {
             submit();
+            props.isModalVisible();
           }}
           enableShadow
           center
