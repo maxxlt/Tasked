@@ -15,7 +15,7 @@ const AppbarWBackButton = (props) => {
       <View style={styles.items}>
         <View style={{ alignItems: "center", alignContent: "center", flex: 2 }}>
           <TouchableOpacity onPress={press}>
-            <AntDesign name="arrowleft" color={Colors.white} size={25} />
+            <AntDesign name="arrowleft" color={Colors.black} size={25} />
           </TouchableOpacity>
         </View>
         <View style={{ alignItems: "center", flex: 9, marginRight: 60 }}>
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   image: { height: 40, width: 40, borderRadius: 5 },
   text: {
     alignItems: "center",
-    color: Colors.white,
+    color: Colors.black,
     fontSize: 20,
     fontWeight: "bold",
   },

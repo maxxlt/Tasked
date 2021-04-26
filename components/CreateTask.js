@@ -161,6 +161,7 @@ const CreateTask = (props) => {
             date,
             state.selectedGroup
           ); //populate db onPress
+          props.onRefresh();
           props.isModalVisible(); //hide the popup
         }}
         enableShadow
