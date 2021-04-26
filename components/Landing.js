@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, Image, KeyboardAvoidingView } from "react-native";
 
-import colors from "../assets/color";
+import Colors from "../assets/color";
 import SignUp from "./SignUp";
 import Login from "./Login";
 import { TabBar, Text, Typography } from "react-native-ui-lib";
@@ -24,7 +24,7 @@ const Landing = (props) => {
       <TabBar
         style={styles.tabbar}
         enableShadow={false}
-        indicatorStyle={{ backgroundColor: colors.orange }}
+        indicatorStyle={{ backgroundColor: Colors.orange }}
       >
         <TabBar.Item
           label="Login"
@@ -51,7 +51,7 @@ const Landing = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: Colors.white,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 15,
     fontSize: 16,
-    borderColor: "#d3d3d3",
+    borderColor: Colors.lightGrey,
     borderBottomWidth: 1,
     textAlign: "center",
   },
@@ -69,8 +69,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     paddingVertical: 5,
     alignItems: "center",
-    backgroundColor: "#F6820D",
-    borderColor: "#F6820D",
+    backgroundColor: Colors.pumpkinOrange,
+    borderColor: Colors.pumpkinOrange,
     borderWidth: 1,
     borderRadius: 5,
     width: 200,
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#fff",
+    color: Colors.white,
   },
   buttonSignup: {
     fontSize: 12,

@@ -7,7 +7,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { TextField, Button } from "react-native-ui-lib";
-import colors from "../assets/color";
+import Colors from "../assets/color";
 import FirestoreAddComment from "../backend/FirestoreAddComment";
 import { useSelector } from "react-redux";
 import FirestoreQueryAllComments from "../backend/FirestoreQueryAllComments";
@@ -68,7 +68,7 @@ const Comments = (props) => {
             );
             setCommentBody("");
           }}
-          backgroundColor={colors.logoorange}
+          backgroundColor={Colors.logoorange}
         />
       </View>
     </View>
@@ -91,6 +91,6 @@ const styles = StyleSheet.create({
     marginLeft: 16,
     height: 40,
     width: 145,
-    borderColor: "#F6820D",
+    borderColor: Colors.pumpkinOrange,
   },
 });

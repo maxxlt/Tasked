@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
-import colors from "../assets/color";
+import Colors from "../assets/color";
 import { Button } from "react-native-ui-lib";
 import FirestoreQueryUser from "../backend/FirestoreQueryUser.js";
 import FirestoreQueryAllParticipants from "../backend/FirestoreQueryAllParticipants";
@@ -109,7 +109,9 @@ const EditGroup = (props) => {
   const ParticipantsIconItem = ({ username, onPress }) => (
     <TouchableOpacity style={styles.participants_container} onPress={onPress}>
       <View style={styles.tinyLogo}>
-        <Text style={{ color: "white", fontWeight: "bold" }}>{initials}</Text>
+        <Text style={{ color: Colors.white, fontWeight: "bold" }}>
+          {initials}
+        </Text>
       </View>
       <Text style={styles.username_text}>{username}</Text>
     </TouchableOpacity>
@@ -167,7 +169,7 @@ const EditGroup = (props) => {
       <Button
         label={"Edit Group"}
         style={styles.button}
-        backgroundColor={colors.logoorange}
+        backgroundColor={Colors.logoorange}
         onPress={() => {
           FirestoreUpdateGroup(props.selectedGroupId, groupName);
           props.isModalVisible();
@@ -184,7 +186,7 @@ export default EditGroup;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F9F9F9",
+    backgroundColor: Colors.lightGrey,
     width: "100%",
     marginBottom: 50,
     borderRadius: 5,
@@ -206,7 +208,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 18,
     paddingVertical: 15,
     fontSize: 16,
-    borderColor: "#ddd",
+    borderColor: Colors.grey,
     borderRadius: 5,
   },
   groupname_input_container: {
@@ -214,7 +216,7 @@ const styles = StyleSheet.create({
     height: 52,
     borderRadius: 5,
     marginHorizontal: 20,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: Colors.white,
   },
   username_input_container: {
     marginTop: 12,
@@ -222,11 +224,11 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5,
     marginHorizontal: 20,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: Colors.white,
   },
   button: {
     alignItems: "center",
-    borderColor: "#F6820D",
+    borderColor: Colors.pumpkinOrange,
     borderRadius: 5,
     marginTop: 26,
     marginHorizontal: 33,
@@ -246,7 +248,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5,
     marginHorizontal: 20,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: Colors.white,
   },
   participants_flatlist_container: {
     marginTop: 12,
@@ -255,7 +257,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5,
     marginHorizontal: 20,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: Colors.white,
   },
   username_text: {
     marginLeft: 12,
@@ -283,7 +285,8 @@ const styles = StyleSheet.create({
     height: 32,
     width: 32,
     borderRadius: 16,
-    backgroundColor: "#FCCF3E",
+    backgroundColor: Colors.orange,
+
     alignContent: "center",
     justifyContent: "center",
     alignItems: "center",

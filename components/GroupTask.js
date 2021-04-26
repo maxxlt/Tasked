@@ -1,6 +1,12 @@
 import AppbarWBackButton from "./AppBarWBackButton";
 import React, { useState, useContext, useEffect } from "react";
-import { StyleSheet, Text, View, ScrollView, ActivityIndicator, } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  ActivityIndicator,
+} from "react-native";
 import ActionButton from "react-native-action-button";
 import Colors from "../assets/color";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -9,7 +15,7 @@ import CreateTask from "./CreateTask";
 import Modal from "react-native-modal";
 import { Context } from "../reducers/Store";
 import FirestoreQueryAllTasks from "../backend/FirestoreQueryAllTasks";
-
+import { ColorSwatch } from "react-native-ui-lib";
 
 export default function GroupTask(props) {
   const [isCreateTaskModalVisible, setCreateTaskModalVisible] = useState(
@@ -26,7 +32,11 @@ export default function GroupTask(props) {
   //Rerenders the component every single time when database for groups is changed
   useEffect(() => {
     setLoading(true);
-    const subscriber = FirestoreQueryAllTasks(setTasks, state.selectedGroup.group_id , setLoading);
+    const subscriber = FirestoreQueryAllTasks(
+      setTasks,
+      state.selectedGroup.group_id,
+      setLoading
+    );
     // Unsubscribe from events when no longer in use
     return () => subscriber();
   }, []);
@@ -37,9 +47,11 @@ export default function GroupTask(props) {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#f3f3f3" }}>
-      
-      <AppbarWBackButton title={state.selectedGroup.group_name} nav ={navigation}/>
+    <View style={{ flex: 1, backgroundColor: Colors.white }}>
+      <AppbarWBackButton
+        title={state.selectedGroup.group_name}
+        nav={navigation}
+      />
 
       <ScrollView style={styles.container}>
         <Task_list Data={tasks} />
@@ -53,7 +65,7 @@ export default function GroupTask(props) {
       </ScrollView>
       <ActionButton buttonColor={Colors.logoorange}>
         <ActionButton.Item
-          buttonColor="#9b59b6"
+          buttonColor={Colors.purple}
           title="New Task"
           onPress={toggleCreateTaskModal}
         >
@@ -73,6 +85,6 @@ const styles = StyleSheet.create({
   actionButtonIcon: {
     fontSize: 20,
     height: 22,
-    color: "white",
+    color: Colors.white,
   },
 });
