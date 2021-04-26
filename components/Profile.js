@@ -1,23 +1,36 @@
 import React, { useState, useEffect, useContext } from "react";
 import Appbar from "./Appbar";
-import { View, StyleSheet, TouchableOpacity, Text, Image } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  Image,
+  KeyboardAvoidingView,
+} from "react-native";
+import Modal from "react-native-modal";
+import EditProfile from "./EditProfile";
 
 import { Context } from "../reducers/Store";
 import FirestoreQueryInitials from "../backend/FirestoreQueryInitials";
 
 import { db, auth } from "../config/firebase";
+import Colors from "../assets/color";
 //Set up Profile Screen with username and fullname
 const Profile = (props) => {
   //hook function in react to declare local variable for the state
-  const [username, setUserName] = useState("");
-  const [email, setFullName] = useState("");
+  const [username, setUserName] = useState(auth.currentUser.displayName);
+  const [email, setEmail] = useState(auth.currentUser.email);
+  const [isModalVisible, setModalVisible] = useState(false);
   const [initial, setInitial] = useState("");
+  const [user, setUser] = useState({});
 
   const fireinitial = () => {
     db.collection("users").onSnapshot((querySnapshot) => {
       querySnapshot.forEach((documentSnapshot) => {
         try {
           if (auth.currentUser.uid == documentSnapshot.data().uid) {
+            setUser(documentSnapshot.data());
             const fullName = documentSnapshot.data().fullname;
             const i = fullName.charAt(0) + fullName.charAt(1);
             setInitial(i.toUpperCase());
@@ -30,12 +43,13 @@ const Profile = (props) => {
   };
   useEffect(() => {
     //function that renders when component loads
-    const username = auth.currentUser.displayName;
-    const email = auth.currentUser.email;
     fireinitial();
-    setUserName(username);
-    setFullName(email);
   }, [username]);
+
+  //toggler for a popup
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
 
   const { navigation } = props; //prop is an arguement passed
   return (
@@ -45,19 +59,32 @@ const Profile = (props) => {
       <View style={{ alignItems: "center", justifyContent: "center" }}>
         <TouchableOpacity>
           <View style={styles.profilePic}>
-            <Text style={{ color: "white", fontWeight: "bold", fontSize: 28 }}>
+            <Text
+              style={{ color: Colors.black, fontWeight: "bold", fontSize: 28 }}
+            >
               {initial}
             </Text>
           </View>
         </TouchableOpacity>
         <Text style={styles.username}>@{username}</Text>
         <Text style={styles.email}>{email}</Text>
+        <KeyboardAvoidingView>
+          <Modal
+            isVisible={isModalVisible}
+            animationIn="slideInLeft"
+            animationOut="slideOutRight"
+          >
+            <EditProfile
+              user={user}
+              setUserName={setUserName}
+              isModalVisible={toggleModal}
+            />
+          </Modal>
+        </KeyboardAvoidingView>
+
         <TouchableOpacity
           style={styles.editProfileButton}
-          onPress={() => {
-            //auth.signOut();
-            //navigation.navigate("Home");
-          }}
+          onPress={toggleModal}
         >
           <Text style={styles.editProfileButtonText}>EDIT PROFILE</Text>
         </TouchableOpacity>
@@ -88,7 +115,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 20,
     marginTop: 30,
-    backgroundColor: "#FCCF3E",
+    backgroundColor: Colors.orange,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -110,8 +137,8 @@ const styles = StyleSheet.create({
     marginBottom: 140,
 
     alignItems: "center",
-    backgroundColor: "#646669",
-    borderColor: "#646669",
+    backgroundColor: Colors.wolfGrey,
+    borderColor: Colors.wolfGrey,
     borderWidth: 1,
     borderRadius: 5,
     height: 36,
@@ -121,7 +148,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
     fontSize: 13,
     height: 20,
-    color: "white",
+    color: Colors.white,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -130,8 +157,8 @@ const styles = StyleSheet.create({
     marginLeft: 55,
     marginRight: 32,
     alignItems: "center",
-    backgroundColor: "#FFC038",
-    borderColor: "#FFC038",
+    backgroundColor: Colors.logoorange,
+    borderColor: Colors.logoorange,
     borderWidth: 1,
     borderRadius: 5,
     height: 52,
@@ -141,7 +168,7 @@ const styles = StyleSheet.create({
     marginTop: 12,
     fontSize: 20,
     height: 22,
-    color: "white",
+    color: Colors.black,
     alignItems: "center",
     justifyContent: "center",
   },

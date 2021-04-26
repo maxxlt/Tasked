@@ -10,19 +10,22 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Button } from "react-native-ui-lib";
-import colors from "../assets/color";
+import Colors from "../assets/color";
 import { auth } from "../config/firebase";
 
-const ForgotPassword = (props) => { //function which passes email, setEmail as props
+const ForgotPassword = (props) => {
+  //function which passes email, setEmail as props
   const [email, setEmail] = useState("");
   const submit = () => {
     auth
       .sendPasswordResetEmail(email)
-      .then(() => { //if authentication passes, alert sent
+      .then(() => {
+        //if authentication passes, alert sent
         Alert.alert("Password reset link has been sent to: " + email);
       })
       .catch(() => {
-        Alert.alert( //catch function if email does not exist
+        Alert.alert(
+          //catch function if email does not exist
           "Email " + email + " does not exist. Please try different email."
         );
       });
@@ -57,7 +60,7 @@ const ForgotPassword = (props) => { //function which passes email, setEmail as p
         <Button
           label={"Submit"}
           style={styles.button}
-          backgroundColor={colors.logoorange}
+          backgroundColor={Colors.logoorange}
           onPress={() => {
             submit();
           }}
@@ -74,7 +77,7 @@ export default ForgotPassword;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F9F9F9",
+    backgroundColor: Colors.lightGrey,
     width: "100%",
     marginBottom: 50,
     borderRadius: 5,
@@ -96,7 +99,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 18,
     paddingVertical: 15,
     fontSize: 16,
-    borderColor: "#ddd",
+    borderColor: Colors.grey,
     borderRadius: 5,
   },
   email_input_container: {
@@ -104,11 +107,11 @@ const styles = StyleSheet.create({
     height: 52,
     borderRadius: 5,
     marginHorizontal: 20,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: Colors.white,
   },
   button: {
     alignItems: "center",
-    borderColor: "#F6820D",
+    borderColor: Colors.pumpkinOrange,
     borderRadius: 5,
     marginTop: 40,
     marginHorizontal: 33,

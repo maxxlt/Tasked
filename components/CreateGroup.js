@@ -1,5 +1,5 @@
-import React, { useState, useEffect,useContext } from "react";
-import { LogBox } from 'react-native';
+import React, { useState, useEffect, useContext } from "react";
+import { LogBox } from "react-native";
 
 import {
   StyleSheet,
@@ -12,81 +12,75 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Button } from "react-native-ui-lib";
-import colors from "../assets/color";
+import Colors from "../assets/color";
 import FirestoreCreateGroup from "../backend/FirestoreCreateGroup.js";
 import FirestoreQueryUser from "../backend/FirestoreQueryUser.js";
 
-
 import { db, auth } from "../config/firebase";
-LogBox.ignoreAllLogs()
+LogBox.ignoreAllLogs();
 
 const CreateGroup = (props) => {
   const [groupname, setGroupName] = useState("");
   const [queriedusers, setQueriedUsers] = useState([]);
-  const [initials, setInitials] = useState("")
+  const [initials, setInitials] = useState("");
   const [participantsids, setParticipantsIds] = useState([]);
-  const [participantId, setParticipantId] = useState([auth.currentUser.uid])
+  const [participantId, setParticipantId] = useState([auth.currentUser.uid]);
   const fireinitial = () => {
     db.collection("users").onSnapshot((querySnapshot) => {
       querySnapshot.forEach((documentSnapshot) => {
         try {
-          if (auth.currentUser.uid == documentSnapshot.data().uid)
-          {
-              const fullName  = documentSnapshot.data().fullname
-              const i = fullName.charAt(0) + fullName.charAt(1)          
-              setParticipantsIds([i.toUpperCase()])
-              
+          if (auth.currentUser.uid == documentSnapshot.data().uid) {
+            const fullName = documentSnapshot.data().fullname;
+            const i = fullName.charAt(0) + fullName.charAt(1);
+            setParticipantsIds([i.toUpperCase()]);
           }
         } catch (e) {
           console.log(e);
         }
       });
     });
-    
-  }
-  useEffect(() => { //function that renders when component loads
-   
-    fireinitial()
-    
-  }, []); 
+  };
+  useEffect(() => {
+    //function that renders when component loads
+
+    fireinitial();
+  }, []);
   //Added participants item
   const renderIconItem = ({ item }) => {
-
-    
-  return (
+    return (
       <View style={styles.icon_image}>
         <View style={styles.tinyLogo}>
-       
-        <Text style= {{color:"white", fontWeight:"bold"}}>{item}</Text>
+          <Text style={{ color: Colors.white, fontWeight: "bold" }}>
+            {item}
+          </Text>
         </View>
       </View>
-
-  )
-}
-
+    );
+  };
 
   //Queried in search item
   const ParticipantsIconItem = ({ username, onPress }) => (
     <TouchableOpacity style={styles.participants_container} onPress={onPress}>
-      <View
-        style={styles.tinyLogo}>
-          <Text style={{color:"white", fontWeight:"bold"}} >{initials}</Text>
-          </View>
+      <View style={styles.tinyLogo}>
+        <Text style={{ color: Colors.white, fontWeight: "bold" }}>
+          {initials}
+        </Text>
+      </View>
       <Text style={styles.username_text}>{username}</Text>
     </TouchableOpacity>
   );
-  
+
   const renderParticipantsItem = ({ item }) => {
     return (
       <ParticipantsIconItem
         username={item.username}
-        
-        onPress={ () => {
-          
+        onPress={() => {
           //pass in the onPress listener to the item
-          setParticipantsIds((participantsids) => [...participantsids, initials])
-          setParticipantId((participantId) => [...participantId, item.uid])
-         
+          setParticipantsIds((participantsids) => [
+            ...participantsids,
+            initials,
+          ]);
+          setParticipantId((participantId) => [...participantId, item.uid]);
         }}
       />
     );
@@ -111,7 +105,6 @@ const CreateGroup = (props) => {
             placeholder="Type group name"
             onChangeText={(text) => {
               setGroupName(text); //updating the state of the group name every single time user types in the text
-        
             }}
           />
         </View>
@@ -132,7 +125,6 @@ const CreateGroup = (props) => {
             placeholder="Type username"
             onChangeText={(text) => {
               FirestoreQueryUser(text, setQueriedUsers, setInitials); //query user from firestore if exists
-              
             }}
           />
         </View>
@@ -147,7 +139,7 @@ const CreateGroup = (props) => {
       <Button
         label={"Create Group"}
         style={styles.button}
-        backgroundColor={colors.logoorange}
+        backgroundColor={Colors.logoorange}
         disabled={!groupname.length} //disable button if user didn't type anything in groupname
         onPress={() => {
           FirestoreCreateGroup(groupname, participantId); //populate db onPress
@@ -165,7 +157,7 @@ export default CreateGroup;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F9F9F9",
+    backgroundColor: Colors.lightGrey,
     width: "100%",
     marginBottom: 50,
     borderRadius: 5,
@@ -187,7 +179,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 18,
     paddingVertical: 15,
     fontSize: 16,
-    borderColor: "#ddd",
+    borderColor: Colors.grey,
     borderRadius: 5,
   },
   groupname_input_container: {
@@ -195,7 +187,7 @@ const styles = StyleSheet.create({
     height: 52,
     borderRadius: 5,
     marginHorizontal: 20,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: Colors.white,
   },
   username_input_container: {
     marginTop: 12,
@@ -203,11 +195,11 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5,
     marginHorizontal: 20,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: Colors.white,
   },
   button: {
     alignItems: "center",
-    borderColor: "#F6820D",
+    borderColor: Colors.pumpkinOrange,
     borderRadius: 5,
     marginTop: 26,
     marginHorizontal: 33,
@@ -227,7 +219,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5,
     marginHorizontal: 20,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: Colors.white,
   },
   username_text: {
     marginLeft: 12,
@@ -249,10 +241,10 @@ const styles = StyleSheet.create({
   tinyLogo: {
     height: 32,
     width: 32,
-    borderRadius:16,
-    backgroundColor:"#FCCF3E",
-    alignContent:"center",
-    justifyContent:"center",
-    alignItems:"center"
+    borderRadius: 16,
+    backgroundColor: Colors.orange,
+    alignContent: "center",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

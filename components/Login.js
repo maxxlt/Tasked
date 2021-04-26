@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   TextInput,
   StyleSheet,
@@ -11,7 +11,7 @@ import ForgotPassword from "./ForgotPassword";
 import { useSelector } from "react-redux";
 import Modal from "react-native-modal";
 import { TextField, Button } from "react-native-ui-lib";
-import colors from "../assets/color";
+import Colors from "../assets/color";
 import FirestoreQueryInitials from "../backend/FirestoreQueryInitials";
 import { Context } from "../reducers/Store";
 import { auth } from "../config/firebase";
@@ -24,10 +24,7 @@ const Login = (props) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const uid = useSelector((state) => state.firebase.auth.uid);
 
-
-   
   if (uid) {
-  
     navigation.replace("Tasked");
   }
   //toggler for a popup
@@ -41,7 +38,6 @@ const Login = (props) => {
       .signInWithEmailAndPassword(email, password)
       .then((authUser) => {
         if (authUser.user.uid) {
-        
           navigation.replace("Tasked");
         }
       })
@@ -79,7 +75,7 @@ const Login = (props) => {
           label={"Login"}
           style={styles.button}
           onPress={() => login()}
-          backgroundColor={colors.logoorange}
+          backgroundColor={Colors.logoorange}
           enableShadow
           center
         />
@@ -94,7 +90,7 @@ const Login = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: Colors.white,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -103,7 +99,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     fontSize: 16,
     borderWidth: 1,
-    borderColor: "#ddd",
+    borderColor: Colors.grey,
     borderRadius: 5,
     textAlign: "center",
   },
@@ -112,12 +108,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 120,
     marginBottom: 25,
     alignItems: "center",
-    borderColor: "#F6820D",
+    borderColor: Colors.pumpkinOrange,
     borderRadius: 5,
   },
   forgotpassword_text: {
     fontSize: 14,
-    color: colors.logoorange,
+    color: Colors.logoorange,
   },
 });
 
