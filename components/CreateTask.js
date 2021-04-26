@@ -128,12 +128,14 @@ const CreateTask = (props) => {
         >
           <Text style={styles.pick_date_text}>Pick date and time</Text>
         </TouchableOpacity>
-        <DateTimePickerModal
-          isVisible={isDatePickerVisible}
-          mode="datetime"
-          onConfirm={handleConfirm}
-          onCancel={hideDateTimePicker}
-        />
+        <View>
+          <DateTimePickerModal
+            isVisible={isDatePickerVisible}
+            mode="datetime"
+            onConfirm={handleConfirm}
+            onCancel={hideDateTimePicker}
+          />
+        </View>
       </View>
       <View style={styles.due_date_container}>
         <Text style={styles.date_text}>{date.toDateString()}</Text>
