@@ -18,40 +18,15 @@ import FirestoreUpdateGroup from "../backend/FirestoreUpdateGroup";
 import FirestoreUpdateParticipants from "../backend/FirestoreUpdateParticipants";
 import FirestoreDeleteParticipant from "../backend/FirestoreDeleteParticipant";
 
-//Display the existing members with an icon and the delete button
-const ExistingParticipantsItem = ({ username, onPress }) => (
-  <View style={styles.participants_container}>
-    <Image
-      style={styles.tinyLogo}
-      source={require("../assets/default_profile_pic.png")}
-    />
-    <Text style={styles.username_text}>{username}</Text>
-    <TouchableOpacity style={styles.delete_x_btn_container} onPress={onPress}>
-      <Image
-        style={styles.delete_x_btn}
-        source={require("../assets/x_btn.png")}
-      />
-    </TouchableOpacity>
-  </View>
-);
-
-//Display queried user from database
-const ParticipantsIconItem = ({ username, onPress }) => (
-  <TouchableOpacity style={styles.participants_container} onPress={onPress}>
-    <Image
-      style={styles.tinyLogo}
-      source={require("../assets/default_profile_pic.png")}
-    />
-    <Text style={styles.username_text}>{username}</Text>
-  </TouchableOpacity>
-);
-
 const EditGroup = (props) => {
   const [queriedusers, setQueriedUsers] = useState([]); //queried user from database
   const [participantsids, setParticipantsIds] = useState(props.participants); //array of group participant's ids
   const [queriedParticipants, setQueriedParticipants] = useState([]); // array of entire participant's objects
   const [groupName, setGroupName] = useState(props.selectedGroupName);
-
+  const [initials, setInitials] = useState("");
+  const [participantsinitial, setParticipantsinitials] = useState(
+    props.participants
+  );
   //if participantsids or queriedParticipants array changed
   useEffect(() => {
     const subscriber = FirestoreQueryAllParticipants(
@@ -60,6 +35,26 @@ const EditGroup = (props) => {
     );
     return () => subscriber();
   }, [participantsids]);
+  //Display the existing members with an icon and the delete button
+  const ExistingParticipantsItem = ({ fullname, username, onPress }) => (
+    <View style={styles.participants_container}>
+      <View
+        style={styles.tinyLogo}
+        source={require("../assets/default_profile_pic.png")}
+      >
+        <Text style={{ color: "white", fontWeight: "bold" }}>
+          {(fullname.charAt(0) + fullname.charAt(1)).toUpperCase()}
+        </Text>
+      </View>
+      <Text style={styles.username_text}>{username}</Text>
+      <TouchableOpacity style={styles.delete_x_btn_container} onPress={onPress}>
+        <Image
+          style={styles.delete_x_btn}
+          source={require("../assets/x_btn.png")}
+        />
+      </TouchableOpacity>
+    </View>
+  );
 
   const renderParticipantsItem = ({ item }) => {
     return (
@@ -79,8 +74,9 @@ const EditGroup = (props) => {
           } else {
             setParticipantsIds((participantsids) => [
               ...participantsids,
-              item.id,
+              initials,
             ]);
+
             FirestoreUpdateParticipants(item.uid, props.selectedGroupId);
           }
         }}
@@ -90,6 +86,7 @@ const EditGroup = (props) => {
   const renderExistingParticipantsItem = ({ item }) => {
     return (
       <ExistingParticipantsItem
+        fullname={item.fullname}
         username={item.username}
         onPress={() => {
           //Updating queriedParticipants so it will refresh the component
@@ -108,9 +105,18 @@ const EditGroup = (props) => {
       />
     );
   };
+  //Display queried user from database
+  const ParticipantsIconItem = ({ username, onPress }) => (
+    <TouchableOpacity style={styles.participants_container} onPress={onPress}>
+      <View style={styles.tinyLogo}>
+        <Text style={{ color: "white", fontWeight: "bold" }}>{initials}</Text>
+      </View>
+      <Text style={styles.username_text}>{username}</Text>
+    </TouchableOpacity>
+  );
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container}>
       <TouchableOpacity
         style={styles.x_btn_container}
         onPress={props.isModalVisible}
@@ -146,7 +152,7 @@ const EditGroup = (props) => {
             style={styles.inputBox}
             placeholder="Type username"
             onChangeText={(text) => {
-              FirestoreQueryUser(text, setQueriedUsers);
+              FirestoreQueryUser(text, setQueriedUsers, setInitials);
             }}
           />
         </View>
@@ -169,7 +175,7 @@ const EditGroup = (props) => {
         enableShadow
         center
       />
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -276,5 +282,10 @@ const styles = StyleSheet.create({
   tinyLogo: {
     height: 32,
     width: 32,
+    borderRadius: 16,
+    backgroundColor: "#FCCF3E",
+    alignContent: "center",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
