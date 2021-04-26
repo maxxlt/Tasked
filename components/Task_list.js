@@ -69,7 +69,10 @@ const Item = (props) => {
     <View style={styles.rightSwipeItem}>
       <TouchableOpacity
         style={{ marginLeft: 20 }}
-        onPress={() => delete_task(props)}
+        onPress={() => {
+          delete_task(props);
+          props.onRefresh();
+        }}
       >
         <MaterialIcons name="delete" size={30}></MaterialIcons>
       </TouchableOpacity>
@@ -135,6 +138,7 @@ const Task_list = (props) => {
       item={item}
       toggleEditTaskModal={toggleEditTaskModal}
       setSelectedTask={setSelectedTask}
+      onRefresh={props.onRefresh}
     />
   );
   const [selectedTask, setSelectedTask] = useState({});
@@ -192,7 +196,9 @@ const styles = StyleSheet.create({
     marginLeft: 32,
     textDecorationLine: "line-through",
   },
-  swipable_container: {},
+  swipable_container: {
+    paddingHorizontal: 12,
+  },
 });
 
 export default Task_list;
