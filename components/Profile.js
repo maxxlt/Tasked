@@ -110,8 +110,7 @@ const styles = StyleSheet.create({
     width: 110,
     height: 110,
     borderRadius: 55,
-    paddingLeft: 20,
-    paddingRight: 20,
+    
     paddingTop: 20,
     paddingBottom: 20,
     marginTop: 30,
@@ -120,15 +119,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   username: {
-    paddingLeft: 15,
-    paddingRight: 15,
+  
     paddingBottom: 5,
     marginTop: 30,
     marginBottom: 15,
   },
   email: {
-    paddingLeft: 15,
-    paddingRight: 15,
+  
     paddingBottom: 15,
     marginTop: 5,
   },
@@ -154,8 +151,7 @@ const styles = StyleSheet.create({
   },
   logOutbutton: {
     marginBottom: 140,
-    marginLeft: 55,
-    marginRight: 32,
+
     alignItems: "center",
     backgroundColor: Colors.logoorange,
     borderColor: Colors.logoorange,
