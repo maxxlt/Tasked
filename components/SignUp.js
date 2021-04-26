@@ -126,6 +126,7 @@ const Signup = (props) => {
         value={fullname}
         onChangeText={(fullname) => setFullname(fullname)}
         onBlur={async () => {
+          console.log(is)
           if (fullname.length >= 2) {
             setFullnameValidation(true);
           }
@@ -136,7 +137,7 @@ const Signup = (props) => {
       <Button
         label={"Sign Up"}
         style={styles.button}
-        disabled={!(isPasswordValid && isUsernameValid && isFullnameValid)}
+        disabled={!(password.length && username.length && fullname.length)}
         onPress={async () => {
           register();
         }}
