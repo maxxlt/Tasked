@@ -4,7 +4,7 @@
     "slug": "Tasked",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/icon-no-alpha.png",
     "splash": {
       "image": "./assets/logo-black-text.png",
       "resizeMode": "contain",
